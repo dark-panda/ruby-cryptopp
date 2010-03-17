@@ -1,0 +1,8 @@
+ext/*.bundle
+ext/*.o
+doc
+*.kpf
+*~
+.DS_Store
+*tmp*
+pkg/

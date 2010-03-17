@@ -1,0 +1,7 @@
+fields	key_hex	plaintext_hex	ciphertext_hex
+algorithm	cipher	DES_EDE2
+test	0123456789abcdeffedcba9876543210	0123456789abcde7	7f1d0a77826b8aff
+algorithm	cipher	DES_EDE3
+test	0123456789abcdeffedcba987654321089abcdef01234567	0123456789abcde7	de0b7c06ae5e0ed5
+algorithm	cipher	DES_XEX3
+test	0123456789abcdef01010101010101011011121314151617	94dbe082549a14ef	9011121314151617

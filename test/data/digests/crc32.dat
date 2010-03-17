@@ -1,0 +1,10 @@
+algorithm	checksum	CRC32
+fields	plaintext	digest_hex
+test		00000000
+test	a	43beb7e8
+test	abc	c2412435
+test	message digest	7f9d1520
+test	abcdefghijklmnopqrstuvwxyz	bd50274c
+test	ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789	d2e6c21f
+test	12345678901234567890123456789012345678901234567890123456789012345678901234567890	724aa97c
+test	123456789	2639f4cb

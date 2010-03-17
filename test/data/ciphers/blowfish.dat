@@ -1,0 +1,5 @@
+algorithm	cipher	BLOWFISH
+fields	key	plaintext	ciphertext_hex
+test	abcdefghijklmnopqrstuvwxyz	BLOWFISH	324ed0fef413a203
+fields	key	plaintext_hex	ciphertext_hex
+test	Who is John Galt?	fedcba9876543210	cc91732b8022f684

@@ -1,0 +1,16 @@
+
+require 'rake/clean'
+
+CLEAN.include '*.o', 'Makefile', 'mkmf.log'
+CLOBBER.include 'cryptopp.so'
+
+task :default => ['cryptopp.so']
+
+file 'cryptopp.so' => [ 'Makefile' ] do
+	sh 'make'
+end
+
+file 'Makefile' do
+	ruby 'extconf.rb'
+end
+

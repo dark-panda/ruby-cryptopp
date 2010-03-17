@@ -1,0 +1,6 @@
+algorithm	hmac	MD5
+fields	plaintext	key_hex	digest_hex
+test	Hi There	0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b	9294727a3638bb1c13f48ef8158bfc9d
+test	what do ya want for nothing?	4A656665	750c783e6ab0b503eaa86e310a5db738
+fields	plaintext	key_hex	key_repeat	digest_hex
+test	Test Using Larger Than Block-Size Key - Hash Key First	A	160	6b1ab7fe4bd7bf8f0b62e6ce61b9d0cd
