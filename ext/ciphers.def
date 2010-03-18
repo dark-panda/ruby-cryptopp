@@ -1,3 +1,5 @@
+
+// a class name, a constant and our class name
 #if ENABLED_ARC4_CIPHER || defined(CIPHER_ALGORITHM_FORCE)
 CIPHER_ALGORITHM(ARC4, ARC4, JARC4)
 #endif

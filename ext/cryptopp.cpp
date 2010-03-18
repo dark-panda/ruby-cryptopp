@@ -203,23 +203,20 @@ extern "C" void Init_cryptopp()
 
 	// block cipher modes...
 
-	rb_define_const(rb_mCryptoPP_Constants, "ECB_BLOCK_MODE",             INT2NUM(ECB_MODE));
-	rb_define_const(rb_mCryptoPP_Constants, "CBC_BLOCK_MODE",             INT2NUM(CBC_MODE));
-	rb_define_const(rb_mCryptoPP_Constants, "CBC_CTS_BLOCK_MODE",         INT2NUM(CBC_CTS_MODE));
-	rb_define_const(rb_mCryptoPP_Constants, "CFB_BLOCK_MODE",             INT2NUM(CFB_MODE));
-	rb_define_const(rb_mCryptoPP_Constants, "OFB_BLOCK_MODE",             INT2NUM(OFB_MODE));
-	rb_define_const(rb_mCryptoPP_Constants, "CTR_BLOCK_MODE",             INT2NUM(CTR_MODE));
-	rb_define_const(rb_mCryptoPP_Constants, "COUNTER_BLOCK_MODE",         INT2NUM(CTR_MODE));
+#	define BLOCK_MODE_X(c, s) \
+		rb_define_const(rb_mCryptoPP_Constants, # c "_BLOCK_MODE", INT2NUM(c ## _MODE));
+#	include "defs/block_modes.def"
+#	undef BLOCK_MODE_X
+	rb_define_const(rb_mCryptoPP_Constants, "COUNTER_BLOCK_MODE", INT2NUM(CTR_MODE));
 
 	// block cipher padding settings...
 
-	rb_define_const(rb_mCryptoPP_Constants, "NO_PADDING",           INT2NUM(NO_PADDING));
+#	define PADDING_X(c, s) \
+		rb_define_const(rb_mCryptoPP_Constants, # c "_PADDING", INT2NUM(c ## _PADDING));
+#	include "defs/paddings.def"
+#	undef PADDING_X
 	rb_define_const(rb_mCryptoPP_Constants, "ZEROES_PADDING",       INT2NUM(ZEROS_PADDING));
-	rb_define_const(rb_mCryptoPP_Constants, "ZEROS_PADDING",        INT2NUM(ZEROS_PADDING));
-	rb_define_const(rb_mCryptoPP_Constants, "PKCS_PADDING",         INT2NUM(PKCS_PADDING));
 	rb_define_const(rb_mCryptoPP_Constants, "ONE_AND_ZEROES",       INT2NUM(ONE_AND_ZEROS_PADDING));
-	rb_define_const(rb_mCryptoPP_Constants, "ONE_AND_ZEROS",        INT2NUM(ONE_AND_ZEROS_PADDING));
-	rb_define_const(rb_mCryptoPP_Constants, "DEFAULT_PADDING",      INT2NUM(DEFAULT_PADDING));
 
 	// random number generators...
 
@@ -259,7 +256,7 @@ extern "C" void Init_cryptopp()
 	rb_define_const(rb_mCryptoPP_Constants, "PANAMA_DIGEST",   INT2NUM(PANAMA_HASH));
 	rb_define_const(rb_mCryptoPP_Constants, "SHA_DIGEST",      INT2NUM(SHA1_HASH));
 	rb_define_const(rb_mCryptoPP_Constants, "SHA_HMAC",        INT2NUM(SHA1_HMAC));
-	
+
 
 	rb_define_module_function(rb_mCryptoPP, "cipher_list",      RUBY_METHOD_FUNC(rb_module_cipher_list),     0); /* in ciphers.cpp */
 	rb_define_module_function(rb_mCryptoPP, "cipher_name",      RUBY_METHOD_FUNC(rb_module_cipher_name),     1); /* in ciphers.cpp */

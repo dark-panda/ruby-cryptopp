@@ -1,0 +1,8 @@
+
+// C++ constant, Ruby Symbol
+BLOCK_MODE_X(ECB,     ecb)
+BLOCK_MODE_X(CBC,     cbc)
+BLOCK_MODE_X(CBC_CTS, cbc_cts)
+BLOCK_MODE_X(CFB,     cfb)
+BLOCK_MODE_X(CTR,     ctr)
+BLOCK_MODE_X(OFB,     ofb)
