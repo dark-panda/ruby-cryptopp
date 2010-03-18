@@ -395,7 +395,23 @@ VALUE rb_cipher_iv_hex(VALUE self)
 VALUE rb_cipher_block_mode_eq(VALUE self, VALUE m)
 {
 	JBase *cipher = NULL;
-	int mode = NUM2INT(m);
+	int mode = UNKNOWN_MODE;
+	if (TYPE(m) == T_SYMBOL) {
+		ID id = SYM2ID(m);
+		if (id == rb_intern("counter")) {
+			mode = CTR_MODE;
+		}
+#		define BLOCK_MODE_X(c, s) \
+			else if (id == rb_intern(# s)) { \
+				mode = c ## _MODE; \
+			}
+#		include "defs/block_modes.def"
+#		undef BLOCK_MODE_X
+	}
+	else {
+		mode = NUM2INT(m);
+	}
+
 	if (!VALID_MODE(mode)) {
 		rb_raise(rb_eCryptoPP_Error, "invalid cipher mode");
 	}
@@ -446,7 +462,29 @@ VALUE rb_cipher_block_mode(VALUE self)
 VALUE rb_cipher_padding_eq(VALUE self, VALUE p)
 {
 	JBase *cipher = NULL;
-	int padding = NUM2INT(p);
+	int padding = UNKNOWN_PADDING;
+	if (TYPE(p) == T_SYMBOL) {
+		ID id = SYM2ID(p);
+		if (id == rb_intern("none")) {
+			padding = NO_PADDING;
+		}
+		else if (id == rb_intern("zeroes")) {
+			padding = ZEROS_PADDING;
+		}
+		else if (id == rb_intern("one_and_zeroes")) {
+			padding = ONE_AND_ZEROS_PADDING;
+		}
+#		define PADDING_X(c, s) \
+			else if (id == rb_intern(# s)) { \
+				padding = c ## _PADDING; \
+			}
+#		include "defs/paddings.def"
+#		undef PADDING_X
+	}
+	else {
+		padding = NUM2INT(p);
+	}
+
 	if (!VALID_PADDING(padding)) {
 		rb_raise(rb_eCryptoPP_Error, "invalid cipher padding");
 	}

@@ -77,36 +77,35 @@ enum CipherEnum {
 // cipher or a block cipher. If its <= TYPE_OF_CIPHER,
 // it's a stream cipher; otherwise, it's a block cipher...
 
-#define IS_BLOCK_CIPHER(x) (x >= THREEWAY_CIPHER && x <= SHACAL2_CIPHER ? true : false)
-#define IS_STREAM_CIPHER(x) (x >= ARC4_CIPHER && x <= SEAL_BIG_ENDIAN_CIPHER ? true : false)
-#define VALID_CIPHER(x) (x >= ARC4_CIPHER && x <= SHACAL2_CIPHER ? true : false)
+#define IS_BLOCK_CIPHER(x) (x >= THREEWAY_CIPHER && x <= SHACAL2_CIPHER)
+#define IS_STREAM_CIPHER(x) (x >= ARC4_CIPHER && x <= SEAL_BIG_ENDIAN_CIPHER)
+#define VALID_CIPHER(x) (x >= ARC4_CIPHER && x <= SHACAL2_CIPHER)
 
 
 // Block cipher modes used in JCipher...
 
 enum ModeEnum {
-	ECB_MODE,
-	CBC_MODE,
-	CBC_CTS_MODE,
-	CFB_MODE,
-	CTR_MODE,
-	OFB_MODE
+	UNKNOWN_MODE = -1,
+#	define BLOCK_MODE_X(c, s) \
+		c ## _MODE,
+#	include "defs/block_modes.def"
+#	undef BLOCK_MODE_X
 };
 
-#define VALID_MODE(x) (x >= ECB_MODE && x <= OFB_MODE ? true : false)
+#define VALID_MODE(x) (x > UNKNOWN_MODE && x <= OFB_MODE)
 
 
 // Block cipher padding used in JCipher...
 
 enum PaddingEnum {
-	NO_PADDING = StreamTransformationFilter::NO_PADDING,
-	ZEROS_PADDING = StreamTransformationFilter::ZEROS_PADDING,
-	PKCS_PADDING = StreamTransformationFilter::PKCS_PADDING,
-	ONE_AND_ZEROS_PADDING = StreamTransformationFilter::ONE_AND_ZEROS_PADDING,
-	DEFAULT_PADDING = StreamTransformationFilter::DEFAULT_PADDING
+	UNKNOWN_PADDING = -1,
+#	define PADDING_X(c, s) \
+		c ## _PADDING = StreamTransformationFilter::c ## _PADDING,
+#	include "defs/paddings.def"
+#	undef PADDING_X
 };
 
-#define VALID_PADDING(x) (x >= NO_PADDING && x <= DEFAULT_PADDING ? true : false)
+#define VALID_PADDING(x) (x > UNKNOWN_PADDING && x <= DEFAULT_PADDING)
 
 
 // Hashes... and HMAC stuff, too...
@@ -167,20 +166,21 @@ enum HashEnum {
 // with a HMAC or a regular hash...
 
 #define IS_HMAC(x) \
-	(((x > TIGER_HASH && x < RIPEMD128_HASH) || x >= RIPEMD128_HMAC) ? true : false)
+	(((x > TIGER_HASH && x < RIPEMD128_HASH) || x >= RIPEMD128_HMAC))
 #define IS_NON_HMAC(x) \
-	((x <= TIGER_HASH || (x >= RIPEMD128_HASH && x <= WHIRLPOOL_HASH)) ? true : false)
+	((x <= TIGER_HASH || (x >= RIPEMD128_HASH && x <= WHIRLPOOL_HASH)))
 
 
 // random number generators...
 
 enum RNGEnum {
+	UNKNOWN_RNG = -1,
 	NONBLOCKING_RNG,
 	BLOCKING_RNG,
 	RAND_RNG
 };
 
-#define VALID_RNG(x) (x >= NONBLOCKING_RNG && x <= RAND_RNG ? true : false)
+#define VALID_RNG(x) (x > UNKNOWN_RNG && x <= RAND_RNG)
 
 #ifdef NONBLOCKING_RNG_AVAILABLE
 	#define DEFAULT_RNG NONBLOCKING_RNG

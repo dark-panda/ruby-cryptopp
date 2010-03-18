@@ -1,7 +1,7 @@
 
-// a constant, the Crypto++ constant
-PADDING_X(NO,            StreamTransformationFilter::NO_PADDING)
-PADDING_X(ZEROS,         StreamTransformationFilter::ZEROS_PADDING)
-PADDING_X(PKCS,          StreamTransformationFilter::PKCS_PADDING)
-PADDING_X(ONE_AND_ZEROS, StreamTransformationFilter::ONE_AND_ZEROS_PADDING)
-PADDING_X(DEFAULT,       StreamTransformationFilter::DEFAULT_PADDING)
+// a constant, a Symbol name
+PADDING_X(NO,            no)
+PADDING_X(ZEROS,         zeros)
+PADDING_X(PKCS,          pkcs)
+PADDING_X(ONE_AND_ZEROS, one_and_zeros)
+PADDING_X(DEFAULT,       default)
