@@ -34,22 +34,18 @@ VALUE rb_cCryptoPP_Digest_HMAC;
 #define CIPHER_ALGORITHM_X(klass, r, c) \
 	VALUE rb_cCryptoPP_Cipher_ ## r ;
 #include "ciphers.def"
-#undef CIPHER_ALGORITHM_X
 
 #define CHECKSUM_ALGORITHM_X(klass, r, c) \
 	VALUE rb_cCryptoPP_Digest_ ## r ;
 #include "checksums.def"
-#undef CHECKSUM_ALGORITHM_X
 
 #define HASH_ALGORITHM_X(klass, r, c) \
 	VALUE rb_cCryptoPP_Digest_ ## r ;
 #include "hashes.def"
-#undef HASH_ALGORITHM_X
 
 #define HMAC_ALGORITHM_X(klass, r, c) \
 	VALUE rb_cCryptoPP_Digest_HMAC_ ## r ;
 #include "hmacs.def"
-#undef HMAC_ALGORITHM_X
 
 /* Marking function for garbage collector. */
 void cipher_mark(JBase *c)
@@ -174,39 +170,32 @@ extern "C" void Init_cryptopp()
 		rb_cCryptoPP_Cipher_ ## r = rb_define_class_under(rb_mCryptoPP, # klass, rb_cCryptoPP_Cipher); \
 		rb_define_singleton_method((rb_cCryptoPP_Cipher_ ## r), "new", CRYPTOPP_VALUE_FUNC(rb_cipher_ ## r ##_new), -1);
 #	include "ciphers.def"
-#	undef CIPHER_ALGORITHM_X
 
 #	define CHECKSUM_ALGORITHM_X(klass, r, c) \
 		rb_cCryptoPP_Digest_ ## r = rb_define_class_under(rb_mCryptoPP, # klass, rb_cCryptoPP_Digest); \
 		rb_define_singleton_method((rb_cCryptoPP_Digest_ ## r), "new", CRYPTOPP_VALUE_FUNC(rb_digest_ ## r ##_new), -1);
 #	include "checksums.def"
-#	undef CHECKSUM_ALGORITHM_X
 
 #	define HASH_ALGORITHM_X(klass, r, c) \
 		rb_cCryptoPP_Digest_ ## r = rb_define_class_under(rb_mCryptoPP, # klass, rb_cCryptoPP_Digest); \
 		rb_define_singleton_method((rb_cCryptoPP_Digest_ ## r), "new", CRYPTOPP_VALUE_FUNC(rb_digest_ ## r ##_new), -1);
 #	include "hashes.def"
-#	undef HASH_ALGORITHM_X
 
 #	define HMAC_ALGORITHM_X(klass, r, c) \
 		rb_cCryptoPP_Digest_HMAC_ ## r = rb_define_class_under(rb_mCryptoPP, # klass, rb_cCryptoPP_Digest_HMAC); \
 		rb_define_singleton_method((rb_cCryptoPP_Digest_HMAC_ ## r), "new", CRYPTOPP_VALUE_FUNC(rb_digest_hmac_ ## r ##_new), -1);
 #	include "hmacs.def"
-#	undef HMAC_ALGORITHM_X
 
 #	define CIPHER_ALGORITHM_X_FORCE 1
 #	define CIPHER_ALGORITHM_X(klass, r, c) \
 		rb_define_const(rb_mCryptoPP_Constants, # r "_CIPHER", INT2NUM(r ## _CIPHER));
 #	include "ciphers.def"
-#	undef CIPHER_ALGORITHM_X
-#	undef CIPHER_ALGORITHM_X_FORCE
 
 	// block cipher modes...
 
 #	define BLOCK_MODE_X(c, s) \
 		rb_define_const(rb_mCryptoPP_Constants, # c "_BLOCK_MODE", INT2NUM(c ## _MODE));
 #	include "defs/block_modes.def"
-#	undef BLOCK_MODE_X
 	rb_define_const(rb_mCryptoPP_Constants, "COUNTER_BLOCK_MODE", INT2NUM(CTR_MODE));
 
 	// block cipher padding settings...
@@ -214,7 +203,6 @@ extern "C" void Init_cryptopp()
 #	define PADDING_X(c, s) \
 		rb_define_const(rb_mCryptoPP_Constants, # c "_PADDING", INT2NUM(c ## _PADDING));
 #	include "defs/paddings.def"
-#	undef PADDING_X
 	rb_define_const(rb_mCryptoPP_Constants, "ZEROES_PADDING",       INT2NUM(ZEROS_PADDING));
 	rb_define_const(rb_mCryptoPP_Constants, "ONE_AND_ZEROES",       INT2NUM(ONE_AND_ZEROS_PADDING));
 
@@ -231,22 +219,16 @@ extern "C" void Init_cryptopp()
 #	define CHECKSUM_ALGORITHM_X(klass, r, c) \
 		rb_define_const(rb_mCryptoPP_Constants, # r "_CHECKSUM", INT2NUM(r ## _CHECKSUM));
 #	include "checksums.def"
-#	undef CHECKSUM_ALGORITHM_X
-#	undef CHECKSUM_ALGORITHM_X_FORCE
 
 #	define HASH_ALGORITHM_X_FORCE 1
 #	define HASH_ALGORITHM_X(klass, r, c) \
 		rb_define_const(rb_mCryptoPP_Constants, # r "_DIGEST", INT2NUM(r ## _HASH));
 #	include "hashes.def"
-#	undef HASH_ALGORITHM_X
-#	undef HASH_ALGORITHM_X_FORCE
 
 #	define HMAC_ALGORITHM_X_FORCE 1
 #	define HMAC_ALGORITHM_X(klass, r, c) \
 		rb_define_const(rb_mCryptoPP_Constants, # r "_HMAC", INT2NUM(r ## _HMAC));
 #	include "hmacs.def"
-#	undef HMAC_ALGORITHM_X
-#	undef HMAC_ALGORITHM_X_FORCE
 
 	// some aliases...
 

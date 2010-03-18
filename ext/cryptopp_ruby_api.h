@@ -25,28 +25,23 @@ extern VALUE rb_cCryptoPP_Digest_HMAC;
 #define CIPHER_ALGORITHM_X(klass, r, c) \
 	extern VALUE rb_cCryptoPP_Cipher_ ## r ;
 #include "ciphers.def"
-#undef CIPHER_ALGORITHM_X
 
 #define CHECKSUM_ALGORITHM_X(klass, r, c) \
 	extern VALUE rb_cCryptoPP_Digest_ ## r ;
 #include "checksums.def"
-#undef CHECKSUM_ALGORITHM_X
 
 #define HASH_ALGORITHM_X(klass, r, c) \
 	extern VALUE rb_cCryptoPP_Digest_ ## r ;
 #include "hashes.def"
-#undef HASH_ALGORITHM_X
 
 #define HMAC_ALGORITHM_X(klass, r, c) \
 	extern VALUE rb_cCryptoPP_Digest_HMAC_ ## r ;
 #include "hmacs.def"
-#undef HMAC_ALGORITHM_X
 
 VALUE rb_module_cipher_factory(int argc, VALUE *argv, VALUE self);
 #define CIPHER_ALGORITHM_X(klass, r, n) \
 VALUE rb_cipher_ ## r ##_new(int argc, VALUE *argv, VALUE self);
 #include "ciphers.def"
-#undef CIPHER_ALGORITHM_X
 VALUE rb_cipher_rand_iv(VALUE self, VALUE l);
 VALUE rb_cipher_iv_eq(VALUE self, VALUE iv);
 VALUE rb_cipher_iv_hex_eq(VALUE self, VALUE iv);
@@ -104,12 +99,10 @@ VALUE rb_module_digest_factory(int argc, VALUE *argv, VALUE self);
 #define CHECKSUM_ALGORITHM_X(klass, r, n) \
 VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self);
 #include "checksums.def"
-#undef CHECKSUM_ALGORITHM_X
 
 #define HASH_ALGORITHM_X(klass, r, n) \
 VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self);
 #include "hashes.def"
-#undef HASH_ALGORITHM_X
 VALUE rb_digest_update(VALUE self, VALUE plaintext);
 VALUE rb_digest_digest(VALUE self);
 VALUE rb_digest_digest_hex(VALUE self);
@@ -139,7 +132,6 @@ VALUE rb_module_hmac_factory(int argc, VALUE *argv, VALUE self);
 #define HMAC_ALGORITHM_X(klass, r, n) \
 VALUE rb_digest_hmac_ ## r ##_new(int argc, VALUE *argv, VALUE self);
 #include "hmacs.def"
-#undef HMAC_ALGORITHM_X
 VALUE rb_digest_hmac_key_eq(VALUE self, VALUE key);
 VALUE rb_digest_hmac_key_hex_eq(VALUE self, VALUE key);
 VALUE rb_digest_hmac_key(VALUE self);

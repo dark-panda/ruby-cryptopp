@@ -5,3 +5,5 @@ PADDING_X(ZEROS,         zeros)
 PADDING_X(PKCS,          pkcs)
 PADDING_X(ONE_AND_ZEROS, one_and_zeros)
 PADDING_X(DEFAULT,       default)
+
+#undef PADDING_X

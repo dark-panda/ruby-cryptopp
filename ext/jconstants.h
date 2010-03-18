@@ -89,7 +89,6 @@ enum ModeEnum {
 #	define BLOCK_MODE_X(c, s) \
 		c ## _MODE,
 #	include "defs/block_modes.def"
-#	undef BLOCK_MODE_X
 };
 
 #define VALID_MODE(x) (x > UNKNOWN_MODE && x <= OFB_MODE)
@@ -102,7 +101,6 @@ enum PaddingEnum {
 #	define PADDING_X(c, s) \
 		c ## _PADDING = StreamTransformationFilter::c ## _PADDING,
 #	include "defs/paddings.def"
-#	undef PADDING_X
 };
 
 #define VALID_PADDING(x) (x > UNKNOWN_PADDING && x <= DEFAULT_PADDING)
@@ -178,7 +176,6 @@ enum RNGEnum {
 #	define RNG_X(c, s) \
 		c ## _RNG,
 #	include "defs/rngs.def"
-#	undef RNG_X
 };
 
 #define VALID_RNG(x) (x > UNKNOWN_RNG && x <= RAND_RNG)

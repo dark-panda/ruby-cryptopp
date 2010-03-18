@@ -78,7 +78,6 @@ static bool cipher_enabled(CipherEnum cipher)
 #		define CIPHER_ALGORITHM_X(klass, r, c) \
 			case r ##_CIPHER:
 #		include "ciphers.def"
-#		undef CIPHER_ALGORITHM_X
 			return true;
 	}
 	return false;
@@ -214,7 +213,6 @@ static JBase* cipher_factory(long algorithm)
 				case r ## _CIPHER: \
 					return static_cast<c*>(new c);
 #			include "ciphers.def"
-#			undef CIPHER_ALGORITHM_X
 		}
 	}
 	catch (Exception e) {
@@ -234,7 +232,6 @@ static VALUE wrap_cipher_in_ruby(JBase* cipher)
 		} \
 		else
 #	include "ciphers.def"
-#	undef CIPHER_ALGORITHM_X
 	{
 		throw JException("the requested algorithm has been disabled");
 	}
@@ -283,7 +280,6 @@ VALUE rb_cipher_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 	return retval; \
 }
 #include "ciphers.def"
-#undef CIPHER_ALGORITHM_X
 
 
 /* Creates a random initialization vector on the cipher. */
@@ -406,7 +402,6 @@ VALUE rb_cipher_block_mode_eq(VALUE self, VALUE m)
 				mode = c ## _MODE; \
 			}
 #		include "defs/block_modes.def"
-#		undef BLOCK_MODE_X
 	}
 	else {
 		mode = NUM2INT(m);
@@ -446,7 +441,6 @@ VALUE rb_cipher_block_mode(VALUE self)
 			return ID2SYM(rb_intern(# s)); \
 		}
 #	include "defs/block_modes.def"
-#	undef BLOCK_MODE_X
 }
 
 
@@ -483,7 +477,6 @@ VALUE rb_cipher_padding_eq(VALUE self, VALUE p)
 				padding = c ## _PADDING; \
 			}
 #		include "defs/paddings.def"
-#		undef PADDING_X
 	}
 	else {
 		padding = NUM2INT(p);
@@ -528,7 +521,6 @@ VALUE rb_cipher_padding(VALUE self)
 			return ID2SYM(rb_intern(# s)); \
 		}
 #	include "defs/paddings.def"
-#	undef PADDING_X
 }
 
 
@@ -557,7 +549,6 @@ VALUE rb_cipher_rng_eq(VALUE self, VALUE r)
 				rng = c ## _RNG; \
 			}
 #		include "defs/rngs.def"
-#		undef RNG_X
 	}
 	else {
 		rng = NUM2INT(r);
@@ -595,7 +586,6 @@ VALUE rb_cipher_rng(VALUE self)
 			return ID2SYM(rb_intern(# s)); \
 		}
 #	include "defs/rngs.def"
-#	undef RNG_X
 }
 
 
@@ -1168,7 +1158,6 @@ VALUE rb_module_cipher_name(VALUE self, VALUE c)
 			case r ## _CIPHER: \
 				return rb_tainted_str_new2(c::getStaticCipherName().c_str());
 #		include "ciphers.def"
-#		undef CIPHER_ALGORITHM_X
 	}
 }
 
@@ -1350,7 +1339,6 @@ VALUE rb_module_cipher_list(VALUE self)
 #	define CIPHER_ALGORITHM_X(klass, r, c) \
 		rb_ary_push(ary, INT2NUM(r ## _CIPHER));
 #	include "ciphers.def"
-#	undef CIPHER_ALGORITHM_X
 
 	return ary;
 }

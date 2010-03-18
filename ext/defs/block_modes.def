@@ -6,3 +6,5 @@ BLOCK_MODE_X(CBC_CTS, cbc_cts)
 BLOCK_MODE_X(CFB,     cfb)
 BLOCK_MODE_X(CTR,     ctr)
 BLOCK_MODE_X(OFB,     ofb)
+
+#undef BLOCK_MODE_X
