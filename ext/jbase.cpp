@@ -104,7 +104,7 @@ string JBase::getRNGName(const enum RNGEnum rng)
 {
 	switch (rng) {
 		#ifdef NONBLOCKING_RNG_AVAILABLE
-		case NONBLOCKING_RNG:
+		case NON_BLOCKING_RNG:
 			#if defined(CRYPTOPP_WIN32_AVAILABLE) && defined(USE_MS_CRYPTOAPI)
 			return "Non-blocking (Microsoft CryptoAPI)";
 			#else
@@ -132,7 +132,7 @@ enum RNGEnum JBase::getRNG() const
 enum RNGEnum JBase::setRNG(const enum RNGEnum rng)
 {
 	#ifdef NONBLOCKING_RNG_AVAILABLE
-	if (rng == NONBLOCKING_RNG) {
+	if (rng == NON_BLOCKING_RNG) {
 		itsRNG = rng;
 	}
 	#endif

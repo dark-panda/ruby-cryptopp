@@ -47,7 +47,7 @@ string generateIV(const unsigned int size, const enum RNGEnum rng)
 	RandomNumberGenerator* randPool = NULL;
 
 	#ifdef NONBLOCKING_RNG_AVAILABLE
-	if (rng == NONBLOCKING_RNG) {
+	if (rng == NON_BLOCKING_RNG) {
 		randPool = new NonblockingRng;
 	}
 	#endif

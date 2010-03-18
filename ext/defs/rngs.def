@@ -1,0 +1,5 @@
+
+// constant, Symbol
+RNG_X(NON_BLOCKING, non_blocking)
+RNG_X(BLOCKING,     blocking)
+RNG_X(RAND,         rand)

@@ -220,7 +220,7 @@ extern "C" void Init_cryptopp()
 
 	// random number generators...
 
-	rb_define_const(rb_mCryptoPP_Constants, "NONBLOCKING_RNG",     INT2NUM(NONBLOCKING_RNG));
+	rb_define_const(rb_mCryptoPP_Constants, "NON_BLOCKING_RNG",    INT2NUM(NON_BLOCKING_RNG));
 	rb_define_const(rb_mCryptoPP_Constants, "BLOCKING_RNG",        INT2NUM(BLOCKING_RNG));
 	rb_define_const(rb_mCryptoPP_Constants, "RAND_RNG",            INT2NUM(RAND_RNG));
 	rb_define_const(rb_mCryptoPP_Constants, "DEFAULT_RNG",         INT2NUM(DEFAULT_RNG));

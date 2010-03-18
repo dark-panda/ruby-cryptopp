@@ -175,15 +175,16 @@ enum HashEnum {
 
 enum RNGEnum {
 	UNKNOWN_RNG = -1,
-	NONBLOCKING_RNG,
-	BLOCKING_RNG,
-	RAND_RNG
+#	define RNG_X(c, s) \
+		c ## _RNG,
+#	include "defs/rngs.def"
+#	undef RNG_X
 };
 
 #define VALID_RNG(x) (x > UNKNOWN_RNG && x <= RAND_RNG)
 
 #ifdef NONBLOCKING_RNG_AVAILABLE
-	#define DEFAULT_RNG NONBLOCKING_RNG
+	#define DEFAULT_RNG NON_BLOCKING_RNG
 #elif defined(BLOCKING_RNG_AVAILABLE)
 	#define DEFAULT_RNG BLOCKING_RNG
 #else

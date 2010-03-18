@@ -437,12 +437,16 @@ VALUE rb_cipher_block_mode(VALUE self)
 {
 	JBase *cipher = NULL;
 	Data_Get_Struct(self, JBase, cipher);
+	int mode = ((JCipher*) cipher)->getMode();
 	if (IS_STREAM_CIPHER(cipher->getCipherType())) {
 		return Qnil;
 	}
-	else {
-		return rb_fix_new(((JCipher*) cipher)->getMode());
-	}
+#	define BLOCK_MODE_X(c, s) \
+		else if (mode == c ## _MODE) { \
+			return ID2SYM(rb_intern(# s)); \
+		}
+#	include "defs/block_modes.def"
+#	undef BLOCK_MODE_X
 }
 
 
@@ -515,12 +519,16 @@ VALUE rb_cipher_padding(VALUE self)
 {
 	JBase *cipher = NULL;
 	Data_Get_Struct(self, JBase, cipher);
+	int padding = ((JCipher*) cipher)->getPadding();
 	if (IS_STREAM_CIPHER(cipher->getCipherType())) {
 		return Qnil;
 	}
-	else {
-		return rb_fix_new(((JCipher*) cipher)->getPadding());
-	}
+#	define PADDING_X(c, s) \
+		else if (padding == c ## _PADDING) { \
+			return ID2SYM(rb_intern(# s)); \
+		}
+#	include "defs/paddings.def"
+#	undef PADDING_X
 }
 
 
@@ -538,7 +546,22 @@ VALUE rb_cipher_padding(VALUE self)
 VALUE rb_cipher_rng_eq(VALUE self, VALUE r)
 {
 	JBase *cipher = NULL;
-	int rng = NUM2INT(r);
+	int rng = UNKNOWN_RNG;
+	if (TYPE(r) == T_SYMBOL) {
+		ID id = SYM2ID(r);
+		if (false) {
+			// no-op so we can use our x-macro
+		}
+#		define RNG_X(c, s) \
+			else if (id == rb_intern(# s)) { \
+				rng = c ## _RNG; \
+			}
+#		include "defs/rngs.def"
+#		undef RNG_X
+	}
+	else {
+		rng = NUM2INT(r);
+	}
 	if (!VALID_RNG(rng)) {
 		rb_raise(rb_eCryptoPP_Error, "invalid cipher RNG");
 	}
@@ -563,7 +586,16 @@ VALUE rb_cipher_rng(VALUE self)
 {
 	JBase *cipher = NULL;
 	Data_Get_Struct(self, JBase, cipher);
-	return rb_fix_new(((JCipher*) cipher)->getRNG());
+	int rng = ((JCipher*) cipher)->getRNG();
+	if (false) {
+		// no-op so we can use our x-macro
+	}
+#	define RNG_X(c, s) \
+		else if (rng == c ## _RNG) { \
+			return ID2SYM(rb_intern(# s)); \
+		}
+#	include "defs/rngs.def"
+#	undef RNG_X
 }
 
 
@@ -1290,7 +1322,7 @@ VALUE rb_module_rng_available(VALUE self, VALUE r)
 {
 	switch ((enum RNGEnum) NUM2INT(r)) {
 #		ifdef NONBLOCKING_RNG_AVAILABLE
-		case NONBLOCKING_RNG:
+		case NON_BLOCKING_RNG:
 #		endif
 
 #		ifdef BLOCKING_RNG_AVAILABLE
