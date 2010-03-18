@@ -75,10 +75,10 @@ static VALUE cipher_decrypt(VALUE self, bool hex);
 static bool cipher_enabled(CipherEnum cipher)
 {
 	switch (cipher) {
-#		define CIPHER_ALGORITHM(klass, r, c) \
+#		define CIPHER_ALGORITHM_X(klass, r, c) \
 			case r ##_CIPHER:
 #		include "ciphers.def"
-#		undef CIPHER_ALGORITHM
+#		undef CIPHER_ALGORITHM_X
 			return true;
 	}
 	return false;
@@ -210,11 +210,11 @@ static JBase* cipher_factory(long algorithm)
 				throw JException("the requested algorithm has been disabled");
 			break;
 
-#			define CIPHER_ALGORITHM(klass, r, c) \
+#			define CIPHER_ALGORITHM_X(klass, r, c) \
 				case r ## _CIPHER: \
 					return static_cast<c*>(new c);
 #			include "ciphers.def"
-#			undef CIPHER_ALGORITHM
+#			undef CIPHER_ALGORITHM_X
 		}
 	}
 	catch (Exception e) {
@@ -228,13 +228,13 @@ static JBase* cipher_factory(long algorithm)
 static VALUE wrap_cipher_in_ruby(JBase* cipher)
 {
 	const type_info& info = typeid(*cipher);
-#	define CIPHER_ALGORITHM(klass, r, c) \
+#	define CIPHER_ALGORITHM_X(klass, r, c) \
 		if (info == typeid(c)) { \
 			return Data_Wrap_Struct(rb_cCryptoPP_Cipher_## r, cipher_mark, cipher_free, cipher); \
 		} \
 		else
 #	include "ciphers.def"
-#	undef CIPHER_ALGORITHM
+#	undef CIPHER_ALGORITHM_X
 	{
 		throw JException("the requested algorithm has been disabled");
 	}
@@ -266,7 +266,7 @@ VALUE rb_module_cipher_factory(int argc, VALUE *argv, VALUE self)
 	return retval;
 }
 
-#define CIPHER_ALGORITHM(klass, r, n) \
+#define CIPHER_ALGORITHM_X(klass, r, n) \
 VALUE rb_cipher_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 { \
 	VALUE options, retval; \
@@ -283,7 +283,7 @@ VALUE rb_cipher_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 	return retval; \
 }
 #include "ciphers.def"
-#undef CIPHER_ALGORITHM
+#undef CIPHER_ALGORITHM_X
 
 
 /* Creates a random initialization vector on the cipher. */
@@ -1164,11 +1164,11 @@ VALUE rb_module_cipher_name(VALUE self, VALUE c)
 			rb_raise(rb_eCryptoPP_Error, "could not find a valid cipher type");
 		break;
 
-#		define CIPHER_ALGORITHM(klass, r, c) \
+#		define CIPHER_ALGORITHM_X(klass, r, c) \
 			case r ## _CIPHER: \
 				return rb_tainted_str_new2(c::getStaticCipherName().c_str());
 #		include "ciphers.def"
-#		undef CIPHER_ALGORITHM
+#		undef CIPHER_ALGORITHM_X
 	}
 }
 
@@ -1347,10 +1347,10 @@ VALUE rb_module_cipher_list(VALUE self)
 {
 	VALUE ary = rb_ary_new();
 
-#	define CIPHER_ALGORITHM(klass, r, c) \
+#	define CIPHER_ALGORITHM_X(klass, r, c) \
 		rb_ary_push(ary, INT2NUM(r ## _CIPHER));
 #	include "ciphers.def"
-#	undef CIPHER_ALGORITHM
+#	undef CIPHER_ALGORITHM_X
 
 	return ary;
 }
