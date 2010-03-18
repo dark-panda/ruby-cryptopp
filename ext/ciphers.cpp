@@ -272,7 +272,6 @@ VALUE rb_cipher_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 	VALUE options, retval; \
 	rb_scan_args(argc, argv, "01", &options); \
 	try { \
-		cout << ">> " << (self) << "   " << rb_cCryptoPP_Cipher_ ## r << endl; \
 		retval = wrap_cipher_in_ruby(cipher_factory(r ## _CIPHER)); \
 	} \
 	catch (Exception& e) { \
