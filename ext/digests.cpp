@@ -55,15 +55,15 @@ static bool hash_enabled(HashEnum hash)
 	switch (hash) {
 #		define CHECKSUM_ALGORITHM_X(klass, r, c) \
 			case r ##_CHECKSUM:
-#		include "checksums.def"
+#		include "defs/checksums.def"
 
 #		define HASH_ALGORITHM_X(klass, r, c) \
 			case r ##_HASH:
-#		include "hashes.def"
+#		include "defs/hashes.def"
 
 #		define HMAC_ALGORITHM_X(klass, r, c) \
 			case r ##_HMAC:
-#		include "hmacs.def"
+#		include "defs/hmacs.def"
 			return true;
 	}
 	return false;
@@ -117,17 +117,17 @@ static JHash* digest_factory(long algorithm)
 #				define CHECKSUM_ALGORITHM_X(klass, r, c) \
 					case r ## _CHECKSUM: \
 						return static_cast<c*>(new c);
-#				include "checksums.def"
+#				include "defs/checksums.def"
 
 #				define HASH_ALGORITHM_X(klass, r, c) \
 					case r ## _HASH: \
 						return static_cast<c*>(new c);
-#				include "hashes.def"
+#				include "defs/hashes.def"
 
 #				define HMAC_ALGORITHM_X(klass, r, c) \
 					case r ## _HMAC: \
 						return static_cast<c*>(new c);
-#				include "hmacs.def"
+#				include "defs/hmacs.def"
 			}
 		}
 		catch (Exception& e) {
@@ -147,21 +147,21 @@ static VALUE wrap_digest_in_ruby(JHash* hash)
 			return Data_Wrap_Struct(rb_cCryptoPP_Digest_## r, hash_mark, hash_free, hash); \
 		} \
 		else
-#	include "checksums.def"
+#	include "defs/checksums.def"
 
 #	define HASH_ALGORITHM_X(klass, r, c) \
 		if (info == typeid(c)) { \
 			return Data_Wrap_Struct(rb_cCryptoPP_Digest_## r, hash_mark, hash_free, hash); \
 		} \
 		else
-#	include "hashes.def"
+#	include "defs/hashes.def"
 
 #	define HMAC_ALGORITHM_X(klass, r, c) \
 		if (info == typeid(c)) { \
 			return Data_Wrap_Struct(rb_cCryptoPP_Digest_HMAC_## r, hash_mark, hash_free, hash); \
 		} \
 		else
-#	include "hmacs.def"
+#	include "defs/hmacs.def"
 	{
 		throw JException("the requested algorithm has been disabled");
 	}
@@ -241,7 +241,7 @@ VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 	} \
 	return retval; \
 }
-#include "checksums.def"
+#include "defs/checksums.def"
 
 #define HASH_ALGORITHM_X(klass, r, n) \
 VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
@@ -270,7 +270,7 @@ VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 	} \
 	return retval; \
 }
-#include "hashes.def"
+#include "defs/hashes.def"
 
 
 /**
@@ -635,17 +635,17 @@ VALUE rb_module_digest_name(VALUE self, VALUE h)
 #		define CHECKSUM_ALGORITHM_X(klass, r, c) \
 			case r ## _CHECKSUM: \
 				return rb_tainted_str_new2(c::getHashName().c_str());
-#		include "checksums.def"
+#		include "defs/checksums.def"
 
 #		define HASH_ALGORITHM_X(klass, r, c) \
 			case r ## _HASH: \
 				return rb_tainted_str_new2(c::getHashName().c_str());
-#		include "hashes.def"
+#		include "defs/hashes.def"
 
 # 		define HMAC_ALGORITHM_X(klass, r, c) \
 			case r ## _HMAC: \
 				return rb_tainted_str_new2(c::getHashName().c_str());
-#		include "hmacs.def"
+#		include "defs/hmacs.def"
 	}
 }
 
@@ -731,11 +731,11 @@ VALUE rb_module_digest_list(VALUE self)
 
 #	define CHECKSUM_ALGORITHM_X(klass, r, c) \
 		rb_ary_push(ary, INT2NUM(r ##_CHECKSUM));
-#	include "checksums.def"
+#	include "defs/checksums.def"
 
 #	define HASH_ALGORITHM_X(klass, r, c) \
 		rb_ary_push(ary, INT2NUM(r ##_HASH));
-#	include "hashes.def"
+#	include "defs/hashes.def"
 
 	return ary;
 }
@@ -856,7 +856,7 @@ VALUE rb_digest_hmac_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 		return retval; \
 	} \
 }
-#include "hmacs.def"
+#include "defs/hmacs.def"
 
 
 /* Set the key. The true length of the key might not be what you expect,
@@ -1017,7 +1017,7 @@ VALUE rb_module_hmac_list(VALUE self)
 
 #	define HMAC_ALGORITHM_X(klass, r, c) \
 		rb_ary_push(ary, INT2NUM(r ##_HMAC));
-#	include "hmacs.def"
+#	include "defs/hmacs.def"
 
 	return ary;
 }
