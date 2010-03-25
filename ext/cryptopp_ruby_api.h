@@ -15,8 +15,6 @@ $Id: $
 #include "ruby.h"
 
 extern VALUE rb_mCryptoPP;
-extern VALUE rb_mCryptoPP_Constants;
-extern VALUE rb_mCryptoPP_Utils;
 extern VALUE rb_eCryptoPP_Error;
 extern VALUE rb_cCryptoPP_Cipher;
 extern VALUE rb_cCryptoPP_Digest;
@@ -26,15 +24,15 @@ extern VALUE rb_cCryptoPP_Digest_HMAC;
 	extern VALUE rb_cCryptoPP_Cipher_ ## r ;
 #include "defs/ciphers.def"
 
-#define CHECKSUM_ALGORITHM_X(klass, r, c) \
+#define CHECKSUM_ALGORITHM_X(klass, r, c, s) \
 	extern VALUE rb_cCryptoPP_Digest_ ## r ;
 #include "defs/checksums.def"
 
-#define HASH_ALGORITHM_X(klass, r, c) \
+#define HASH_ALGORITHM_X(klass, r, c, s) \
 	extern VALUE rb_cCryptoPP_Digest_ ## r ;
 #include "defs/hashes.def"
 
-#define HMAC_ALGORITHM_X(klass, r, c) \
+#define HMAC_ALGORITHM_X(klass, r, c, s) \
 	extern VALUE rb_cCryptoPP_Digest_HMAC_ ## r ;
 #include "defs/hmacs.def"
 
@@ -96,11 +94,11 @@ VALUE rb_module_cipher_enabled(VALUE self, VALUE c);
 VALUE rb_module_rng_available(VALUE self, VALUE r);
 VALUE rb_module_cipher_list(VALUE self);
 VALUE rb_module_digest_factory(int argc, VALUE *argv, VALUE self);
-#define CHECKSUM_ALGORITHM_X(klass, r, n) \
+#define CHECKSUM_ALGORITHM_X(klass, r, n, s) \
 VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self);
 #include "defs/checksums.def"
 
-#define HASH_ALGORITHM_X(klass, r, n) \
+#define HASH_ALGORITHM_X(klass, r, n, s) \
 VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self);
 #include "defs/hashes.def"
 VALUE rb_digest_update(VALUE self, VALUE plaintext);
@@ -129,7 +127,7 @@ VALUE rb_digest_digest_io(VALUE self, VALUE io);
 VALUE rb_digest_digest_io_hex(VALUE self, VALUE io);
 VALUE rb_module_digest_list(VALUE self);
 VALUE rb_module_hmac_factory(int argc, VALUE *argv, VALUE self);
-#define HMAC_ALGORITHM_X(klass, r, n) \
+#define HMAC_ALGORITHM_X(klass, r, n, s) \
 VALUE rb_digest_hmac_ ## r ##_new(int argc, VALUE *argv, VALUE self);
 #include "defs/hmacs.def"
 VALUE rb_digest_hmac_key_eq(VALUE self, VALUE key);

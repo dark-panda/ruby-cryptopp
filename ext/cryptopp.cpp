@@ -24,8 +24,6 @@ $Id: $
 using namespace std;
 
 VALUE rb_mCryptoPP;
-VALUE rb_mCryptoPP_Constants;
-VALUE rb_mCryptoPP_Utils;
 VALUE rb_eCryptoPP_Error;
 VALUE rb_cCryptoPP_Cipher;
 VALUE rb_cCryptoPP_Digest;
@@ -35,15 +33,15 @@ VALUE rb_cCryptoPP_Digest_HMAC;
 	VALUE rb_cCryptoPP_Cipher_ ## r ;
 #include "defs/ciphers.def"
 
-#define CHECKSUM_ALGORITHM_X(klass, r, c) \
+#define CHECKSUM_ALGORITHM_X(klass, r, c, s) \
 	VALUE rb_cCryptoPP_Digest_ ## r ;
 #include "defs/checksums.def"
 
-#define HASH_ALGORITHM_X(klass, r, c) \
+#define HASH_ALGORITHM_X(klass, r, c, s) \
 	VALUE rb_cCryptoPP_Digest_ ## r ;
 #include "defs/hashes.def"
 
-#define HMAC_ALGORITHM_X(klass, r, c) \
+#define HMAC_ALGORITHM_X(klass, r, c, s) \
 	VALUE rb_cCryptoPP_Digest_HMAC_ ## r ;
 #include "defs/hmacs.def"
 
@@ -97,16 +95,6 @@ extern "C" void Init_cryptopp()
 	rb_mCryptoPP             = rb_define_module("CryptoPP");
 
 	/**
-	 * Constants module.
-	 */
-	rb_mCryptoPP_Constants   = rb_define_module_under(rb_mCryptoPP, "Constants");
-
-	/**
-	 * Utilities module.
-	 */
-	rb_mCryptoPP_Utils       = rb_define_module_under(rb_mCryptoPP, "Utils");
-
-	/**
 	 * Exception class.
 	 */
 	rb_eCryptoPP_Error       = rb_define_class_under(rb_mCryptoPP, "CryptoPPError", rb_eStandardError);
@@ -119,7 +107,7 @@ extern "C" void Init_cryptopp()
 	 * <tt>CryptoPP#cipher_factory</tt> factory method or by instantiating
 	 * the classes directly. For instance, the following are equivalent:
 	 *
-	 *	cipher = CryptoPP.cipher_factory(CryptoPP::Constants::AES_CIPHER)
+	 *	cipher = CryptoPP.cipher_factory(:aes)
 	 *	cipher = CryptoPP::AES.new
 	 *
 	 * Options include:
@@ -137,10 +125,10 @@ extern "C" void Init_cryptopp()
 	 * * <tt>:rounds</tt> - sets the number of rounds a cipher performs on
 	 *   block ciphers that support them.
 	 * * <tt>:rng</tt> - sets the random number generator to be used for things
-	 *   like creating initialization vectors and such. Use the <tt>*_RNG</tt>
-	 *   constants to choose an RNG. Not all operating systems and environments
-	 *   will support all RNGs. You can check which ones are supported with
-	 *   <tt>CryptoPP#rng_available?</tt>.
+	 *   like creating initialization vectors and such. Not all operating
+	 *   systems and environments will support all RNGs. You can check which
+	 *   ones are supported with <tt>CryptoPP#rng_available?</tt>. Possible
+	 *   values are :blocking, :non_blocking and :rand.
 	 *
 	 * All of these options have their equivalent setter and getter methods
 	 * if you need to modify them after initialization.
@@ -171,42 +159,20 @@ extern "C" void Init_cryptopp()
 		rb_define_singleton_method((rb_cCryptoPP_Cipher_ ## r), "new", CRYPTOPP_VALUE_FUNC(rb_cipher_ ## r ##_new), -1);
 #	include "defs/ciphers.def"
 
-#	define CHECKSUM_ALGORITHM_X(klass, r, c) \
+#	define CHECKSUM_ALGORITHM_X(klass, r, c, s) \
 		rb_cCryptoPP_Digest_ ## r = rb_define_class_under(rb_mCryptoPP, # klass, rb_cCryptoPP_Digest); \
 		rb_define_singleton_method((rb_cCryptoPP_Digest_ ## r), "new", CRYPTOPP_VALUE_FUNC(rb_digest_ ## r ##_new), -1);
 #	include "defs/checksums.def"
 
-#	define HASH_ALGORITHM_X(klass, r, c) \
+#	define HASH_ALGORITHM_X(klass, r, c, s) \
 		rb_cCryptoPP_Digest_ ## r = rb_define_class_under(rb_mCryptoPP, # klass, rb_cCryptoPP_Digest); \
 		rb_define_singleton_method((rb_cCryptoPP_Digest_ ## r), "new", CRYPTOPP_VALUE_FUNC(rb_digest_ ## r ##_new), -1);
 #	include "defs/hashes.def"
 
-#	define HMAC_ALGORITHM_X(klass, r, c) \
+#	define HMAC_ALGORITHM_X(klass, r, c, s) \
 		rb_cCryptoPP_Digest_HMAC_ ## r = rb_define_class_under(rb_mCryptoPP, # klass, rb_cCryptoPP_Digest_HMAC); \
 		rb_define_singleton_method((rb_cCryptoPP_Digest_HMAC_ ## r), "new", CRYPTOPP_VALUE_FUNC(rb_digest_hmac_ ## r ##_new), -1);
 #	include "defs/hmacs.def"
-
-	// hashes and checksums...
-
-#	define CHECKSUM_ALGORITHM_X_FORCE 1
-#	define CHECKSUM_ALGORITHM_X(klass, r, c) \
-		rb_define_const(rb_mCryptoPP_Constants, # r "_CHECKSUM", INT2NUM(r ## _CHECKSUM));
-#	include "defs/checksums.def"
-
-#	define HASH_ALGORITHM_X_FORCE 1
-#	define HASH_ALGORITHM_X(klass, r, c) \
-		rb_define_const(rb_mCryptoPP_Constants, # r "_DIGEST", INT2NUM(r ## _HASH));
-#	include "defs/hashes.def"
-
-#	define HMAC_ALGORITHM_X_FORCE 1
-#	define HMAC_ALGORITHM_X(klass, r, c) \
-		rb_define_const(rb_mCryptoPP_Constants, # r "_HMAC", INT2NUM(r ## _HMAC));
-#	include "defs/hmacs.def"
-
-	rb_define_const(rb_mCryptoPP_Constants, "PANAMA_DIGEST",   INT2NUM(PANAMA_HASH));
-	rb_define_const(rb_mCryptoPP_Constants, "SHA_DIGEST",      INT2NUM(SHA1_HASH));
-	rb_define_const(rb_mCryptoPP_Constants, "SHA_HMAC",        INT2NUM(SHA1_HMAC));
-
 
 	rb_define_module_function(rb_mCryptoPP, "cipher_list",      RUBY_METHOD_FUNC(rb_module_cipher_list),     0); /* in ciphers.cpp */
 	rb_define_module_function(rb_mCryptoPP, "cipher_name",      RUBY_METHOD_FUNC(rb_module_cipher_name),     1); /* in ciphers.cpp */

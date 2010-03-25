@@ -57,7 +57,6 @@ extern void cipher_free(JBase *c);
 static CipherEnum cipher_sym_to_const(VALUE cipher);
 static ModeEnum mode_sym_to_const(VALUE m);
 static PaddingEnum padding_sym_to_const(VALUE p);
-//static HashEnum hash_sym_to_const(VALUE hash);
 static RNGEnum rng_sym_to_const(VALUE rng);
 
 static bool cipher_enabled(CipherEnum cipher);
@@ -302,7 +301,6 @@ static JBase* cipher_factory(VALUE algorithm)
 	catch (Exception e) {
 		throw JException("Crypto++ exception: " + e.GetWhat());
 	}
-
 }
 
 /* Wraps a Cipher object into a Ruby object. May throw a JException if no
@@ -323,8 +321,8 @@ static VALUE wrap_cipher_in_ruby(JBase* cipher)
 
 /**
  *	call-seq:
- *		cipher_factory(cipher)           => Cipher
- *		cipher_factory(cipher, options)  => Cipher
+ *		cipher_factory(algorithm)           => Cipher
+ *		cipher_factory(algorithm, options)  => Cipher
  *
  * Creates a new Cipher object.
  *
@@ -1177,7 +1175,7 @@ VALUE rb_cipher_decrypt_io(VALUE self, VALUE in, VALUE out)
 
 /**
  * call-seq:
- *		cipher_name(cipher) => String
+ *		cipher_name(algorithm) => String
  *
  * Returns the name of a Cipher.
  */
@@ -1301,7 +1299,7 @@ VALUE rb_cipher_rng_name(VALUE self)
 
 /**
  * call-seq:
- *		cipher_type() => Integer
+ *		cipher_type() => Symbol
  *
  * Returns the type of cipher being used as a Symbol.
  */
@@ -1324,7 +1322,7 @@ VALUE rb_cipher_cipher_type(VALUE self)
 
 /**
  * call-seq:
- *		cipher_enabled?(cipher) => boolean
+ *		cipher_enabled?(algorithm) => boolean
  *
  * Singleton method to check for the availability of a cipher algorithm.
  */

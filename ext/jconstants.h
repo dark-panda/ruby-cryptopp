@@ -109,6 +109,8 @@ enum PaddingEnum {
 // Hashes... and HMAC stuff, too...
 
 enum HashEnum {
+	UNKNOWN_HASH = -1,
+
 	// These are checksums, not cryptographic hashes...
 
 	ADLER32_CHECKSUM,

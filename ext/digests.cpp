@@ -32,9 +32,10 @@ extern void hash_free(JHash *c);
 
 // forward declarations
 
-static bool hash_enabled(HashEnum hash);
+static HashEnum digest_sym_to_const(VALUE hash);
+static bool digest_enabled(HashEnum hash);
 static void digest_options(VALUE self, VALUE options);
-static JHash* digest_factory(long algorithm);
+static JHash* digest_factory(VALUE algorithm);
 static VALUE wrap_digest_in_ruby(JHash* hash);
 static string digest_digest(VALUE self, bool hex);
 static string digest_plaintext(VALUE self, bool hex);
@@ -49,19 +50,57 @@ static string digest_hmac_key_eq(VALUE self, VALUE key, bool hex);
 static string digest_hmac_key(VALUE self, bool hex);
 static string module_hmac_digest(int argc, VALUE *argv, VALUE self, bool hex);
 
+static HashEnum digest_sym_to_const(VALUE c)
+{
+	HashEnum hash = UNKNOWN_HASH;
+	ID id = SYM2ID(c);
+
+	if (id == rb_intern("panama")) {
+		hash = PANAMA_HASH;
+	}
+	else if (id == rb_intern("sha")) {
+		hash = SHA1_HASH;
+	}
+	else if (id == rb_intern("sha_hmac")) {
+		hash = SHA1_HMAC;
+	}
+#	define CHECKSUM_ALGORITHM_X_FORCE 1
+#	define CHECKSUM_ALGORITHM_X(klass, r, c, s) \
+		else if (id == rb_intern(# s)) { \
+			hash = r ## _CHECKSUM; \
+		}
+#	include "defs/checksums.def"
+
+#	define HASH_ALGORITHM_X_FORCE 1
+#	define HASH_ALGORITHM_X(klass, r, c, s) \
+		else if (id == rb_intern(# s)) { \
+			hash = r ## _HASH; \
+		}
+#	include "defs/hashes.def"
+
+#	define HMAC_ALGORITHM_X_FORCE 1
+#	define HMAC_ALGORITHM_X(klass, r, c, s) \
+		else if (id == rb_intern(# s)) { \
+			hash = r ## _HMAC; \
+		}
+#	include "defs/hmacs.def"
+	return hash;
+}
+
+
 /* See if a hash algorithm is enabled. */
-static bool hash_enabled(HashEnum hash)
+static bool digest_enabled(HashEnum hash)
 {
 	switch (hash) {
-#		define CHECKSUM_ALGORITHM_X(klass, r, c) \
+#		define CHECKSUM_ALGORITHM_X(klass, r, c, s) \
 			case r ##_CHECKSUM:
 #		include "defs/checksums.def"
 
-#		define HASH_ALGORITHM_X(klass, r, c) \
+#		define HASH_ALGORITHM_X(klass, r, c, s) \
 			case r ##_HASH:
 #		include "defs/hashes.def"
 
-#		define HMAC_ALGORITHM_X(klass, r, c) \
+#		define HMAC_ALGORITHM_X(klass, r, c, s) \
 			case r ##_HMAC:
 #		include "defs/hmacs.def"
 			return true;
@@ -106,35 +145,33 @@ static void digest_options(VALUE self, VALUE options)
 
 
 /* Creates a new Digest object. */
-static JHash* digest_factory(long algorithm)
+static JHash* digest_factory(VALUE algorithm)
 {
-	if (!hash_enabled((enum HashEnum) algorithm)) {
-		throw JException("the requested algorithm has been disabled");
-	}
-	else {
-		try {
-			switch (algorithm) {
-#				define CHECKSUM_ALGORITHM_X(klass, r, c) \
-					case r ## _CHECKSUM: \
-						return static_cast<c*>(new c);
-#				include "defs/checksums.def"
+	try {
+		switch (digest_sym_to_const(algorithm)) {
+			default:
+				throw JException("the requested algorithm cannot be found");
+			break;
 
-#				define HASH_ALGORITHM_X(klass, r, c) \
-					case r ## _HASH: \
-						return static_cast<c*>(new c);
-#				include "defs/hashes.def"
+#			define CHECKSUM_ALGORITHM_X(klass, r, c, s) \
+				case r ## _CHECKSUM: \
+					return static_cast<c*>(new c);
+#			include "defs/checksums.def"
 
-#				define HMAC_ALGORITHM_X(klass, r, c) \
-					case r ## _HMAC: \
-						return static_cast<c*>(new c);
-#				include "defs/hmacs.def"
-			}
-		}
-		catch (Exception& e) {
-			throw JException("Crypto++ exception: " + e.GetWhat());
+#			define HASH_ALGORITHM_X(klass, r, c, s) \
+				case r ## _HASH: \
+					return static_cast<c*>(new c);
+#			include "defs/hashes.def"
+
+#			define HMAC_ALGORITHM_X(klass, r, c, s) \
+				case r ## _HMAC: \
+					return static_cast<c*>(new c);
+#			include "defs/hmacs.def"
 		}
 	}
-	return NULL;
+	catch (Exception& e) {
+		throw JException("Crypto++ exception: " + e.GetWhat());
+	}
 }
 
 /* Wraps a Digest/HMAC object into a Ruby object. May throw a JException if no
@@ -142,21 +179,21 @@ static JHash* digest_factory(long algorithm)
 static VALUE wrap_digest_in_ruby(JHash* hash)
 {
 	const type_info& info = typeid(*hash);
-#	define CHECKSUM_ALGORITHM_X(klass, r, c) \
+#	define CHECKSUM_ALGORITHM_X(klass, r, c, s) \
 		if (info == typeid(c)) { \
 			return Data_Wrap_Struct(rb_cCryptoPP_Digest_## r, hash_mark, hash_free, hash); \
 		} \
 		else
 #	include "defs/checksums.def"
 
-#	define HASH_ALGORITHM_X(klass, r, c) \
+#	define HASH_ALGORITHM_X(klass, r, c, s) \
 		if (info == typeid(c)) { \
 			return Data_Wrap_Struct(rb_cCryptoPP_Digest_## r, hash_mark, hash_free, hash); \
 		} \
 		else
 #	include "defs/hashes.def"
 
-#	define HMAC_ALGORITHM_X(klass, r, c) \
+#	define HMAC_ALGORITHM_X(klass, r, c, s) \
 		if (info == typeid(c)) { \
 			return Data_Wrap_Struct(rb_cCryptoPP_Digest_HMAC_## r, hash_mark, hash_free, hash); \
 		} \
@@ -169,12 +206,11 @@ static VALUE wrap_digest_in_ruby(JHash* hash)
 
 /**
  *	call-seq:
- *		digest_factory(constant) => Digest
- *		digest_factory(constant, plaintext) => Digest
- *		digest_factory(constant, options) => Digest
+ *		digest_factory(algorithm) => Digest
+ *		digest_factory(algorithm, plaintext) => Digest
+ *		digest_factory(algorithm, options) => Digest
  *
- * Creates a new Digest object. Use a <tt>*_DIGEST</tt> constant to choose an
- * algorithm.
+ * Creates a new Digest object.
  *
  * See the Digest class for available options.
  */
@@ -185,13 +221,13 @@ VALUE rb_module_digest_factory(int argc, VALUE *argv, VALUE self)
 
 	rb_scan_args(argc, argv, "11", &algorithm, &options);
 	{
-		long a = NUM2LONG(algorithm);
+		HashEnum a = digest_sym_to_const(algorithm);
 		if (!IS_NON_HMAC(a)) {
 			rb_raise(rb_eCryptoPP_Error, "invalid digest algorithm");
 		}
 		else {
 			try {
-				hash = digest_factory(a);
+				hash = digest_factory(algorithm);
 				retval = wrap_digest_in_ruby(hash);
 			}
 			catch (Exception& e) {
@@ -214,13 +250,13 @@ VALUE rb_module_digest_factory(int argc, VALUE *argv, VALUE self)
 	}
 }
 
-#define CHECKSUM_ALGORITHM_X(klass, r, n) \
+#define CHECKSUM_ALGORITHM_X(klass, r, n, s) \
 VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 { \
 	VALUE options, retval; \
 	JHash* hash = NULL; \
 	try { \
-		hash = digest_factory(r ## _CHECKSUM); \
+		hash = digest_factory(ID2SYM(rb_intern(# s))); \
 		retval = wrap_digest_in_ruby(hash); \
 	} \
 	catch (Exception& e) { \
@@ -243,13 +279,13 @@ VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 }
 #include "defs/checksums.def"
 
-#define HASH_ALGORITHM_X(klass, r, n) \
+#define HASH_ALGORITHM_X(klass, r, n, s) \
 VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 { \
 	VALUE options, retval; \
 	JHash* hash = NULL; \
 	try { \
-		hash = digest_factory(r ## _HASH); \
+		hash = digest_factory(ID2SYM(rb_intern(# s))); \
 		retval = wrap_digest_in_ruby(hash); \
 	} \
 	catch (Exception& e) { \
@@ -452,7 +488,7 @@ VALUE rb_digest_inspect(VALUE self)
 
 /**
  * Compares a Digest directly to a String. We'll attempt to detect whether or
- * not the String is in binary or hex based on the number of characters in 
+ * not the String is in binary or hex based on the number of characters in
  * it -- if it's exactly double the expected number of bytes, then we'll
  * assume we've got a hex String.
  */
@@ -492,7 +528,7 @@ static string module_digest(int argc, VALUE *argv, VALUE self, bool hex)
 		rb_raise(rb_eArgError, "wrong number of arguments (%d for 2)", argc);
 	}
 
-	if (IS_HMAC(NUM2LONG(argv[0]))) {
+	if (IS_HMAC(digest_sym_to_const(argv[0]))) {
 		rb_scan_args(argc, argv, "21", &algorithm, &plaintext, &key);
 		Check_Type(plaintext, T_STRING);
 		Check_Type(key, T_STRING);
@@ -504,9 +540,9 @@ static string module_digest(int argc, VALUE *argv, VALUE self, bool hex)
 
 	try {
 		string retval;
-		hash = digest_factory(NUM2LONG(algorithm));
+		hash = digest_factory(algorithm);
 		hash->setPlaintext(string(StringValuePtr(plaintext), RSTRING(plaintext)->len));
-		if (IS_HMAC(NUM2LONG(algorithm))) {
+		if (IS_HMAC(digest_sym_to_const(algorithm))) {
 			((JHMAC*) hash)->setKey(string(StringValuePtr(key), RSTRING(key)->len));
 		}
 		hash->hash();
@@ -525,10 +561,9 @@ static string module_digest(int argc, VALUE *argv, VALUE self, bool hex)
 
 /**
  * call-seq:
- *		digest(constant, plaintext) => String
+ *		digest(algorithm, plaintext) => String
  *
- * Digest the plaintext and returns the result in binary. Use the
- * <tt>*_DIGEST</tt> constants to select an algorithm.
+ * Digest the plaintext and returns the result in binary.
  */
 VALUE rb_module_digest(int argc, VALUE *argv, VALUE self)
 {
@@ -538,10 +573,9 @@ VALUE rb_module_digest(int argc, VALUE *argv, VALUE self)
 
 /**
  * call-seq:
- *		digest_hex(constant, plaintext) => String
+ *		digest_hex(algorithm, plaintext) => String
  *
- * Digest the plaintext and returns the result in hex. Use the
- * <tt>*_DIGEST</tt> constants to select an algorithm.
+ * Digest the plaintext and returns the result in hex.
  */
 VALUE rb_module_digest_hex(int argc, VALUE *argv, VALUE self)
 {
@@ -559,7 +593,7 @@ static string module_digest_io(int argc, VALUE *argv, VALUE self, bool hex)
 	rb_scan_args(argc, argv, "2", &algorithm, &io);
 	try {
 		string retval;
-		hash = digest_factory(NUM2LONG(algorithm));
+		hash = digest_factory(algorithm);
 		retval = hash->hashRubyIO(&io, hex);
 
 		delete hash;
@@ -615,7 +649,7 @@ VALUE rb_module_digest_io_hex(int argc, VALUE *argv, VALUE self)
  */
 VALUE rb_module_digest_enabled(VALUE self, VALUE d)
 {
-	if (hash_enabled((enum HashEnum) NUM2INT(d))) {
+	if (digest_enabled(digest_sym_to_const(d))) {
 		return Qtrue;
 	}
 	else {
@@ -632,17 +666,17 @@ VALUE rb_module_digest_name(VALUE self, VALUE h)
 			rb_raise(rb_eCryptoPP_Error, "could not find a valid digest type");
 		break;
 
-#		define CHECKSUM_ALGORITHM_X(klass, r, c) \
+#		define CHECKSUM_ALGORITHM_X(klass, r, c, s) \
 			case r ## _CHECKSUM: \
 				return rb_tainted_str_new2(c::getHashName().c_str());
 #		include "defs/checksums.def"
 
-#		define HASH_ALGORITHM_X(klass, r, c) \
+#		define HASH_ALGORITHM_X(klass, r, c, s) \
 			case r ## _HASH: \
 				return rb_tainted_str_new2(c::getHashName().c_str());
 #		include "defs/hashes.def"
 
-# 		define HMAC_ALGORITHM_X(klass, r, c) \
+# 		define HMAC_ALGORITHM_X(klass, r, c, s) \
 			case r ## _HMAC: \
 				return rb_tainted_str_new2(c::getHashName().c_str());
 #		include "defs/hmacs.def"
@@ -729,11 +763,11 @@ VALUE rb_module_digest_list(VALUE self)
 	VALUE ary;
 	ary = rb_ary_new();
 
-#	define CHECKSUM_ALGORITHM_X(klass, r, c) \
+#	define CHECKSUM_ALGORITHM_X(klass, r, c, s) \
 		rb_ary_push(ary, INT2NUM(r ##_CHECKSUM));
 #	include "defs/checksums.def"
 
-#	define HASH_ALGORITHM_X(klass, r, c) \
+#	define HASH_ALGORITHM_X(klass, r, c, s) \
 		rb_ary_push(ary, INT2NUM(r ##_HASH));
 #	include "defs/hashes.def"
 
@@ -782,13 +816,12 @@ VALUE rb_module_hmac_factory(int argc, VALUE *argv, VALUE self)
 		VALUE algorithm = argv[0];
 		VALUE retval;
 
-		long a = NUM2LONG(algorithm);
-		if (!IS_HMAC(a)) {
+		if (!IS_HMAC(digest_sym_to_const(algorithm))) {
 			rb_raise(rb_eCryptoPP_Error, "invalid HMAC algorithm");
 		}
 		else {
 			try {
-				hash = digest_factory(a);
+				hash = digest_factory(algorithm);
 				retval = wrap_digest_in_ruby(hash);
 			}
 			catch (Exception& e) {
@@ -818,7 +851,7 @@ VALUE rb_module_hmac_factory(int argc, VALUE *argv, VALUE self)
 	}
 }
 
-#define HMAC_ALGORITHM_X(klass, r, n) \
+#define HMAC_ALGORITHM_X(klass, r, n, s) \
 VALUE rb_digest_hmac_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 { \
 	if (argc > 2) { \
@@ -828,7 +861,7 @@ VALUE rb_digest_hmac_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 		VALUE retval; \
 		JHash* hash = NULL; \
 		try { \
-			hash = digest_factory(r ## _HMAC); \
+			hash = digest_factory(ID2SYM(rb_intern(# s))); \
 			retval = wrap_digest_in_ruby(hash); \
 		} \
 		catch (Exception& e) { \
@@ -964,7 +997,7 @@ static string module_hmac_digest(int argc, VALUE *argv, VALUE self, bool hex)
 	Check_Type(plaintext, T_STRING);
 	{
 		string retval;
-		hash = digest_factory(NUM2LONG(algorithm));
+		hash = digest_factory(algorithm);
 		hash->setPlaintext(string(StringValuePtr(plaintext), RSTRING(plaintext)->len));
 		if (argc == 3) {
 			Check_Type(plaintext, T_STRING);
@@ -980,8 +1013,8 @@ static string module_hmac_digest(int argc, VALUE *argv, VALUE self, bool hex)
 
 /**
  * call-seq:
- *		digest(constant, plaintext) => String
- *		digest(constant, plaintext, key) => String
+ *		digest(algorithm, plaintext) => String
+ *		digest(algorithm, plaintext, key) => String
  *
  * Singleton method for digesting with a HMAC. The plaintext and key values
  * are in binary and the return value is in binary.
@@ -994,8 +1027,8 @@ VALUE rb_module_hmac_digest(int argc, VALUE *argv, VALUE self)
 
 /**
  * call-seq:
- *		digest_hex(constant, plaintext) => String
- *		digest_hex(constant, plaintext, key) => String
+ *		digest_hex(algorithm, plaintext) => String
+ *		digest_hex(algorithm, plaintext, key) => String
  *
  * Singleton method for digesting with a HMAC. The plaintext and key values
  * are in binary and the return value is in hex.
@@ -1015,8 +1048,8 @@ VALUE rb_module_hmac_list(VALUE self)
 	VALUE ary;
 	ary = rb_ary_new();
 
-#	define HMAC_ALGORITHM_X(klass, r, c) \
-		rb_ary_push(ary, INT2NUM(r ##_HMAC));
+#	define HMAC_ALGORITHM_X(klass, r, c, s) \
+		rb_ary_push(ary, ID2SYM(rb_intern(# s)));
 #	include "defs/hmacs.def"
 
 	return ary;
