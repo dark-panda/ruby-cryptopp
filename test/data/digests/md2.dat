@@ -1,4 +1,4 @@
-algorithm	digest	MD2
+algorithm	digest	md2
 fields	plaintext	digest_hex
 test		8350e5a3e24c153df2275c9f80692773
 test	a	32ec01ec4a6dac72c0ab96fb34c0b5d1

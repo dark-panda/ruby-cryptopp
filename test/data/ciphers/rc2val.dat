@@ -1,4 +1,4 @@
-algorithm	cipher	RC2
+algorithm	cipher	rc2
 fields	key_length	effective_key_length	key_hex	plaintext_hex	ciphertext_hex
 test	8	63	0000000000000000	0000000000000000	ebb773f993278eff
 test	8	64	ffffffffffffffff	ffffffffffffffff	278b27e42e2f0d49

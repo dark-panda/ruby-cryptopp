@@ -1,6 +1,6 @@
 
 require 'rubygems'
-require 'cryptopp'
+require 'ext/cryptopp'
 
 module TestHelper
 	def readfile(file)
@@ -10,12 +10,7 @@ module TestHelper
 				case l.shift
 					when 'algorithm'
 						type = l.shift.upcase
-						algorithm = l.shift
-						if CryptoPP.cipher_enabled? CryptoPP::Constants.const_get("#{algorithm}_#{type}")
-							algorithm = CryptoPP::Constants.const_get("#{algorithm}_#{type}")
-						else
-							return
-						end
+						algorithm = l.shift.to_sym
 					when 'fields'
 						fields = l
 					when 'test'
@@ -31,9 +26,9 @@ module TestHelper
 								when 'key_repeat'
 									options[:key] || options[:key_hex] *= l.shift.to_i
 								when 'block_mode'
-									options[:block_mode] = CryptoPP::Constants.const_get("#{l.shift}_BLOCK_MODE")
+									options[:block_mode] = l.shift.to_sym
 								when 'padding'
-									options[:padding] = CryptoPP::Constants.const_get("#{l.shift}_PADDING")
+									options[:padding] = l.shift.to_sym
 								else
 									options[i.to_sym] = l.shift
 							end

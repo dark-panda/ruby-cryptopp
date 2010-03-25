@@ -1,4 +1,4 @@
-algorithm	checksum	CRC32
+algorithm	checksum	crc32
 fields	plaintext	digest_hex
 test		00000000
 test	a	43beb7e8

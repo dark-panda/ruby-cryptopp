@@ -1,4 +1,4 @@
-algorithm	cipher	RC5
+algorithm	cipher	rc5
 fields	key_hex	plaintext_hex	ciphertext_hex	rounds
 test	00000000000000000000000000000000	0000000000000000	21a5dbee154b8f6d	12
 test	915f4619be41b2516355a50110a9ce91	21a5dbee154b8f6d	f7c013ac5b2b8952	12

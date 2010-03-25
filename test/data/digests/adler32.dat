@@ -1,4 +1,4 @@
-algorithm	checksum	ADLER32
+algorithm	checksum	adler32
 fields	plaintext	digest_hex
 test		00000001
 test	a	00620062

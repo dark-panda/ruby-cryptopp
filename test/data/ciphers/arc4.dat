@@ -1,4 +1,4 @@
-algorithm	cipher	ARC4
+algorithm	cipher	arc4
 fields	key_hex	plaintext_hex	ciphertext_hex_cont
 test	0123456789abcdef	0123456789abcdef	75b7878099e0c596
 test	0123456789abcdef	0000000000000000	7494c2e7104b0879

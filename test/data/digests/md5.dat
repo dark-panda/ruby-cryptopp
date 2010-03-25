@@ -1,4 +1,4 @@
-algorithm	digest	MD5
+algorithm	digest	md5
 fields	plaintext	digest_hex
 test		d41d8cd98f00b204e9800998ecf8427e
 test	a	0cc175b9c0f1b6a831c399e269772661

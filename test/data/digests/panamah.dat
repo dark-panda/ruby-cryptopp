@@ -1,8 +1,8 @@
-algorithm	digest	PANAMA_LITTLE_ENDIAN
+algorithm	digest	panama_le
 fields	plaintext	digest_hex
 test		aa0cc954d757d7ac7779ca3342334ca471abd47d5952ac91ed837ecd5b16922b
 test	The quick brown fox jumps over the lazy dog	5f5ca355b90ac622b0aa7e654ef5f27e9e75111415b48b8afe3add1c6b89cba1
-algorithm	digest	PANAMA_BIG_ENDIAN
+algorithm	digest	panama_be
 fields	plaintext	digest_hex
 test		e81aa04523532dd7267e5c5bc3ba0e289837a62ba032350351980e960a84b0af
 test	The quick brown fox jumps over the lazy dog	8fa7dadce0110f979a0b795e76b2c25628d8bda88747758149c42e3bc13f85bc

@@ -1,4 +1,4 @@
-algorithm	cipher	GOST
+algorithm	cipher	gost
 fields	key_hex	plaintext_hex	ciphertext_hex
 test	be5ec2006cff9dcf52354959f1ff0cbfe95061b5a648c10387069c25997c0672	0df82802b741a292	07f9027df7f7df89
 test	b385272ac8d72a5a8b344bc80363ac4d09bf58f41f540624cbcb8fdcf55307d7	1354ee9c0a11cd4c	4fb50536f960a7b1
