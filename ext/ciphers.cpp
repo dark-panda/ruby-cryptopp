@@ -54,6 +54,12 @@ extern void cipher_free(JBase *c);
 
 // forward declarations
 
+static CipherEnum cipher_sym_to_const(VALUE cipher);
+static ModeEnum mode_sym_to_const(VALUE m);
+static PaddingEnum padding_sym_to_const(VALUE p);
+//static HashEnum hash_sym_to_const(VALUE hash);
+static RNGEnum rng_sym_to_const(VALUE rng);
+
 static bool cipher_enabled(CipherEnum cipher);
 static void cipher_options(VALUE self, VALUE options);
 static JBase* cipher_factory(long algorithm);
@@ -70,12 +76,90 @@ static string cipher_key(VALUE self, bool hex);
 static VALUE cipher_encrypt(VALUE self, bool hex);
 static VALUE cipher_decrypt(VALUE self, bool hex);
 
+static CipherEnum cipher_sym_to_const(VALUE c)
+{
+	CipherEnum cipher = UNKNOWN_CIPHER;
+	ID id = SYM2ID(c);
+
+	if (id == rb_intern("rijndael")) {
+		cipher = AES_CIPHER;
+	}
+	else if (id == rb_intern("panama")) {
+		cipher = PANAMA_CIPHER;
+	}
+	else if (id == rb_intern("seal")) {
+		cipher = SEAL_CIPHER;
+	}
+#	define CIPHER_ALGORITHM_X_FORCE 1
+#	define CIPHER_ALGORITHM_X(klass, r, c, s) \
+		else if (id == rb_intern(# s)) { \
+			cipher = r ## _CIPHER; \
+		}
+#	include "defs/ciphers.def"
+	return cipher;
+}
+
+
+static ModeEnum mode_sym_to_const(VALUE m)
+{
+	ModeEnum mode = UNKNOWN_MODE;
+	ID id = SYM2ID(m);
+
+	if (id == rb_intern("counter")) {
+		mode = CTR_MODE;
+	}
+#	define BLOCK_MODE_X(c, s) \
+		else if (id == rb_intern(# s)) { \
+			mode = c ## _MODE; \
+		}
+#	include "defs/block_modes.def"
+	return mode;
+}
+
+static PaddingEnum padding_sym_to_const(VALUE p)
+{
+	PaddingEnum padding = UNKNOWN_PADDING;
+	ID id = SYM2ID(p);
+
+	if (id == rb_intern("none")) {
+		padding = NO_PADDING;
+	}
+	else if (id == rb_intern("zeroes")) {
+		padding = ZEROS_PADDING;
+	}
+	else if (id == rb_intern("one_and_zeroes")) {
+		padding = ONE_AND_ZEROS_PADDING;
+	}
+#	define PADDING_X(c, s) \
+		else if (id == rb_intern(# s)) { \
+			padding = c ## _PADDING; \
+		}
+#	include "defs/paddings.def"
+	return padding;
+}
+
+static RNGEnum rng_sym_to_const(VALUE r)
+{
+	RNGEnum rng = UNKNOWN_RNG;
+	ID id = SYM2ID(r);
+
+	if (false) {
+		// no-op so we can use our x-macro
+	}
+#	define RNG_X(c, s) \
+		else if (id == rb_intern(# s)) { \
+			rng = c ## _RNG; \
+		}
+#	include "defs/rngs.def"
+	return rng;
+}
+
 
 /* See if a cipher algorithm is enabled. */
 static bool cipher_enabled(CipherEnum cipher)
 {
 	switch (cipher) {
-#		define CIPHER_ALGORITHM_X(klass, r, c) \
+#		define CIPHER_ALGORITHM_X(klass, r, c, s) \
 			case r ##_CIPHER:
 #		include "defs/ciphers.def"
 			return true;
@@ -201,15 +285,15 @@ static void cipher_options(VALUE self, VALUE options)
 
 /* Creates a new Crypto++ cipher. May throw a JException if no suitable cipher
  * is found. May throw a JException if no suitable cipher is found. */
-static JBase* cipher_factory(long algorithm)
+static JBase* cipher_factory(VALUE algorithm)
 {
 	try {
-		switch (algorithm) {
+		switch (cipher_sym_to_const(algorithm)) {
 			default:
-				throw JException("the requested algorithm has been disabled");
+				throw JException("the requested algorithm cannot be found");
 			break;
 
-#			define CIPHER_ALGORITHM_X(klass, r, c) \
+#			define CIPHER_ALGORITHM_X(klass, r, c, s) \
 				case r ## _CIPHER: \
 					return static_cast<c*>(new c);
 #			include "defs/ciphers.def"
@@ -226,7 +310,7 @@ static JBase* cipher_factory(long algorithm)
 static VALUE wrap_cipher_in_ruby(JBase* cipher)
 {
 	const type_info& info = typeid(*cipher);
-#	define CIPHER_ALGORITHM_X(klass, r, c) \
+#	define CIPHER_ALGORITHM_X(klass, r, c, s) \
 		if (info == typeid(c)) { \
 			return Data_Wrap_Struct(rb_cCryptoPP_Cipher_## r, cipher_mark, cipher_free, cipher); \
 		} \
@@ -239,11 +323,10 @@ static VALUE wrap_cipher_in_ruby(JBase* cipher)
 
 /**
  *	call-seq:
- *		cipher_factory(constant)           => Cipher
- *		cipher_factory(constant, options)  => Cipher
+ *		cipher_factory(cipher)           => Cipher
+ *		cipher_factory(cipher, options)  => Cipher
  *
- * Creates a new Cipher object. Use a <tt>*_CIPHER</tt> constant to choose an
- * algorithm.
+ * Creates a new Cipher object.
  *
  * See the Cipher class for available options.
  */
@@ -252,7 +335,7 @@ VALUE rb_module_cipher_factory(int argc, VALUE *argv, VALUE self)
 	VALUE algorithm, options, retval;
 	rb_scan_args(argc, argv, "11", &algorithm, &options);
 	try {
-		retval = wrap_cipher_in_ruby(cipher_factory(NUM2LONG(algorithm)));
+		retval = wrap_cipher_in_ruby(cipher_factory(algorithm));
 	}
 	catch (Exception& e) {
 		rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str());
@@ -263,13 +346,13 @@ VALUE rb_module_cipher_factory(int argc, VALUE *argv, VALUE self)
 	return retval;
 }
 
-#define CIPHER_ALGORITHM_X(klass, r, n) \
+#define CIPHER_ALGORITHM_X(klass, r, n, s) \
 VALUE rb_cipher_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
 { \
 	VALUE options, retval; \
 	rb_scan_args(argc, argv, "01", &options); \
 	try { \
-		retval = wrap_cipher_in_ruby(cipher_factory(r ## _CIPHER)); \
+		retval = wrap_cipher_in_ruby(cipher_factory(ID2SYM(rb_intern(# s)))); \
 	} \
 	catch (Exception& e) { \
 		rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str()); \
@@ -382,30 +465,15 @@ VALUE rb_cipher_iv_hex(VALUE self)
 
 /**
  * call-seq:
- *		block_mode=(constant) => Integer
+ *		block_mode=(mode) => Symbol
  *
- * Set the block mode on block ciphers using the <tt>*_BLOCK_MODE</tt>
- * constants. Returns the mode as set and may raise a CryptoPPError if the
- * mode is invalid or you are using a stream cipher.
+ * Set the block mode on block ciphers. Returns the mode as set and may raise
+ * a CryptoPPError if the mode is invalid or you are using a stream cipher.
  */
 VALUE rb_cipher_block_mode_eq(VALUE self, VALUE m)
 {
 	JBase *cipher = NULL;
-	int mode = UNKNOWN_MODE;
-	if (TYPE(m) == T_SYMBOL) {
-		ID id = SYM2ID(m);
-		if (id == rb_intern("counter")) {
-			mode = CTR_MODE;
-		}
-#		define BLOCK_MODE_X(c, s) \
-			else if (id == rb_intern(# s)) { \
-				mode = c ## _MODE; \
-			}
-#		include "defs/block_modes.def"
-	}
-	else {
-		mode = NUM2INT(m);
-	}
+	ModeEnum mode = mode_sym_to_const(m);
 
 	if (!VALID_MODE(mode)) {
 		rb_raise(rb_eCryptoPP_Error, "invalid cipher mode");
@@ -415,7 +483,7 @@ VALUE rb_cipher_block_mode_eq(VALUE self, VALUE m)
 		rb_raise(rb_eCryptoPP_Error, "can't set mode on stream ciphers");
 	}
 	else {
-		((JCipher*) cipher)->setMode((enum ModeEnum) mode);
+		((JCipher*) cipher)->setMode(mode);
 		return m;
 	}
 }
@@ -432,7 +500,7 @@ VALUE rb_cipher_block_mode(VALUE self)
 {
 	JBase *cipher = NULL;
 	Data_Get_Struct(self, JBase, cipher);
-	int mode = ((JCipher*) cipher)->getMode();
+	ModeEnum mode = ((JCipher*) cipher)->getMode();
 	if (IS_STREAM_CIPHER(cipher->getCipherType())) {
 		return Qnil;
 	}
@@ -446,9 +514,9 @@ VALUE rb_cipher_block_mode(VALUE self)
 
 /**
  * call-seq:
- *		padding=(constant) => Integer
+ *		padding=(padding) => Symbol
  *
- * Set the padding to use using the <tt>*_PADDING</tt> constants.
+ * Set the padding on block ciphers.
  *
  * Note that not all block cipher modes can use all of the padding types.
  * A CryptoPPError will be raised if you try to set an invalid padding. Also
@@ -460,27 +528,7 @@ VALUE rb_cipher_block_mode(VALUE self)
 VALUE rb_cipher_padding_eq(VALUE self, VALUE p)
 {
 	JBase *cipher = NULL;
-	int padding = UNKNOWN_PADDING;
-	if (TYPE(p) == T_SYMBOL) {
-		ID id = SYM2ID(p);
-		if (id == rb_intern("none")) {
-			padding = NO_PADDING;
-		}
-		else if (id == rb_intern("zeroes")) {
-			padding = ZEROS_PADDING;
-		}
-		else if (id == rb_intern("one_and_zeroes")) {
-			padding = ONE_AND_ZEROS_PADDING;
-		}
-#		define PADDING_X(c, s) \
-			else if (id == rb_intern(# s)) { \
-				padding = c ## _PADDING; \
-			}
-#		include "defs/paddings.def"
-	}
-	else {
-		padding = NUM2INT(p);
-	}
+	PaddingEnum padding = padding_sym_to_const(p);
 
 	if (!VALID_PADDING(padding)) {
 		rb_raise(rb_eCryptoPP_Error, "invalid cipher padding");
@@ -490,9 +538,9 @@ VALUE rb_cipher_padding_eq(VALUE self, VALUE p)
 		rb_raise(rb_eCryptoPP_Error, "can't set padding on stream ciphers");
 	}
 	else {
-		((JCipher*) cipher)->setPadding((enum PaddingEnum) padding);
+		((JCipher*) cipher)->setPadding(padding);
 		if (((JCipher*) cipher)->getPadding() != padding) {
-			rb_raise(rb_eCryptoPP_Error, "Padding '%s' cannot be used with mode '%s'", JCipher::getPaddingName((enum PaddingEnum) padding).c_str(), ((JCipher*) cipher)->getModeName().c_str());
+			rb_raise(rb_eCryptoPP_Error, "Padding '%s' cannot be used with mode '%s'", JCipher::getPaddingName(padding).c_str(), ((JCipher*) cipher)->getModeName().c_str());
 		}
 		else {
 			return p;
@@ -512,7 +560,7 @@ VALUE rb_cipher_padding(VALUE self)
 {
 	JBase *cipher = NULL;
 	Data_Get_Struct(self, JBase, cipher);
-	int padding = ((JCipher*) cipher)->getPadding();
+	PaddingEnum padding = ((JCipher*) cipher)->getPadding();
 	if (IS_STREAM_CIPHER(cipher->getCipherType())) {
 		return Qnil;
 	}
@@ -526,10 +574,10 @@ VALUE rb_cipher_padding(VALUE self)
 
 /**
  * call-seq:
- *		rng=(constant) => Integer
+ *		rng=(rng) => Symbol
  *
- * Set the random number generator to use using the <tt>*_RNG</tt> constants.
- * A CryptoPPError will be raised if an RNG is not available on the system.
+ * Set the random number generator to use for IVs. A CryptoPPError will be
+ * raised if an RNG is not available on the system.
  *
  * RNGs are used to create random initialization vectors using
  * <tt>rand_iv</tt>. The default is a non-blocking RNG, such as
@@ -538,28 +586,15 @@ VALUE rb_cipher_padding(VALUE self)
 VALUE rb_cipher_rng_eq(VALUE self, VALUE r)
 {
 	JBase *cipher = NULL;
-	int rng = UNKNOWN_RNG;
-	if (TYPE(r) == T_SYMBOL) {
-		ID id = SYM2ID(r);
-		if (false) {
-			// no-op so we can use our x-macro
-		}
-#		define RNG_X(c, s) \
-			else if (id == rb_intern(# s)) { \
-				rng = c ## _RNG; \
-			}
-#		include "defs/rngs.def"
-	}
-	else {
-		rng = NUM2INT(r);
-	}
+	RNGEnum rng = rng_sym_to_const(r);
+
 	if (!VALID_RNG(rng)) {
 		rb_raise(rb_eCryptoPP_Error, "invalid cipher RNG");
 	}
 	Data_Get_Struct(self, JBase, cipher);
-	((JCipher*) cipher)->setRNG((enum RNGEnum) rng);
+	((JCipher*) cipher)->setRNG(rng);
 	if (((JCipher*) cipher)->getRNG() != rng) {
-		rb_raise(rb_eCryptoPP_Error, "RNG '%s' is unavailable", JBase::getRNGName((enum RNGEnum) rng).c_str());
+		rb_raise(rb_eCryptoPP_Error, "RNG '%s' is unavailable", JBase::getRNGName(rng).c_str());
 	}
 	else {
 		return r;
@@ -577,7 +612,7 @@ VALUE rb_cipher_rng(VALUE self)
 {
 	JBase *cipher = NULL;
 	Data_Get_Struct(self, JBase, cipher);
-	int rng = ((JCipher*) cipher)->getRNG();
+	RNGEnum rng = ((JCipher*) cipher)->getRNG();
 	if (false) {
 		// no-op so we can use our x-macro
 	}
@@ -1142,19 +1177,18 @@ VALUE rb_cipher_decrypt_io(VALUE self, VALUE in, VALUE out)
 
 /**
  * call-seq:
- *		cipher_name(constant) => String
+ *		cipher_name(cipher) => String
  *
- * Returns the name of a Cipher using the <tt>*_CIPHER</tt> constants.
+ * Returns the name of a Cipher.
  */
 VALUE rb_module_cipher_name(VALUE self, VALUE c)
 {
-	CipherEnum cipher = (enum CipherEnum) NUM2INT(c);
-	switch (cipher) {
+	switch (cipher_sym_to_const(c)) {
 		default:
 			rb_raise(rb_eCryptoPP_Error, "could not find a valid cipher type");
 		break;
 
-#		define CIPHER_ALGORITHM_X(klass, r, c) \
+#		define CIPHER_ALGORITHM_X(klass, r, c, s) \
 			case r ## _CIPHER: \
 				return rb_tainted_str_new2(c::getStaticCipherName().c_str());
 #		include "defs/ciphers.def"
@@ -1178,14 +1212,13 @@ VALUE rb_cipher_algorithm_name(VALUE self)
 
 /**
  * call-seq:
- *		block_mode_name(constant) => String
+ *		block_mode_name(block_mode) => String
  *
- * Singleton method to return the name of a block cipher mode. Uses the
- * <tt>*_BLOCK_MODE</tt> constants.
+ * Singleton method to return the name of a block cipher mode.
  */
 VALUE rb_module_block_mode_name(VALUE self, VALUE m)
 {
-	return rb_tainted_str_new2(JCipher::getModeName((enum ModeEnum) NUM2INT(m)).c_str());
+	return rb_tainted_str_new2(JCipher::getModeName(mode_sym_to_const(m)).c_str());
 }
 
 
@@ -1210,14 +1243,13 @@ VALUE rb_cipher_block_mode_name(VALUE self)
 
 /**
  * call-seq:
- *		padding_name(constant) => String
+ *		padding_name(padding) => String
  *
- * Singleton method to return the name of the a block cipher padding mode. Uses
- * the <tt>*_PADDING</tt> constants.
+ * Singleton method to return the name of the a block cipher padding mode.
  */
 VALUE rb_module_padding_name(VALUE self, VALUE p)
 {
-	return rb_tainted_str_new2(JCipher::getPaddingName((enum PaddingEnum) NUM2INT(p)).c_str());
+	return rb_tainted_str_new2(JCipher::getPaddingName(padding_sym_to_const(p)).c_str());
 }
 
 
@@ -1242,14 +1274,14 @@ VALUE rb_cipher_padding_name(VALUE self)
 
 /**
  * call-seq:
- *		rng_name(constant) => String
+ *		rng_name(rng) => String
  *
  * Singleton method to return the name of the random number generator being
- * used. Uses the <tt>*_RNG</tt> constants.
+ * used.
  */
 VALUE rb_module_rng_name(VALUE self, VALUE r)
 {
-	return rb_tainted_str_new2(JCipher::getRNGName((enum RNGEnum) NUM2INT(r)).c_str());
+	return rb_tainted_str_new2(JCipher::getRNGName(rng_sym_to_const(r)).c_str());
 }
 
 
@@ -1271,29 +1303,69 @@ VALUE rb_cipher_rng_name(VALUE self)
  * call-seq:
  *		cipher_type() => Integer
  *
- * Returns the type of cipher being used. This can be compared against the
- * <tt>*_CIPHER</tt> constants.
+ * Returns the type of cipher being used as a Symbol.
  */
 VALUE rb_cipher_cipher_type(VALUE self)
 {
 	JBase *cipher = NULL;
 	Data_Get_Struct(self, JBase, cipher);
-	return rb_fix_new(cipher->getCipherType());
+
+	switch (cipher->getCipherType()) {
+#		define CIPHER_ALGORITHM_X(klass, r, c, s) \
+			case r ## _CIPHER: \
+				return ID2SYM(rb_intern(# s));
+#		include "defs/ciphers.def"
+
+		default:
+			return Qnil;
+	}
 }
 
 
 /**
  * call-seq:
- *		cipher_enabled?(constant) => boolean
+ *		cipher_enabled?(cipher) => boolean
  *
- * Singleton method to check for the availability of a cipher algorithm. Uses
- * <tt>*_CIPHER</tt> constants.
+ * Singleton method to check for the availability of a cipher algorithm.
  */
 VALUE rb_module_cipher_enabled(VALUE self, VALUE c)
 {
-	if (cipher_enabled((enum CipherEnum) NUM2INT(c))) {
+	switch (cipher_sym_to_const(c)) {
+		default:
+			return Qfalse;
+
+#	define CIPHER_ALGORITHM_X(klass, r, c, s) \
+		case r ## _CIPHER:
+#	include "defs/ciphers.def"
+			return Qtrue;
+	}
+}
+
+
+/**
+ * call-seq:
+ *		rng_available?(rng) => boolean
+ *
+ * Singleton method to check for the availability of a random number generator.
+ */
+VALUE rb_module_rng_available(VALUE self, VALUE r)
+{
+	ID id = SYM2ID(r);
+	if (id == rb_intern("rand")) {
 		return Qtrue;
 	}
+#	ifdef NONBLOCKING_RNG_AVAILABLE
+		else if (id == rb_intern("non_blocking")) {
+			return Qtrue;
+		}
+#	endif
+
+#	ifdef BLOCKING_RNG_AVAILABLE
+		else if (id == rb_intern("blocking")) {
+			return Qtrue;
+		}
+#	endif
+
 	else {
 		return Qfalse;
 	}
@@ -1302,42 +1374,16 @@ VALUE rb_module_cipher_enabled(VALUE self, VALUE c)
 
 /**
  * call-seq:
- *		rng_available?(constant) => boolean
- *
- * Singleton method to check for the availability of a random number generator.
- * Uses the <tt>*_RNG</tt> constants.
- */
-VALUE rb_module_rng_available(VALUE self, VALUE r)
-{
-	switch ((enum RNGEnum) NUM2INT(r)) {
-#		ifdef NONBLOCKING_RNG_AVAILABLE
-		case NON_BLOCKING_RNG:
-#		endif
-
-#		ifdef BLOCKING_RNG_AVAILABLE
-		case BLOCKING_RNG:
-#		endif
-
-		case RAND_RNG:
-			return Qtrue;
-	}
-
-	return Qfalse;
-}
-
-
-/**
- * call-seq:
  *		cipher_list() => Array
  *
- * Returns an Array of available ciphers. Uses the <tt>*_CIPHER</tt> constants.
+ * Returns an Array of available ciphers.
  */
 VALUE rb_module_cipher_list(VALUE self)
 {
 	VALUE ary = rb_ary_new();
 
-#	define CIPHER_ALGORITHM_X(klass, r, c) \
-		rb_ary_push(ary, INT2NUM(r ## _CIPHER));
+#	define CIPHER_ALGORITHM_X(klass, r, c, s) \
+		rb_ary_push(ary, ID2SYM(rb_intern(# s)));
 #	include "defs/ciphers.def"
 
 	return ary;

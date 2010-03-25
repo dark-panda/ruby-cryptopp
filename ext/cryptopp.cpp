@@ -31,7 +31,7 @@ VALUE rb_cCryptoPP_Cipher;
 VALUE rb_cCryptoPP_Digest;
 VALUE rb_cCryptoPP_Digest_HMAC;
 
-#define CIPHER_ALGORITHM_X(klass, r, c) \
+#define CIPHER_ALGORITHM_X(klass, r, c, s) \
 	VALUE rb_cCryptoPP_Cipher_ ## r ;
 #include "defs/ciphers.def"
 
@@ -166,7 +166,7 @@ extern "C" void Init_cryptopp()
 	rb_define_const(rb_mCryptoPP, "VERSION",           rb_str_new2("0.0.2"));
 	rb_define_const(rb_mCryptoPP, "CRYPTOPP_VERSION",  INT2NUM(CRYPTOPP_VERSION));
 
-#	define CIPHER_ALGORITHM_X(klass, r, c) \
+#	define CIPHER_ALGORITHM_X(klass, r, c, s) \
 		rb_cCryptoPP_Cipher_ ## r = rb_define_class_under(rb_mCryptoPP, # klass, rb_cCryptoPP_Cipher); \
 		rb_define_singleton_method((rb_cCryptoPP_Cipher_ ## r), "new", CRYPTOPP_VALUE_FUNC(rb_cipher_ ## r ##_new), -1);
 #	include "defs/ciphers.def"
@@ -186,33 +186,6 @@ extern "C" void Init_cryptopp()
 		rb_define_singleton_method((rb_cCryptoPP_Digest_HMAC_ ## r), "new", CRYPTOPP_VALUE_FUNC(rb_digest_hmac_ ## r ##_new), -1);
 #	include "defs/hmacs.def"
 
-#	define CIPHER_ALGORITHM_X_FORCE 1
-#	define CIPHER_ALGORITHM_X(klass, r, c) \
-		rb_define_const(rb_mCryptoPP_Constants, # r "_CIPHER", INT2NUM(r ## _CIPHER));
-#	include "defs/ciphers.def"
-
-	// block cipher modes...
-
-#	define BLOCK_MODE_X(c, s) \
-		rb_define_const(rb_mCryptoPP_Constants, # c "_BLOCK_MODE", INT2NUM(c ## _MODE));
-#	include "defs/block_modes.def"
-	rb_define_const(rb_mCryptoPP_Constants, "COUNTER_BLOCK_MODE", INT2NUM(CTR_MODE));
-
-	// block cipher padding settings...
-
-#	define PADDING_X(c, s) \
-		rb_define_const(rb_mCryptoPP_Constants, # c "_PADDING", INT2NUM(c ## _PADDING));
-#	include "defs/paddings.def"
-	rb_define_const(rb_mCryptoPP_Constants, "ZEROES_PADDING",       INT2NUM(ZEROS_PADDING));
-	rb_define_const(rb_mCryptoPP_Constants, "ONE_AND_ZEROES",       INT2NUM(ONE_AND_ZEROS_PADDING));
-
-	// random number generators...
-
-	rb_define_const(rb_mCryptoPP_Constants, "NON_BLOCKING_RNG",    INT2NUM(NON_BLOCKING_RNG));
-	rb_define_const(rb_mCryptoPP_Constants, "BLOCKING_RNG",        INT2NUM(BLOCKING_RNG));
-	rb_define_const(rb_mCryptoPP_Constants, "RAND_RNG",            INT2NUM(RAND_RNG));
-	rb_define_const(rb_mCryptoPP_Constants, "DEFAULT_RNG",         INT2NUM(DEFAULT_RNG));
-
 	// hashes and checksums...
 
 #	define CHECKSUM_ALGORITHM_X_FORCE 1
@@ -230,11 +203,6 @@ extern "C" void Init_cryptopp()
 		rb_define_const(rb_mCryptoPP_Constants, # r "_HMAC", INT2NUM(r ## _HMAC));
 #	include "defs/hmacs.def"
 
-	// some aliases...
-
-	rb_define_const(rb_mCryptoPP_Constants, "RIJNDAEL_CIPHER", INT2NUM(AES_CIPHER));
-	rb_define_const(rb_mCryptoPP_Constants, "PANAMA_CIPHER",   INT2NUM(PANAMA_CIPHER));
-	rb_define_const(rb_mCryptoPP_Constants, "SEAL_CIPHER",     INT2NUM(SEAL_CIPHER));
 	rb_define_const(rb_mCryptoPP_Constants, "PANAMA_DIGEST",   INT2NUM(PANAMA_HASH));
 	rb_define_const(rb_mCryptoPP_Constants, "SHA_DIGEST",      INT2NUM(SHA1_HASH));
 	rb_define_const(rb_mCryptoPP_Constants, "SHA_HMAC",        INT2NUM(SHA1_HMAC));

@@ -22,7 +22,7 @@ extern VALUE rb_cCryptoPP_Cipher;
 extern VALUE rb_cCryptoPP_Digest;
 extern VALUE rb_cCryptoPP_Digest_HMAC;
 
-#define CIPHER_ALGORITHM_X(klass, r, c) \
+#define CIPHER_ALGORITHM_X(klass, r, c, s) \
 	extern VALUE rb_cCryptoPP_Cipher_ ## r ;
 #include "defs/ciphers.def"
 
@@ -39,7 +39,7 @@ extern VALUE rb_cCryptoPP_Digest_HMAC;
 #include "defs/hmacs.def"
 
 VALUE rb_module_cipher_factory(int argc, VALUE *argv, VALUE self);
-#define CIPHER_ALGORITHM_X(klass, r, n) \
+#define CIPHER_ALGORITHM_X(klass, r, n, s) \
 VALUE rb_cipher_ ## r ##_new(int argc, VALUE *argv, VALUE self);
 #include "defs/ciphers.def"
 VALUE rb_cipher_rand_iv(VALUE self, VALUE l);
