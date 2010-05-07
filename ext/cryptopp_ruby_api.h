@@ -1,13 +1,9 @@
-/*
-   +----------------------------------------------------------------------+
-   | Copyright (c) 2002-2009 J Smith <dark.panda@gmail.com>               |
-   | Crypto++ sources (not included) copyright (c) 1995-2009 Wei Dai      |
-   +----------------------------------------------------------------------+
-   | Check out COPYING for the exact license.                             |
-   +----------------------------------------------------------------------+
 
-$Id: $
-*/
+/*
+ * Copyright (c) 2002-2010 J Smith <dark.panda@gmail.com>
+ * Crypto++ copyright (c) 1995-2010 Wei Dai
+ * See COPYING for the extact license
+ */
 
 #ifndef __CRYPTOPP_RUBY_API_H__
 #define __CRYPTOPP_RUBY_API_H__
