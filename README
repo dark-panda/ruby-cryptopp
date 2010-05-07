@@ -1,0 +1,7 @@
+== cryptopp-ruby
+
+cryptopp-ruby is a collection of strong encryption routines for Ruby
+built on Wei Dai's Crypto++ library. Included in the extension are
+algorithms for symmetric block and stream ciphers, checksums, digests
+and HMACs.
+

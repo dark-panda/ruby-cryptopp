@@ -37,7 +37,7 @@ Rake::RDocTask.new do |t|
     require 'extras/parser_c.rb'
     t.main = 'README'
     t.rdoc_dir = 'doc'
-    t.rdoc_files.include('ext/cryptopp.cpp', 'ext/ciphers.cpp', 'ext/digests.cpp')
+    t.rdoc_files.include('README', 'ext/cryptopp.cpp', 'ext/ciphers.cpp', 'ext/digests.cpp')
 end
 
 begin
