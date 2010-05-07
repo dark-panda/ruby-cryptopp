@@ -47,29 +47,3 @@ rescue Exception
 	nil
 end
 
-__END__
-
-require 'rake/testtask'
-require 'rake/rdoctask'
-
-desc 'Build extension'
-task :ext do
-	sh 'cd ext && rake'
-	puts '(end)'
-end
-
-desc 'Unit tests'
-Rake::TestTask.new do |t|
-	t.libs << 'test'
-	t.test_files = FileList['test/test_*.rb']
-	t.verbose = true
-end
-
-desc 'Build docs'
-Rake::RDocTask.new do |t|
-	require 'rdoc/rdoc'
-	require 'extras/parser_c.rb'
-	t.main = 'README'
-	t.rdoc_dir = 'doc'
-	t.rdoc_files.include('ext/cryptopp.cpp', 'ext/ciphers.cpp', 'ext/digests.cpp')
-end
