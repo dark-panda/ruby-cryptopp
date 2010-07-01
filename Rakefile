@@ -16,12 +16,12 @@ require 'jeweler'
 		gem.summary     = "cryptopp is a cryptographic library for Ruby built on Wei Dai's Crypto++."
 		gem.description = gem.summary
 		gem.email       = "dark.panda@gmail.com"
-		gem.homepage    = "http://github.com/dark-panda/cryptopp"
+		gem.homepage    = "http://github.com/dark-panda/ruby-cryptopp"
 		gem.authors =    [ "J Smith" ]
 	end
 	Jeweler::GemcutterTasks.new
 	rescue LoadError
-    puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
+	puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
 
 desc 'Test cryptopp interface'
