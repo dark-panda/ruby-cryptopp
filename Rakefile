@@ -9,7 +9,7 @@ require 'rake/rdoctask'
 $:.push 'lib'
 
 begin
-require 'jeweler'
+	require 'jeweler'
 	Jeweler::Tasks.new do |gem|
 		gem.name        = "cryptopp"
 		gem.version     = "0.0.4"
@@ -20,7 +20,7 @@ require 'jeweler'
 		gem.authors =    [ "J Smith" ]
 	end
 	Jeweler::GemcutterTasks.new
-	rescue LoadError
+rescue LoadError
 	puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
 
@@ -38,12 +38,5 @@ Rake::RDocTask.new do |t|
 	t.main = 'README'
 	t.rdoc_dir = 'doc'
 	t.rdoc_files.include('README', 'ext/cryptopp.cpp', 'ext/ciphers.cpp', 'ext/digests.cpp')
-end
-
-begin
-	require 'rubygems'
-	require 'rake/gempackagetask'
-rescue Exception
-	nil
 end
 
