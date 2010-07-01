@@ -202,9 +202,9 @@ static VALUE wrap_digest_in_ruby(JHash* hash)
 
 /**
  *	call-seq:
- *		digest_factory(algorithm) => Digest
- *		digest_factory(algorithm, plaintext) => Digest
- *		digest_factory(algorithm, options) => Digest
+ *		digest_factory(algorithm) => CryptoPP::Digest
+ *		digest_factory(algorithm, plaintext) => CryptoPP::Digest
+ *		digest_factory(algorithm, options) => CryptoPP::Digest
  *
  * Creates a new Digest object.
  *
@@ -331,6 +331,9 @@ static string digest_digest(VALUE self, bool hex)
 }
 
 /**
+ * call-seq:
+ * 		digest => String
+ *
  * Returns the digested text in binary.
  */
 VALUE rb_digest_digest(VALUE self)
@@ -340,6 +343,9 @@ VALUE rb_digest_digest(VALUE self)
 }
 
 /**
+ * call-seq:
+ * 		digest_hex => String
+ *
  * Returns the digested text in hex.
  */
 VALUE rb_digest_digest_hex(VALUE self)
@@ -358,6 +364,9 @@ static string digest_plaintext(VALUE self, bool hex)
 }
 
 /**
+ * call-seq:
+ * 		plaintext => String
+ *
  * Returns the plaintext used to generate the digest in binary.
  */
 VALUE rb_digest_plaintext(VALUE self)
@@ -367,6 +376,9 @@ VALUE rb_digest_plaintext(VALUE self)
 }
 
 /**
+ * call-seq:
+ * 		plaintext_hex => String
+ *
  * Returns the plaintext used to generate the digest in hex.
  */
 VALUE rb_digest_plaintext_hex(VALUE self)
@@ -421,6 +433,9 @@ static string digest_calculate(VALUE self, bool hex)
 }
 
 /**
+ * call-seq:
+ * 		calculate => String
+ *
  * Calculates the digest and returns the result in binary.
  */
 VALUE rb_digest_calculate(VALUE self)
@@ -430,6 +445,9 @@ VALUE rb_digest_calculate(VALUE self)
 }
 
 /**
+ * call-seq:
+ * 		calculate_hex => String
+ *
  * Calculates the digest and returns the result in hex.
  */
 VALUE rb_digest_calculate_hex(VALUE self)
@@ -450,6 +468,9 @@ static string digest_digest_eq(VALUE self, VALUE digest, bool hex)
 }
 
 /**
+ * call-seq:
+ * 		digest=(bin)
+ *
  * Sets the digest text on a Digest in binary.
  */
 VALUE rb_digest_digest_eq(VALUE self, VALUE digest)
@@ -459,6 +480,9 @@ VALUE rb_digest_digest_eq(VALUE self, VALUE digest)
 }
 
 /**
+ * call-seq:
+ * 		digest_hex=(hex)
+ *
  * Sets the digest text on a Digest in hex.
  */
 VALUE rb_digest_digest_hex_eq(VALUE self, VALUE digest)
@@ -469,6 +493,9 @@ VALUE rb_digest_digest_hex_eq(VALUE self, VALUE digest)
 
 
 /**
+ * call-seq:
+ * 		inspect => String
+ *
  * Inspect method.
  */
 VALUE rb_digest_inspect(VALUE self)
@@ -641,6 +668,9 @@ VALUE rb_module_digest_io_hex(int argc, VALUE *argv, VALUE self)
 
 
 /**
+ * call-seq:
+ * 		digest_enabled? => Boolean
+ *
  * Is a Digest/HMAC algorithm available?
  */
 VALUE rb_module_digest_enabled(VALUE self, VALUE d)
@@ -681,6 +711,9 @@ VALUE rb_module_digest_name(VALUE self, VALUE h)
 
 
 /**
+ * call-seq:
+ * 		algorithm_name => String
+ *
  * Returns the name of the algorithm being used.
  */
 VALUE rb_digest_algorithm_name(VALUE self)
@@ -704,6 +737,9 @@ VALUE rb_digest_clear(VALUE self)
 
 
 /**
+ * call-seq:
+ * 		validate => Boolean
+ *
  * Validates if the digest text is a valid digest for plaintext.
  */
 VALUE rb_digest_validate(VALUE self)
@@ -733,6 +769,9 @@ static string digest_digest_io(VALUE self, VALUE io, bool hex)
 }
 
 /**
+ * call-seq:
+ * 		digest_io(in) => String
+ *
  * Instance version of <tt>CryptoPP#digest_io</tt>.
  */
 VALUE rb_digest_digest_io(VALUE self, VALUE io)
@@ -742,6 +781,9 @@ VALUE rb_digest_digest_io(VALUE self, VALUE io)
 }
 
 /**
+ * call-seq:
+ * 		digest_io_hex(in) => String
+ *
  * Instance version of <tt>CryptoPP#digest_io_hex</tt>.
  */
 VALUE rb_digest_digest_io_hex(VALUE self, VALUE io)
@@ -752,6 +794,9 @@ VALUE rb_digest_digest_io_hex(VALUE self, VALUE io)
 
 
 /**
+ * call-seq:
+ * 		digest_list => Array
+ *
  * Returns an Array of available Digest algorithms.
  */
 VALUE rb_module_digest_list(VALUE self)
@@ -800,12 +845,17 @@ static void digest_hmac_options(VALUE self, VALUE options)
 
 
 /**
+ * call-seq:
+ * 		hmac_factory(algorithm) => CryptoPP::HMAC
+ * 		hmac_factory(algorithm, plaintext, key) => CryptoPP::HMAC
+ * 		hmac_factory(algorithm, options) => CryptoPP::HMAC
+ *
  * Creates a new HMAC object.
  */
 VALUE rb_module_hmac_factory(int argc, VALUE *argv, VALUE self)
 {
 	if (argc < 1 || argc > 3) {
-		rb_raise(rb_eArgError, "wrong number of arguments (%d for 1)", argc);
+		rb_raise(rb_eArgError, "wrong number of arguments (%d for 1-3)", argc);
 	}
 	else {
 		JHash* hash = NULL;
@@ -900,6 +950,9 @@ static string digest_hmac_key_eq(VALUE self, VALUE key, bool hex)
 }
 
 /**
+ * call-seq:
+ * 		key=(key)
+ *
  * Sets the key on a HMAC in binary.
  */
 VALUE rb_digest_hmac_key_eq(VALUE self, VALUE key)
@@ -909,6 +962,9 @@ VALUE rb_digest_hmac_key_eq(VALUE self, VALUE key)
 }
 
 /**
+ * call-seq:
+ * 		key_hex=(key)
+ *
  * Sets the key on a HMAC in hex.
  */
 VALUE rb_digest_hmac_key_hex_eq(VALUE self, VALUE key)
@@ -927,6 +983,9 @@ static string digest_hmac_key(VALUE self, bool hex)
 }
 
 /**
+ * call-seq:
+ * 		key => String
+ *
  * Returns the key from the HMAC in binary.
  */
 VALUE rb_digest_hmac_key(VALUE self)
@@ -936,6 +995,9 @@ VALUE rb_digest_hmac_key(VALUE self)
 }
 
 /**
+ * call-seq:
+ * 		key_hex => String
+ *
  * Returns the key from the HMAC in hex.
  */
 VALUE rb_digest_hmac_key_hex(VALUE self)
@@ -946,6 +1008,9 @@ VALUE rb_digest_hmac_key_hex(VALUE self)
 
 
 /**
+ * call-seq:
+ * 		key_length=(length)
+ *
  * Sets the key length. Some HMACs require rather specific key lengths,
  * and if the key length you attempt to set is invalid, an exception will
  * be thrown. The key length being set is set in terms of bytes in binary, not
@@ -1037,6 +1102,9 @@ VALUE rb_module_hmac_digest_hex(int argc, VALUE *argv, VALUE self)
 
 
 /**
+ * call-seq:
+ * 		hmac_list => Array
+ *
  * Returns an Array of available HMAC algorithms.
  */
 VALUE rb_module_hmac_list(VALUE self)

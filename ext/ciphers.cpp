@@ -485,7 +485,7 @@ VALUE rb_cipher_block_mode_eq(VALUE self, VALUE m)
 
 /**
  * call-seq:
- *		block_mode => Integer
+ *		block_mode => Fixnum
  *
  * Get the block mode. Returns <tt>nil</tt> if you try to use this on a stream
  * cipher.
@@ -545,7 +545,7 @@ VALUE rb_cipher_padding_eq(VALUE self, VALUE p)
 
 /**
  * call-seq:
- *		padding => Integer
+ *		padding => Fixnum
  *
  * Get the cipher padding being used. Returns <tt>nil</tt> if you try to use
  * this on a stream cipher.
@@ -598,7 +598,7 @@ VALUE rb_cipher_rng_eq(VALUE self, VALUE r)
 
 /**
  * call-seq:
- *		rng => Integer
+ *		rng => Fixnum
  *
  * Get the RNG being used.
  */
@@ -848,7 +848,7 @@ VALUE rb_cipher_key_hex(VALUE self)
 
 /**
  * call-seq:
- *		key_length=(length) => Integer
+ *		key_length=(length) => Fixnum
  *
  * Sets the key length. Some ciphers require rather specific key lengths,
  * and if the key length you attempt to set is invalid, an exception will
@@ -872,7 +872,7 @@ VALUE rb_cipher_key_length_eq(VALUE self, VALUE l)
 
 /**
  * call-seq:
- *		key_length => Integer
+ *		key_length => Fixnum
  *
  * Gets the key length. The key length being returned in terms of bytes
  * in binary, not hex characters.
@@ -940,7 +940,7 @@ VALUE rb_cipher_valid_key_length(VALUE self, VALUE l)
 #if ENABLED_RC2_CIPHER
 /**
  * call-seq:
- *		effect_key_length=(length) => Integer
+ *		effect_key_length=(length) => Fixnum
  *
  * Set the effective keylength on the RC2 algorithm. This function can
  * only be used with RC2. Returns the actual effective keylength set. The
@@ -980,6 +980,9 @@ VALUE rb_cipher_effective_key_length(VALUE self)
 
 
 /**
+ * call-seq:
+ * 		block_size => Fixnum
+ *
  * Gets the block size.
  */
 VALUE rb_cipher_block_size(VALUE self)
@@ -992,7 +995,7 @@ VALUE rb_cipher_block_size(VALUE self)
 
 /**
  * call-seq:
- *		rounds=(rounds) => Integer
+ *		rounds=(rounds) => Fixnum
  *
  * Sets the number of rounds to perform on block ciphers. Some block ciphers
  * have different requirements for their rounds than others. An exception
@@ -1019,6 +1022,9 @@ VALUE rb_cipher_rounds_eq(VALUE self, VALUE r)
 
 
 /**
+ * call-seq:
+ * 		rounts => Fixnum
+ *
  * Gets the number of rounds to perform on block ciphers. Returns nil if you
  * try to use this on a stream cipher.
  */
@@ -1052,6 +1058,9 @@ static VALUE cipher_encrypt(VALUE self, bool hex)
 }
 
 /**
+ * call-seq:
+ * 		encrypt => String
+ *
  * Encrypt the plaintext using the options set on the Cipher. This method will
  * return the ciphertext in binary. The raw ciphertext will always be available
  * through the ciphertext and ciphertext_hex afterwards.
@@ -1062,6 +1071,9 @@ VALUE rb_cipher_encrypt(VALUE self)
 }
 
 /**
+ * call-seq:
+ * 		encrypt_hex => String
+ *
  * Encrypt the plaintext using the options set on the Cipher. This method will
  * return the ciphertext in hex. The raw ciphertext will always be available
  * through the ciphertext and ciphertext_hex afterwards.
@@ -1091,6 +1103,9 @@ static VALUE cipher_decrypt(VALUE self, bool hex)
 }
 
 /**
+ * call-seq:
+ * 		decrypt => String
+ *
  * Decrypt the ciphertext using the options set on the Cipher. This method
  * will return the plaintext in binary. The raw plaintext will always be
  * available through the plaintext and plaintext_hex methods afterwards.
@@ -1101,6 +1116,9 @@ VALUE rb_cipher_decrypt(VALUE self)
 }
 
 /**
+ * call-seq:
+ * 		decrypt_hex => String
+ *
  * Decrypt the ciphertext using the options set on the Cipher. This method
  * will return the plaintext in hex. The raw plaintext will always be
  * available through the plaintext and plaintext_hex methods afterwards.
