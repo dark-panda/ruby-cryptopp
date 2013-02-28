@@ -1,6 +1,7 @@
 
 require 'rubygems'
-require 'ext/cryptopp'
+require 'test/unit'
+require File.join(File.dirname(__FILE__), %w{ .. ext cryptopp })
 
 module TestHelper
   def readfile(file)

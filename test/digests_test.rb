@@ -1,6 +1,6 @@
 
-require 'test/unit'
-require 'test/test_helper'
+$: << File.dirname(__FILE__)
+require 'test_helper'
 
 class DigestsTest < Test::Unit::TestCase
   include TestHelper
