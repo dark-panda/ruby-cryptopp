@@ -230,7 +230,7 @@ VALUE rb_module_digest_factory(int argc, VALUE *argv, VALUE self)
         if (hash != NULL) {
           delete hash;
         }
-        rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str());
+        rb_raise(rb_eCryptoPP_Error, "%s", e.GetWhat().c_str());
       }
       if (argc == 2) {
         if (TYPE(options) == T_STRING) {
@@ -259,7 +259,7 @@ VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
     if (hash != NULL) { \
       delete hash; \
     } \
-    rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str()); \
+    rb_raise(rb_eCryptoPP_Error, "%s", e.GetWhat().c_str()); \
   } \
   rb_scan_args(argc, argv, "01", &options); \
   if (!NIL_P(options)) { \
@@ -288,7 +288,7 @@ VALUE rb_digest_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
     if (hash != NULL) { \
       delete hash; \
     } \
-    rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str()); \
+    rb_raise(rb_eCryptoPP_Error, "%s", e.GetWhat().c_str()); \
   } \
   rb_scan_args(argc, argv, "01", &options); \
   if (!NIL_P(options)) { \
@@ -578,7 +578,7 @@ static string module_digest(int argc, VALUE *argv, VALUE self, bool hex)
     if (hash != NULL) {
       delete hash;
     }
-    rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str());
+    rb_raise(rb_eCryptoPP_Error, "%s", e.GetWhat().c_str());
   }
 }
 
@@ -626,7 +626,7 @@ static string module_digest_io(int argc, VALUE *argv, VALUE self, bool hex)
     if (hash != NULL) {
       delete hash;
     }
-    rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str());
+    rb_raise(rb_eCryptoPP_Error, "%s", e.GetWhat().c_str());
   }
 }
 
@@ -764,7 +764,7 @@ static string digest_digest_io(VALUE self, VALUE io, bool hex)
     return hash->hashRubyIO(&io, hex);
   }
   catch (Exception& e) {
-    rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str());
+    rb_raise(rb_eCryptoPP_Error, "%s", e.GetWhat().c_str());
   }
 }
 
@@ -874,7 +874,7 @@ VALUE rb_module_hmac_factory(int argc, VALUE *argv, VALUE self)
         if (hash != NULL) {
           delete hash;
         }
-        rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str());
+        rb_raise(rb_eCryptoPP_Error, "%s", e.GetWhat().c_str());
       }
       if (argc >= 2) {
         if (TYPE(argv[1]) == T_STRING) {
@@ -914,7 +914,7 @@ VALUE rb_digest_hmac_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
       if (hash != NULL) { \
         delete hash; \
       } \
-      rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str()); \
+      rb_raise(rb_eCryptoPP_Error, "%s", e.GetWhat().c_str()); \
     } \
     if (argc >= 1) { \
       if (TYPE(argv[0]) == T_STRING) { \

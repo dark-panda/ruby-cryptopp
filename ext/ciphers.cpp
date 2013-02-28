@@ -332,7 +332,7 @@ VALUE rb_module_cipher_factory(int argc, VALUE *argv, VALUE self)
     retval = wrap_cipher_in_ruby(cipher_factory(algorithm));
   }
   catch (Exception& e) {
-    rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str());
+    rb_raise(rb_eCryptoPP_Error, "%s", e.GetWhat().c_str());
   }
   if (!NIL_P(options)) {
     cipher_options(retval, options);
@@ -349,7 +349,7 @@ VALUE rb_cipher_ ## r ##_new(int argc, VALUE *argv, VALUE self) \
     retval = wrap_cipher_in_ruby(cipher_factory(ID2SYM(rb_intern(# s)))); \
   } \
   catch (Exception& e) { \
-    rb_raise(rb_eCryptoPP_Error, e.GetWhat().c_str()); \
+    rb_raise(rb_eCryptoPP_Error, "%s", e.GetWhat().c_str()); \
   } \
   if (!NIL_P(options)) { \
     cipher_options(retval, options); \
@@ -1053,7 +1053,7 @@ static VALUE cipher_encrypt(VALUE self, bool hex)
     return rb_tainted_str_new(cipher->getCiphertext(hex).data(), cipher->getCiphertext(hex).length());
   }
   catch (Exception e) {
-    rb_raise(rb_eCryptoPP_Error, string("Crypto++ exception: " + e.GetWhat()).c_str());
+    rb_raise(rb_eCryptoPP_Error, "Crypto++ exception: %s", e.GetWhat().c_str());
   }
 }
 
@@ -1153,7 +1153,7 @@ VALUE rb_cipher_encrypt_io(VALUE self, VALUE in, VALUE out)
     return Qtrue;
   }
   catch (Exception e) {
-    rb_raise(rb_eCryptoPP_Error, "Crypto++ exception:  %s in %s()", e.GetWhat().c_str());
+    rb_raise(rb_eCryptoPP_Error, "Crypto++ exception: %s", e.GetWhat().c_str());
   }
 }
 
@@ -1182,7 +1182,7 @@ VALUE rb_cipher_decrypt_io(VALUE self, VALUE in, VALUE out)
     return Qtrue;
   }
   catch (Exception e) {
-    rb_raise(rb_eCryptoPP_Error, "Crypto++ exception:  %s in %s()", e.GetWhat().c_str());
+    rb_raise(rb_eCryptoPP_Error, "Crypto++ exception: %s", e.GetWhat().c_str());
   }
 }
 
