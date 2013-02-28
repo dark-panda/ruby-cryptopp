@@ -394,7 +394,7 @@ static string cipher_iv_eq(VALUE self, VALUE iv, bool hex)
   JBase *cipher = NULL;
   Check_Type(iv, T_STRING);
   Data_Get_Struct(self, JBase, cipher);
-  cipher->setIV(string(StringValuePtr(iv), RSTRING(iv)->len), hex);
+  cipher->setIV(string(StringValuePtr(iv), RSTRING_LEN(iv)), hex);
   return cipher->getIV(hex);
 }
 
@@ -624,7 +624,7 @@ static string cipher_plaintext_eq(VALUE self, VALUE plaintext, bool hex)
   JBase *cipher = NULL;
   Check_Type(plaintext, T_STRING);
   Data_Get_Struct(self, JBase, cipher);
-  cipher->setPlaintext(string(StringValuePtr(plaintext), RSTRING(plaintext)->len), hex);
+  cipher->setPlaintext(string(StringValuePtr(plaintext), RSTRING_LEN(plaintext)), hex);
   return cipher->getPlaintext(hex);
 }
 
@@ -692,7 +692,7 @@ static string cipher_ciphertext_eq(VALUE self, VALUE ciphertext, bool hex)
   JBase *cipher = NULL;
   Check_Type(ciphertext, T_STRING);
   Data_Get_Struct(self, JBase, cipher);
-  cipher->setCiphertext(string(StringValuePtr(ciphertext), RSTRING(ciphertext)->len), hex);
+  cipher->setCiphertext(string(StringValuePtr(ciphertext), RSTRING_LEN(ciphertext)), hex);
   return cipher->getCiphertext(hex);
 }
 
@@ -762,7 +762,7 @@ static string cipher_key_eq(VALUE self, VALUE key, bool hex)
   JBase *cipher = NULL;
   Check_Type(key, T_STRING);
   Data_Get_Struct(self, JBase, cipher);
-  cipher->setKey(string(StringValuePtr(key), RSTRING(key)->len), hex);
+  cipher->setKey(string(StringValuePtr(key), RSTRING_LEN(key)), hex);
   return cipher->getKey(hex);
 }
 

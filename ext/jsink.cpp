@@ -49,8 +49,8 @@ size_t RubyIOStore::TransferTo2(BufferedTransformation& target, CryptoPP::lword&
       if (TYPE(buffer) != T_STRING) {
         throw ReadErr();
       }
-      memcpy(m_space, StringValuePtr(buffer), RSTRING(buffer)->len);
-      m_len = RSTRING(buffer)->len;
+      memcpy(m_space, StringValuePtr(buffer), RSTRING_LEN(buffer));
+      m_len = RSTRING_LEN(buffer);
     }
     size_t blockedBytes;
     output:

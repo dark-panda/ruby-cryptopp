@@ -316,7 +316,7 @@ VALUE rb_digest_update(VALUE self, VALUE plaintext)
   JHash *hash = NULL;
   Check_Type(plaintext, T_STRING);
   Data_Get_Struct(self, JHash, hash);
-  hash->updatePlaintext(string(StringValuePtr(plaintext), RSTRING(plaintext)->len));
+  hash->updatePlaintext(string(StringValuePtr(plaintext), RSTRING_LEN(plaintext)));
   hash->hash();
   return rb_tainted_str_new(hash->getHashtext().data(), hash->getHashtext().length());
 }
@@ -394,7 +394,7 @@ static string digest_plaintext_eq(VALUE self, VALUE plaintext, bool hex)
   JHash *hash = NULL;
   Check_Type(plaintext, T_STRING);
   Data_Get_Struct(self, JHash, hash);
-  hash->setPlaintext(string(StringValuePtr(plaintext), RSTRING(plaintext)->len), hex);
+  hash->setPlaintext(string(StringValuePtr(plaintext), RSTRING_LEN(plaintext)), hex);
   return hash->getPlaintext(hex);
 }
 
@@ -463,7 +463,7 @@ static string digest_digest_eq(VALUE self, VALUE digest, bool hex)
   JHash *hash = NULL;
   Check_Type(digest, T_STRING);
   Data_Get_Struct(self, JHash, hash);
-  hash->setHashtext(string(StringValuePtr(digest), RSTRING(digest)->len), hex);
+  hash->setHashtext(string(StringValuePtr(digest), RSTRING_LEN(digest)), hex);
   return hash->getHashtext(hex);
 }
 
@@ -521,16 +521,16 @@ VALUE rb_digest_equals(VALUE self, VALUE compare)
   VALUE str1, str2;
   Check_Type(compare, T_STRING);
   Data_Get_Struct(self, JHash, hash);
-  if (RSTRING(compare)->len == ((long) hash->getDigestSize() / 2)) {
+  if (RSTRING_LEN(compare) == ((long) hash->getDigestSize() / 2)) {
     str1 = rb_str_new(hash->getHashtext(false).data(), hash->getHashtext(false).length());
     str2 = compare;
   }
-  else if (RSTRING(compare)->len == ((long) hash->getDigestSize())) {
+  else if (RSTRING_LEN(compare) == ((long) hash->getDigestSize())) {
     str1 = rb_str_new(hash->getHashtext(true).data(), hash->getHashtext(true).length());
     str2 = rb_funcall(compare, rb_intern("downcase"), 0);
   }
   else {
-    rb_raise(rb_eCryptoPP_Error, "expected %d bytes, got %d", hash->getDigestSize() / 2, RSTRING(compare)->len);
+    rb_raise(rb_eCryptoPP_Error, "expected %d bytes, got %ld", hash->getDigestSize() / 2, RSTRING_LEN(compare));
   }
 
   if (rb_str_cmp(str1, str2) == 0) {
@@ -564,9 +564,9 @@ static string module_digest(int argc, VALUE *argv, VALUE self, bool hex)
   try {
     string retval;
     hash = digest_factory(algorithm);
-    hash->setPlaintext(string(StringValuePtr(plaintext), RSTRING(plaintext)->len));
+    hash->setPlaintext(string(StringValuePtr(plaintext), RSTRING_LEN(plaintext)));
     if (IS_HMAC(digest_sym_to_const(algorithm))) {
-      ((JHMAC*) hash)->setKey(string(StringValuePtr(key), RSTRING(key)->len));
+      ((JHMAC*) hash)->setKey(string(StringValuePtr(key), RSTRING_LEN(key)));
     }
     hash->hash();
     retval = hash->getHashtext(hex);
@@ -945,7 +945,7 @@ static string digest_hmac_key_eq(VALUE self, VALUE key, bool hex)
   JHash *hash = NULL;
   Check_Type(key, T_STRING);
   Data_Get_Struct(self, JHash, hash);
-  ((JHMAC*) hash)->setKey(string(StringValuePtr(key), RSTRING(key)->len), hex);
+  ((JHMAC*) hash)->setKey(string(StringValuePtr(key), RSTRING_LEN(key)), hex);
   return ((JHMAC*) hash)->getKey(hex);
 }
 
@@ -1059,10 +1059,10 @@ static string module_hmac_digest(int argc, VALUE *argv, VALUE self, bool hex)
   {
     string retval;
     hash = digest_factory(algorithm);
-    hash->setPlaintext(string(StringValuePtr(plaintext), RSTRING(plaintext)->len));
+    hash->setPlaintext(string(StringValuePtr(plaintext), RSTRING_LEN(plaintext)));
     if (argc == 3) {
       Check_Type(plaintext, T_STRING);
-      ((JHMAC*) hash)->setKey(string(StringValuePtr(key), RSTRING(key)->len));
+      ((JHMAC*) hash)->setKey(string(StringValuePtr(key), RSTRING_LEN(key)));
     }
     hash->hash();
     retval = hash->getHashtext(hex);
