@@ -13,7 +13,12 @@
 
 extern "C" {
 #include "ruby.h"
+
+#if defined(RUBY_VERSION_CODE) && RUBY_VERSION_CODE >= 190
+#include "ruby/io.h"
+#else
 #include "rubyio.h"
+#endif
 }
 
 using namespace CryptoPP;
