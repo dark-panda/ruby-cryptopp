@@ -1,16 +1,17 @@
 
 require 'mkmf'
+require 'rbconfig'
 
-Config::CONFIG['CC'] = 'g++'
-Config::CONFIG['CPP'] = 'g++ -E'
+RbConfig::CONFIG['CC'] = 'g++'
+RbConfig::CONFIG['CPP'] = 'g++ -E'
 
 # hack to get C++ standard library properly linked into shared
 # object
 # $libs = append_library($libs, "supc++") # doesn't work
-if Config::CONFIG["arch"] =~ /-darwin\d/
-  Config::CONFIG['LDSHARED']="g++ -dynamic -bundle -undefined suppress -flat_namespace"
+if RbConfig::CONFIG["arch"] =~ /-darwin\d/
+  RbConfig::CONFIG['LDSHARED']="g++ -dynamic -bundle -undefined suppress -flat_namespace"
 else
-  Config::CONFIG['LDSHARED'] = "g++ -shared"
+  RbConfig::CONFIG['LDSHARED'] = "g++ -shared"
 end
 
 $CFLAGS << " -DNDEBUG -DCRYPTOPP_DISABLE_ASM"
