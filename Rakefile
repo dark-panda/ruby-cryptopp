@@ -1,42 +1,35 @@
+# -*- encoding: utf-8 -*-
 
 # -*- ruby -*-
 
 require 'rubygems'
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 require 'rake/testtask'
-require 'rake/rdoctask'
+require 'rdoc/task'
+require 'bundler/gem_tasks'
 
-$:.push 'lib'
+$:.push File.expand_path(File.dirname(__FILE__), 'lib')
 
-begin
-	require 'jeweler'
-	Jeweler::Tasks.new do |gem|
-		gem.name        = "cryptopp"
-		gem.version     = "0.0.4"
-		gem.summary     = "cryptopp is a cryptographic library for Ruby built on Wei Dai's Crypto++."
-		gem.description = gem.summary
-		gem.email       = "dark.panda@gmail.com"
-		gem.homepage    = "http://github.com/dark-panda/ruby-cryptopp"
-		gem.authors =    [ "J Smith" ]
-	end
-	Jeweler::GemcutterTasks.new
-rescue LoadError
-	puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
-end
+version = File.read(File.expand_path('VERSION', File.dirname(__FILE__)))
 
-desc 'Test cryptopp interface'
+desc 'Test CryptoPP interface'
 Rake::TestTask.new(:test) do |t|
-	t.libs << 'lib'
-	t.pattern = 'test/**/*_test.rb'
-	t.verbose = false
+  t.test_files = FileList['test/**/*_test.rb']
+  t.verbose = !!ENV['VERBOSE_TESTS']
+  t.warning = !!ENV['WARNINGS']
 end
 
 desc 'Build docs'
 Rake::RDocTask.new do |t|
-	require 'rdoc/rdoc'
-	require 'extras/parser_c.rb'
-	t.main = 'README'
-	t.rdoc_dir = 'doc'
-	t.rdoc_files.include('README', 'ext/cryptopp.cpp', 'ext/ciphers.cpp', 'ext/digests.cpp')
+  t.title = "CryptoPP #{version}"
+  t.main = 'README'
+  t.rdoc_dir = 'doc'
+  t.rdoc_files.include(
+    'README',
+    'MIT-LICENSE',
+    'ext/cryptopp.cpp',
+    'ext/ciphers.cpp',
+    'ext/digests.cpp'
+  )
 end
 
