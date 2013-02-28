@@ -14,7 +14,9 @@ else
   RbConfig::CONFIG['LDSHARED'] = "g++ -shared"
 end
 
-$CFLAGS << " -DNDEBUG -DCRYPTOPP_DISABLE_ASM"
+version = File.read(File.join(File.dirname(__FILE__), *%w{ .. VERSION })).strip
+$CFLAGS << " -DNDEBUG -DCRYPTOPP_DISABLE_ASM -DRUBY_VERSION_CODE=#{RbConfig::CONFIG.values_at('MAJOR', 'MINOR', 'TEENY').join}"
+$CFLAGS << " -DEXT_VERSION_CODE=#{version}"
 
 def error msg
   message msg + "\n"

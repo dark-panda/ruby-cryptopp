@@ -147,7 +147,10 @@ extern "C" void Init_cryptopp()
   rb_undef_alloc_func(rb_cCryptoPP_Digest);
   rb_undef_alloc_func(rb_cCryptoPP_Digest_HMAC);
 
-  rb_define_const(rb_mCryptoPP, "VERSION",           rb_str_new2("0.0.2"));
+# define XCRYPTOPP_EXT_VERSION(s) #s
+# define CRYPTOPP_EXT_VERSION(s) XCRYPTOPP_EXT_VERSION(s)
+
+  rb_define_const(rb_mCryptoPP, "VERSION",           rb_str_new2(CRYPTOPP_EXT_VERSION(EXT_VERSION_CODE)));
   rb_define_const(rb_mCryptoPP, "CRYPTOPP_VERSION",  INT2NUM(CRYPTOPP_VERSION));
 
 #  define CIPHER_ALGORITHM_X(klass, r, c, s) \
