@@ -1,7 +1,11 @@
 
 require 'rubygems'
-require 'test/unit'
+require 'minitest/autorun'
+require 'minitest/reporters' if RUBY_VERSION >= '1.9'
 require File.join(File.dirname(__FILE__), %w{ .. ext cryptopp })
+
+puts "Version #{CryptoPP::VERSION}"
+puts "Crypto++ version #{CryptoPP::CRYPTOPP_VERSION}"
 
 module TestHelper
   def readfile(file)
@@ -41,3 +45,8 @@ module TestHelper
     end
   end
 end
+
+if RUBY_VERSION >= '1.9'
+  MiniTest::Reporters.use!(MiniTest::Reporters::SpecReporter.new)
+end
+

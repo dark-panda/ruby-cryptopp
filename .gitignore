@@ -7,3 +7,4 @@ doc
 .DS_Store
 *tmp*
 pkg/
+Gemfile.lock

@@ -2,7 +2,7 @@
 $: << File.dirname(__FILE__)
 require 'test_helper'
 
-class DigestsTest < Test::Unit::TestCase
+class DigestsTest < MiniTest::Unit::TestCase
   include TestHelper
 
   Dir.glob('test/data/digests/*.dat').sort.each do |f|
