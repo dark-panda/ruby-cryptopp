@@ -34,8 +34,8 @@ end
 
 unless find_header('cryptlib.h', *%w{
   /usr/local/include/cryptopp
-  /usr/include/cryptopp
   /opt/local/include/cryptopp
+  /usr/include/cryptopp
 })
   error "Can't find cryptlib.h"
 end
