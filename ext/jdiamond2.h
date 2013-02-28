@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JDiamond2 : public JCipher_Template<Diamond2_Info, DIAMOND2_CIPHER, 10, 1, INT_MAX>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

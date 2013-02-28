@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JSquare : public JCipher_Template<Square_Info, SQUARE_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

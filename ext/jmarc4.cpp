@@ -11,12 +11,12 @@
 
 SymmetricCipher* JMARC4::getEncryptionObject()
 {
-	return new Weak::MARC4((byte*) itsKey.data(), itsKeylength);
+  return new Weak::MARC4((byte*) itsKey.data(), itsKeylength);
 }
 
 SymmetricCipher* JMARC4::getDecryptionObject()
 {
-	return getEncryptionObject();
+  return getEncryptionObject();
 }
 
 #endif

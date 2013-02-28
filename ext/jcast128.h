@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JCAST128 : public JCipher_Template<CAST128_Info, CAST128_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

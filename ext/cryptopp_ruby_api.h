@@ -17,19 +17,19 @@ extern VALUE rb_cCryptoPP_Digest;
 extern VALUE rb_cCryptoPP_Digest_HMAC;
 
 #define CIPHER_ALGORITHM_X(klass, r, c, s) \
-	extern VALUE rb_cCryptoPP_Cipher_ ## r ;
+  extern VALUE rb_cCryptoPP_Cipher_ ## r ;
 #include "defs/ciphers.def"
 
 #define CHECKSUM_ALGORITHM_X(klass, r, c, s) \
-	extern VALUE rb_cCryptoPP_Digest_ ## r ;
+  extern VALUE rb_cCryptoPP_Digest_ ## r ;
 #include "defs/checksums.def"
 
 #define HASH_ALGORITHM_X(klass, r, c, s) \
-	extern VALUE rb_cCryptoPP_Digest_ ## r ;
+  extern VALUE rb_cCryptoPP_Digest_ ## r ;
 #include "defs/hashes.def"
 
 #define HMAC_ALGORITHM_X(klass, r, c, s) \
-	extern VALUE rb_cCryptoPP_Digest_HMAC_ ## r ;
+  extern VALUE rb_cCryptoPP_Digest_HMAC_ ## r ;
 #include "defs/hmacs.def"
 
 VALUE rb_module_cipher_factory(int argc, VALUE *argv, VALUE self);

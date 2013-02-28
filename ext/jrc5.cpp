@@ -11,12 +11,12 @@
 
 BlockCipher* JRC5::getEncryptionObject()
 {
-	return new RC5Encryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new RC5Encryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 
 BlockCipher* JRC5::getDecryptionObject()
 {
-	return new RC5Decryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new RC5Decryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 
 #endif

@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JTwofish : public JCipher_Template<Twofish_Info, TWOFISH_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

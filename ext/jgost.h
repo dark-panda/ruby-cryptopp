@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JGOST : public JCipher_Template<GOST_Info, GOST_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

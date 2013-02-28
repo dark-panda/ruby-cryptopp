@@ -22,17 +22,17 @@ using namespace CryptoPP;
 
 class JRC2 : public JCipher_Template<RC2_Info, RC2_CIPHER>
 {
-	public:
-		JRC2();
+  public:
+    JRC2();
 
-		unsigned int setEffectiveKeylength(const unsigned int keylength);
-		unsigned int getEffectiveKeylength() const;
+    unsigned int setEffectiveKeylength(const unsigned int keylength);
+    unsigned int getEffectiveKeylength() const;
 
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 
-		unsigned int itsEffectiveKeylength;
+    unsigned int itsEffectiveKeylength;
 };
 
 #endif

@@ -11,12 +11,12 @@
 
 BlockCipher* JCAST256::getEncryptionObject()
 {
-	return new CAST256Encryption((byte*) itsKey.data(), itsKeylength);
+  return new CAST256Encryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JCAST256::getDecryptionObject()
 {
-	return new CAST256Decryption((byte*) itsKey.data(), itsKeylength);
+  return new CAST256Decryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

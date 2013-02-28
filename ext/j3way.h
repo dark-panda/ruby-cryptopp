@@ -20,9 +20,9 @@
 
 class J3Way : public JCipher_Template<ThreeWay_Info, THREEWAY_CIPHER, 11, 1, INT_MAX>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

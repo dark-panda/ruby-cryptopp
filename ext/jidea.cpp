@@ -11,12 +11,12 @@
 
 BlockCipher* JIDEA::getEncryptionObject()
 {
-	return new IDEAEncryption((byte*) itsKey.data(), itsKeylength);
+  return new IDEAEncryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JIDEA::getDecryptionObject()
 {
-	return new IDEADecryption((byte*) itsKey.data(), itsKeylength);
+  return new IDEADecryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

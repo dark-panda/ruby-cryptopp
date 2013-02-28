@@ -23,18 +23,18 @@ using namespace CryptoPP;
 #if ENABLED_SEAL_LITTLE_ENDIAN_CIPHER
 class JSEAL_LE : public JStream_Template<SEAL_Info<LittleEndian>, SEAL_LITTLE_ENDIAN_CIPHER>
 {
-	protected:
-		SymmetricCipher* getEncryptionObject();
-		SymmetricCipher* getDecryptionObject();
+  protected:
+    SymmetricCipher* getEncryptionObject();
+    SymmetricCipher* getDecryptionObject();
 };
 #endif
 
 #if ENABLED_SEAL_BIG_ENDIAN_CIPHER
 class JSEAL_BE : public JStream_Template<SEAL_Info<BigEndian>, SEAL_BIG_ENDIAN_CIPHER>
 {
-	protected:
-		SymmetricCipher* getEncryptionObject();
-		SymmetricCipher* getDecryptionObject();
+  protected:
+    SymmetricCipher* getEncryptionObject();
+    SymmetricCipher* getDecryptionObject();
 };
 #endif
 

@@ -14,61 +14,61 @@
 template <typename INFO, typename BASE>
 class JBasicCipherInfo : public BASE
 {
-	public:
-		unsigned int getValidKeylength(const unsigned int length) const;
-		unsigned int getDefaultKeylength() const;
-		unsigned int getMaxKeylength() const;
-		unsigned int getMinKeylength() const;
-		unsigned int getMultKeylength() const;
-		string getCipherName() const;
-		static string getStaticCipherName();
+  public:
+    unsigned int getValidKeylength(const unsigned int length) const;
+    unsigned int getDefaultKeylength() const;
+    unsigned int getMaxKeylength() const;
+    unsigned int getMinKeylength() const;
+    unsigned int getMultKeylength() const;
+    string getCipherName() const;
+    static string getStaticCipherName();
 };
 
 template <typename INFO, typename BASE>
 unsigned int JBasicCipherInfo<INFO, BASE>::getValidKeylength(const unsigned int keylength) const
 {
-	return INFO::StaticGetValidKeyLength(keylength);
+  return INFO::StaticGetValidKeyLength(keylength);
 }
 
 template <typename INFO, typename BASE>
 unsigned int JBasicCipherInfo<INFO, BASE>::getDefaultKeylength() const
 {
-	return INFO::DEFAULT_KEYLENGTH;
+  return INFO::DEFAULT_KEYLENGTH;
 }
 
 template <typename INFO, typename BASE>
 unsigned int JBasicCipherInfo<INFO, BASE>::getMaxKeylength() const
 {
-	return INFO::MAX_KEYLENGTH;
+  return INFO::MAX_KEYLENGTH;
 }
 
 template <typename INFO, typename BASE>
 unsigned int JBasicCipherInfo<INFO, BASE>::getMinKeylength() const
 {
-	return INFO::MIN_KEYLENGTH;
+  return INFO::MIN_KEYLENGTH;
 }
 
 template <typename INFO, typename BASE>
 unsigned int JBasicCipherInfo<INFO, BASE>::getMultKeylength() const
 {
-	if (INFO::MIN_KEYLENGTH == INFO::MAX_KEYLENGTH) {
-		return 0;
-	}
-	else {
-		return INFO::StaticGetValidKeyLength(INFO::MIN_KEYLENGTH + 1) - INFO::MIN_KEYLENGTH;
-	}
+  if (INFO::MIN_KEYLENGTH == INFO::MAX_KEYLENGTH) {
+    return 0;
+  }
+  else {
+    return INFO::StaticGetValidKeyLength(INFO::MIN_KEYLENGTH + 1) - INFO::MIN_KEYLENGTH;
+  }
 }
 
 template <typename INFO, typename BASE>
 string JBasicCipherInfo<INFO, BASE>::getCipherName() const
 {
-	return INFO::StaticAlgorithmName();
+  return INFO::StaticAlgorithmName();
 }
 
 template <typename INFO, typename BASE>
 string JBasicCipherInfo<INFO, BASE>::getStaticCipherName()
 {
-	return INFO::StaticAlgorithmName();
+  return INFO::StaticAlgorithmName();
 }
 
 #endif

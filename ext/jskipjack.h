@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JSKIPJACK : public JCipher_Template<SKIPJACK_Info, SKIPJACK_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

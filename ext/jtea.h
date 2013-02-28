@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JTEA : public JCipher_Template<TEA_Info, TEA_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

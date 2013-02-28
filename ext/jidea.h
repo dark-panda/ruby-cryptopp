@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JIDEA : public JCipher_Template<IDEA_Info, IDEA_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

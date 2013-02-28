@@ -9,36 +9,36 @@
 
 unsigned int JHMAC::getKeylength() const
 {
-	return itsKeylength;
+  return itsKeylength;
 }
 
 string JHMAC::getKey(const bool hex) const
 {
-	if (hex) {
-		return bin2hex(itsKey);
-	}
-	else {
-		return itsKey;
-	}
+  if (hex) {
+    return bin2hex(itsKey);
+  }
+  else {
+    return itsKey;
+  }
 }
 
 unsigned int JHMAC::setKeylength(const unsigned int keylength)
 {
-	itsKeylength = checkBounds(keylength, 0, UINT_MAX);
+  itsKeylength = checkBounds(keylength, 0, UINT_MAX);
 
-	return itsKeylength;
+  return itsKeylength;
 }
 
 unsigned int JHMAC::setKey(const string key, const bool hex)
 {
-	if (hex) {
-		itsKey = hex2bin(key);
-	}
-	else {
-		itsKey = key;
-	}
+  if (hex) {
+    itsKey = hex2bin(key);
+  }
+  else {
+    itsKey = key;
+  }
 
-	itsKey.resize(setKeylength(itsKey.length()));
+  itsKey.resize(setKeylength(itsKey.length()));
 
-	return itsKeylength;
+  return itsKeylength;
 }

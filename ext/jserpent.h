@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JSerpent : public JCipher_Template<Serpent_Info, SERPENT_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

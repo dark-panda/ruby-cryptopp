@@ -11,12 +11,12 @@
 
 BlockCipher* JSKIPJACK::getEncryptionObject()
 {
-	return new SKIPJACKEncryption((byte*) itsKey.data(), itsKeylength);
+  return new SKIPJACKEncryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JSKIPJACK::getDecryptionObject()
 {
-	return new SKIPJACKDecryption((byte*) itsKey.data(), itsKeylength);
+  return new SKIPJACKDecryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

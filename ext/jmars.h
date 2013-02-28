@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JMARS : public JCipher_Template<MARS_Info, MARS_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

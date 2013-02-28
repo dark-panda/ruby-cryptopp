@@ -22,10 +22,10 @@ using namespace CryptoPP;
 
 class JCRC32 : public JHash_Template<CRC32, CRC32_CHECKSUM>
 {
-	public:
-		JCRC32(string plaintext = "") : JHash_Template<CRC32, CRC32_CHECKSUM>(plaintext) { }
+  public:
+    JCRC32(string plaintext = "") : JHash_Template<CRC32, CRC32_CHECKSUM>(plaintext) { }
 
-		static string getHashName() { return "CRC32"; }
+    static string getHashName() { return "CRC32"; }
 };
 
 #endif

@@ -23,9 +23,9 @@ using namespace CryptoPP;
 
 class JCamellia : public JCipher_Template<Camellia_Info, CAMELLIA_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

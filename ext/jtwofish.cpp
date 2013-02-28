@@ -11,12 +11,12 @@
 
 BlockCipher* JTwofish::getEncryptionObject()
 {
-	return new TwofishEncryption((byte*) itsKey.data(), itsKeylength);
+  return new TwofishEncryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JTwofish::getDecryptionObject()
 {
-	return new TwofishDecryption((byte*) itsKey.data(), itsKeylength);
+  return new TwofishDecryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

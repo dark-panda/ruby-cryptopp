@@ -30,20 +30,20 @@ using namespace CryptoPP;
 #if ENABLED_TIGER_HASH
 class JTiger : public JHash_Template<Tiger, TIGER_HASH>
 {
-	public:
-		JTiger(string plaintext = "") : JHash_Template<Tiger, TIGER_HASH>(plaintext) { }
+  public:
+    JTiger(string plaintext = "") : JHash_Template<Tiger, TIGER_HASH>(plaintext) { }
 
-		static string getHashName() { return "Tiger"; }
+    static string getHashName() { return "Tiger"; }
 };
 #endif
 
 #if ENABLED_TIGER_HMAC
 class JTiger_HMAC : public JHMAC_Template<Tiger, TIGER_HMAC>
 {
-	public:
-		JTiger_HMAC(string plaintext = "") : JHMAC_Template<Tiger, TIGER_HMAC>(plaintext) { }
+  public:
+    JTiger_HMAC(string plaintext = "") : JHMAC_Template<Tiger, TIGER_HMAC>(plaintext) { }
 
-		static string getHashName() { return "Tiger HMAC"; }
+    static string getHashName() { return "Tiger HMAC"; }
 };
 #endif
 

@@ -12,12 +12,12 @@
 
 BlockCipher* JCamellia::getEncryptionObject()
 {
-	return new CamelliaEncryption((byte*) itsKey.data(), itsKeylength);
+  return new CamelliaEncryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JCamellia::getDecryptionObject()
 {
-	return new CamelliaDecryption((byte*) itsKey.data(), itsKeylength);
+  return new CamelliaDecryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

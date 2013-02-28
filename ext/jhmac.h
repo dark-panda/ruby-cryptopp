@@ -14,21 +14,21 @@ using namespace CryptoPP;
 
 class JHMAC : public JHash
 {
-	public:
-		JHMAC(string plaintext = "") : JHash(plaintext)
-		{
-			itsKeylength = 16;
-		}
+  public:
+    JHMAC(string plaintext = "") : JHash(plaintext)
+    {
+      itsKeylength = 16;
+    }
 
-		unsigned int getKeylength() const;
-		string getKey(const bool hex = false) const;
+    unsigned int getKeylength() const;
+    string getKey(const bool hex = false) const;
 
-		unsigned int setKeylength(const unsigned int keylength);
-		unsigned int setKey(const string key, const bool hex = false);
+    unsigned int setKeylength(const unsigned int keylength);
+    unsigned int setKey(const string key, const bool hex = false);
 
-	protected:
-		string itsKey;
-		unsigned int itsKeylength;
+  protected:
+    string itsKey;
+    unsigned int itsKeylength;
 };
 
 #endif

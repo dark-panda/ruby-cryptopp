@@ -12,12 +12,12 @@
 
 BlockCipher* JSHARK::getEncryptionObject()
 {
-	return new SHARKEncryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new SHARKEncryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 
 BlockCipher* JSHARK::getDecryptionObject()
 {
-	return new SHARKDecryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new SHARKDecryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 
 #endif

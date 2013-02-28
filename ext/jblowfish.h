@@ -20,9 +20,9 @@
 
 class JBlowfish : public JCipher_Template<Blowfish_Info, BLOWFISH_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

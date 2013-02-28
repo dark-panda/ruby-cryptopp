@@ -11,12 +11,12 @@
 
 BlockCipher* JRC6::getEncryptionObject()
 {
-	return new RC6Encryption((byte*) itsKey.data(), itsKeylength);
+  return new RC6Encryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JRC6::getDecryptionObject()
 {
-	return new RC6Decryption((byte*) itsKey.data(), itsKeylength);
+  return new RC6Decryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

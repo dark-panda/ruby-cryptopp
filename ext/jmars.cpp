@@ -11,12 +11,12 @@
 
 BlockCipher* JMARS::getEncryptionObject()
 {
-	return new MARSEncryption((byte*) itsKey.data(), itsKeylength);
+  return new MARSEncryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JMARS::getDecryptionObject()
 {
-	return new MARSDecryption((byte*) itsKey.data(), itsKeylength);
+  return new MARSDecryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

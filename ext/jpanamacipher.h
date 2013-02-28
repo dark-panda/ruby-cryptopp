@@ -23,9 +23,9 @@ using namespace CryptoPP;
 #if ENABLED_PANAMA_LITTLE_ENDIAN_CIPHER
 class JPanamaCipherLE : public JStream_Template<PanamaCipherInfo<LittleEndian>, PANAMA_LITTLE_ENDIAN_CIPHER>
 {
-	protected:
-		SymmetricCipher* getEncryptionObject();
-		SymmetricCipher* getDecryptionObject();
+  protected:
+    SymmetricCipher* getEncryptionObject();
+    SymmetricCipher* getDecryptionObject();
 };
 
 typedef JPanamaCipherLE JPanamaLittleEndianCipher;
@@ -34,9 +34,9 @@ typedef JPanamaCipherLE JPanamaLittleEndianCipher;
 #if ENABLED_PANAMA_BIG_ENDIAN_CIPHER
 class JPanamaCipherBE : public JStream_Template<PanamaCipherInfo<BigEndian>, PANAMA_BIG_ENDIAN_CIPHER>
 {
-	 protected:
-		SymmetricCipher* getEncryptionObject();
-		SymmetricCipher* getDecryptionObject();
+   protected:
+    SymmetricCipher* getEncryptionObject();
+    SymmetricCipher* getDecryptionObject();
 };
 
 typedef JPanamaCipherBE JPanamaBigEndianCipher;

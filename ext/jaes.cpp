@@ -11,12 +11,12 @@
 
 BlockCipher* JAES::getEncryptionObject()
 {
-	return new AESEncryption((byte*) itsKey.data(), itsKeylength);
+  return new AESEncryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JAES::getDecryptionObject()
 {
-	return new AESDecryption((byte*) itsKey.data(), itsKeylength);
+  return new AESDecryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

@@ -26,9 +26,9 @@ using namespace CryptoPP;
 
 class JARC4 : public JStream_Template<Weak::ARC4_Base, ARC4_CIPHER>
 {
-	protected:
-		SymmetricCipher* getEncryptionObject();
-		SymmetricCipher* getDecryptionObject();
+  protected:
+    SymmetricCipher* getEncryptionObject();
+    SymmetricCipher* getDecryptionObject();
 };
 
 #undef CRYPTOPP_ENABLE_NAMESPACE_WEAK

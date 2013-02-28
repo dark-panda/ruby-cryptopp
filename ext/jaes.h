@@ -20,9 +20,9 @@
 
 class JAES : public JCipher_Template<Rijndael_Info, AES_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 typedef JAES JRijndael;

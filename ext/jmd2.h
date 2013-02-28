@@ -33,20 +33,20 @@ using namespace CryptoPP;
 #if ENABLED_MD2_HASH
 class JMD2 : public JHash_Template<Weak::MD2, MD2_HASH>
 {
-	public:
-		JMD2(string plaintext = "") : JHash_Template<Weak::MD2, MD2_HASH>(plaintext) { }
+  public:
+    JMD2(string plaintext = "") : JHash_Template<Weak::MD2, MD2_HASH>(plaintext) { }
 
-		static string getHashName() { return "MD2"; }
+    static string getHashName() { return "MD2"; }
 };
 #endif
 
 #if ENABLED_MD5_HMAC
 class JMD2_HMAC : public JHMAC_Template<Weak::MD2, MD2_HMAC>
 {
-	public:
-		JMD2_HMAC(string plaintext = "") : JHMAC_Template<Weak::MD2, MD2_HMAC>(plaintext) { }
+  public:
+    JMD2_HMAC(string plaintext = "") : JHMAC_Template<Weak::MD2, MD2_HMAC>(plaintext) { }
 
-		static string getHashName() { return "MD2-HMAC"; }
+    static string getHashName() { return "MD2-HMAC"; }
 };
 #endif
 

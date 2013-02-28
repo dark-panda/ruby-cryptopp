@@ -11,12 +11,12 @@
 
 BlockCipher* JSHACAL2::getEncryptionObject()
 {
-	return new SHACAL2Encryption((byte*) itsKey.data(), itsKeylength);
+  return new SHACAL2Encryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JSHACAL2::getDecryptionObject()
 {
-	return new SHACAL2Decryption((byte*) itsKey.data(), itsKeylength);
+  return new SHACAL2Decryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

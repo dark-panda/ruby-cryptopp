@@ -33,20 +33,20 @@ using namespace CryptoPP;
 #if ENABLED_MD5_HASH
 class JMD5 : public JHash_Template<Weak::MD5, MD5_HASH>
 {
-	public:
-		JMD5(string plaintext = "") : JHash_Template<Weak::MD5, MD5_HASH>(plaintext) { }
+  public:
+    JMD5(string plaintext = "") : JHash_Template<Weak::MD5, MD5_HASH>(plaintext) { }
 
-		static string getHashName() { return "MD5"; }
+    static string getHashName() { return "MD5"; }
 };
 #endif
 
 #if ENABLED_MD5_HMAC
 class JMD5_HMAC : public JHMAC_Template<Weak::MD5, MD5_HMAC>
 {
-	public:
-		JMD5_HMAC(string plaintext = "") : JHMAC_Template<Weak::MD5, MD5_HMAC>(plaintext) { }
+  public:
+    JMD5_HMAC(string plaintext = "") : JHMAC_Template<Weak::MD5, MD5_HMAC>(plaintext) { }
 
-		static string getHashName() { return "MD5-HMAC"; }
+    static string getHashName() { return "MD5-HMAC"; }
 };
 #endif
 

@@ -11,12 +11,12 @@
 
 BlockCipher* JDES_XEX3::getEncryptionObject()
 {
-	return new DES_XEX3_Encryption((byte*) itsKey.data(), itsKeylength);
+  return new DES_XEX3_Encryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JDES_XEX3::getDecryptionObject()
 {
-	return new DES_XEX3_Decryption((byte*) itsKey.data(), itsKeylength);
+  return new DES_XEX3_Decryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

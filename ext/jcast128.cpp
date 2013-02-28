@@ -11,12 +11,12 @@
 
 BlockCipher* JCAST128::getEncryptionObject()
 {
-	return new CAST128Encryption((byte*) itsKey.data(), itsKeylength);
+  return new CAST128Encryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JCAST128::getDecryptionObject()
 {
-	return new CAST128Decryption((byte*) itsKey.data(), itsKeylength);
+  return new CAST128Decryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JSHACAL2 : public JCipher_Template<SHACAL2_Info, SHACAL2_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

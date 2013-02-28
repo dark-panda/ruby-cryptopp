@@ -30,20 +30,20 @@ using namespace CryptoPP;
 #if ENABLED_WHIRLPOOL_HASH
 class JWhirlpool : public JHash_Template<Whirlpool, WHIRLPOOL_HASH>
 {
-	public:
-		JWhirlpool(string plaintext = "") : JHash_Template<Whirlpool, WHIRLPOOL_HASH>(plaintext) { }
+  public:
+    JWhirlpool(string plaintext = "") : JHash_Template<Whirlpool, WHIRLPOOL_HASH>(plaintext) { }
 
-		static string getHashName() { return "Whirlpool"; }
+    static string getHashName() { return "Whirlpool"; }
 };
 #endif
 
 #if ENABLED_WHIRLPOOL_HMAC
 class JWhirlpool_HMAC : public JHMAC_Template<Whirlpool, WHIRLPOOL_HMAC>
 {
-	public:
-		JWhirlpool_HMAC(string plaintext = "") : JHMAC_Template<Whirlpool, WHIRLPOOL_HMAC>(plaintext) { }
+  public:
+    JWhirlpool_HMAC(string plaintext = "") : JHMAC_Template<Whirlpool, WHIRLPOOL_HMAC>(plaintext) { }
 
-		static string getHashName() { return "Whirlpool-HMAC"; }
+    static string getHashName() { return "Whirlpool-HMAC"; }
 };
 #endif
 

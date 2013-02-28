@@ -11,12 +11,12 @@
 
 BlockCipher* JDES_EDE2::getEncryptionObject()
 {
-	return new DES_EDE2_Encryption((byte*) itsKey.data(), itsKeylength);
+  return new DES_EDE2_Encryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JDES_EDE2::getDecryptionObject()
 {
-	return new DES_EDE2_Decryption((byte*) itsKey.data(), itsKeylength);
+  return new DES_EDE2_Decryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

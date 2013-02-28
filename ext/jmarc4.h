@@ -26,9 +26,9 @@ using namespace CryptoPP;
 
 class JMARC4 : public JStream_Template<Weak::MARC4_Base, MARC4_CIPHER>
 {
-	protected:
-		SymmetricCipher* getEncryptionObject();
-		SymmetricCipher* getDecryptionObject();
+  protected:
+    SymmetricCipher* getEncryptionObject();
+    SymmetricCipher* getDecryptionObject();
 };
 
 #undef CRYPTOPP_ENABLE_NAMESPACE_WEAK

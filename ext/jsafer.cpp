@@ -10,23 +10,23 @@
 #if ENABLED_SAFER_K_CIPHER
 BlockCipher* JSAFER_K::getEncryptionObject()
 {
-	return new SAFER_K_Encryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new SAFER_K_Encryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 
 BlockCipher* JSAFER_K::getDecryptionObject()
 {
-	return new SAFER_K_Decryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new SAFER_K_Decryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 #endif
 
 #if ENABLED_SAFER_SK_CIPHER
 BlockCipher* JSAFER_SK::getEncryptionObject()
 {
-	return new SAFER_SK_Encryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new SAFER_SK_Encryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 
 BlockCipher* JSAFER_SK::getDecryptionObject()
 {
-	return new SAFER_SK_Decryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new SAFER_SK_Decryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 #endif

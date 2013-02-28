@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JRC5 : public JCipher_Template<RC5_Info, RC5_CIPHER, 16, 1, INT_MAX>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

@@ -11,12 +11,12 @@
 
 BlockCipher* JTEA::getEncryptionObject()
 {
-	return new TEAEncryption((byte*) itsKey.data(), itsKeylength);
+  return new TEAEncryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JTEA::getDecryptionObject()
 {
-	return new TEADecryption((byte*) itsKey.data(), itsKeylength);
+  return new TEADecryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

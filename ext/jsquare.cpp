@@ -11,12 +11,12 @@
 
 BlockCipher* JSquare::getEncryptionObject()
 {
-	return new SquareEncryption((byte*) itsKey.data(), itsKeylength);
+  return new SquareEncryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JSquare::getDecryptionObject()
 {
-	return new SquareDecryption((byte*) itsKey.data(), itsKeylength);
+  return new SquareDecryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

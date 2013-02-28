@@ -7,10 +7,10 @@ CLOBBER.include 'cryptopp.so'
 task :default => ['cryptopp.so']
 
 file 'cryptopp.so' => [ 'Makefile' ] do
-	sh 'make'
+  sh 'make'
 end
 
 file 'Makefile' do
-	ruby 'extconf.rb'
+  ruby 'extconf.rb'
 end
 

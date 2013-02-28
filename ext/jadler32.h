@@ -22,10 +22,10 @@ using namespace CryptoPP;
 
 class JAdler32 : public JHash_Template<Adler32, ADLER32_CHECKSUM>
 {
-	public:
-		JAdler32(string plaintext = "") : JHash_Template<Adler32, ADLER32_CHECKSUM>(plaintext) { }
+  public:
+    JAdler32(string plaintext = "") : JHash_Template<Adler32, ADLER32_CHECKSUM>(plaintext) { }
 
-		static string getHashName() { return "Adler32"; }
+    static string getHashName() { return "Adler32"; }
 };
 
 #endif

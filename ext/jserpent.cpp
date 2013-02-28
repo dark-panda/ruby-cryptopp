@@ -11,12 +11,12 @@
 
 BlockCipher* JSerpent::getEncryptionObject()
 {
-	return new SerpentEncryption((byte*) itsKey.data(), itsKeylength);
+  return new SerpentEncryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JSerpent::getDecryptionObject()
 {
-	return new SerpentDecryption((byte*) itsKey.data(), itsKeylength);
+  return new SerpentDecryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

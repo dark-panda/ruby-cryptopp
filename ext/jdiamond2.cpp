@@ -11,12 +11,12 @@
 
 BlockCipher* JDiamond2::getEncryptionObject()
 {
-	return new Diamond2Encryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new Diamond2Encryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 
 BlockCipher* JDiamond2::getDecryptionObject()
 {
-	return new Diamond2Decryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new Diamond2Decryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 
 #endif

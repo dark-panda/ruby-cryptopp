@@ -11,12 +11,12 @@
 
 BlockCipher* JGOST::getEncryptionObject()
 {
-	return new GOSTEncryption((byte*) itsKey.data(), itsKeylength);
+  return new GOSTEncryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JGOST::getDecryptionObject()
 {
-	return new GOSTDecryption((byte*) itsKey.data(), itsKeylength);
+  return new GOSTDecryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

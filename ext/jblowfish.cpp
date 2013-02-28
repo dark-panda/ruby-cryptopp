@@ -11,12 +11,12 @@
 
 BlockCipher* JBlowfish::getEncryptionObject()
 {
-	return new BlowfishEncryption((byte*) itsKey.data(), itsKeylength);
+  return new BlowfishEncryption((byte*) itsKey.data(), itsKeylength);
 }
 
 BlockCipher* JBlowfish::getDecryptionObject()
 {
-	return new BlowfishDecryption((byte*) itsKey.data(), itsKeylength);
+  return new BlowfishDecryption((byte*) itsKey.data(), itsKeylength);
 }
 
 #endif

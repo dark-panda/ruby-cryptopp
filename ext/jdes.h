@@ -22,9 +22,9 @@ using namespace CryptoPP;
 
 class JDES : public JCipher_Template<DES_Info, DES_CIPHER>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif

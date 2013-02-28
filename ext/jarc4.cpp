@@ -11,12 +11,12 @@
 
 SymmetricCipher* JARC4::getEncryptionObject()
 {
-	return new Weak::ARC4((byte*) itsKey.data(), itsKeylength);
+  return new Weak::ARC4((byte*) itsKey.data(), itsKeylength);
 }
 
 SymmetricCipher* JARC4::getDecryptionObject()
 {
-	return getEncryptionObject();
+  return getEncryptionObject();
 }
 
 #endif

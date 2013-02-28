@@ -11,12 +11,12 @@
 
 BlockCipher* J3Way::getEncryptionObject()
 {
-	return new ThreeWayEncryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new ThreeWayEncryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 
 BlockCipher* J3Way::getDecryptionObject()
 {
-	return new ThreeWayDecryption((byte*) itsKey.data(), itsKeylength, itsRounds);
+  return new ThreeWayDecryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 
 #endif

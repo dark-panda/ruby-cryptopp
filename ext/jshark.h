@@ -23,9 +23,9 @@ using namespace CryptoPP;
 
 class JSHARK : public JCipher_Template<SHARK_Info, SHARK_CIPHER, 6, 2, INT_MAX>
 {
-	protected:
-		BlockCipher* getEncryptionObject();
-		BlockCipher* getDecryptionObject();
+  protected:
+    BlockCipher* getEncryptionObject();
+    BlockCipher* getDecryptionObject();
 };
 
 #endif
