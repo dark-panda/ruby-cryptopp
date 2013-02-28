@@ -1,5 +1,6 @@
 ext/*.bundle
 ext/*.o
+ext/extconf.h
 doc
 *.kpf
 *~
