@@ -8,16 +8,7 @@
 #ifndef __JCONFIG_H__
 #define __JCONFIG_H__
 
-// to enable or disable specific cipher algorithms,
-// set these to either 1 or 0 -- 1 for enabled, 0 for
-// disabled, obviously.
-//
-// if we have config.h, rely on that, otherwise, below
-// are the defaults...
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#else
+#include "cryptlib.h"
 
 #define ENABLED_THREEWAY_CIPHER                       1
 #define ENABLED_AES_CIPHER                            1
@@ -71,6 +62,19 @@
 #define ENABLED_SHA256_HASH                           1
 #define ENABLED_SHA384_HASH                           1
 #define ENABLED_SHA512_HASH                           1
+#if CRYPTOPP_VERSION >= 562
+#define ENABLED_SHA3_HASH                             1
+#define ENABLED_SHA3_224_HASH                         1
+#define ENABLED_SHA3_256_HASH                         1
+#define ENABLED_SHA3_384_HASH                         1
+#define ENABLED_SHA3_512_HASH                         1
+#else
+#define ENABLED_SHA3_HASH                             0
+#define ENABLED_SHA3_224_HASH                         0
+#define ENABLED_SHA3_256_HASH                         0
+#define ENABLED_SHA3_384_HASH                         0
+#define ENABLED_SHA3_512_HASH                         0
+#endif
 #define ENABLED_TIGER_HASH                            1
 #define ENABLED_WHIRLPOOL_HASH                        1
 
@@ -85,6 +89,18 @@
 #define ENABLED_SHA256_HMAC                           1
 #define ENABLED_SHA384_HMAC                           1
 #define ENABLED_SHA512_HMAC                           1
+#if CRYPTOPP_VERSION >= 562
+#define ENABLED_SHA3_224_HMAC                         1
+#define ENABLED_SHA3_256_HMAC                         1
+#define ENABLED_SHA3_384_HMAC                         1
+#define ENABLED_SHA3_512_HMAC                         1
+#else
+#warning CRYPTOPP_VERSION
+#define ENABLED_SHA3_224_HMAC                         0
+#define ENABLED_SHA3_256_HMAC                         0
+#define ENABLED_SHA3_384_HMAC                         0
+#define ENABLED_SHA3_512_HMAC                         0
+#endif
 #define ENABLED_TIGER_HMAC                            1
 #define ENABLED_WHIRLPOOL_HMAC                        1
 

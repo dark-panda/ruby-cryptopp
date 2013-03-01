@@ -16,6 +16,7 @@
 #include "jpanamahash.h"
 #include "jripemd160.h"
 #include "jsha.h"
+#include "jsha3.h"
 #include "jtiger.h"
 #include "jwhirlpool.h"
 
@@ -101,6 +102,10 @@ static bool digest_is_hmac(HashEnum hash)
     case RIPEMD256_HMAC:
     case RIPEMD320_HMAC:
     case WHIRLPOOL_HMAC:
+    case SHA3_224_HMAC:
+    case SHA3_256_HMAC:
+    case SHA3_384_HMAC:
+    case SHA3_512_HMAC:
       return true;
     default:
       return false;

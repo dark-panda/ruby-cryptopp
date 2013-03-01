@@ -1,0 +1,23 @@
+---
+- :algorithm: :sha3_224
+  :plaintext: ''
+  :digest_hex: f71837502ba8e10837bdd8d365adb85591895602fc552b48b7390abd
+- :algorithm: :sha3_224
+  :plaintext: The quick brown fox jumps over the lazy dog
+  :digest_hex: 310aee6b30c47350576ac2873fa89fd190cdc488442f3ef654cf23fe
+- :algorithm: :sha3_224
+  :plaintext: The quick brown fox jumps over the lazy dog.
+  :digest_hex: c59d4eaeac728671c635ff645014e2afa935bebffdb5fbd207ffdeab
+- :algorithm: :sha3_224
+  :plaintext: abc
+  :digest_hex: c30411768506ebe1c2871b1ee2e87d38df342317300a9b97a95ec6a8
+- :algorithm: :sha3_224
+  :plaintext: abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq
+  :digest_hex: e51faa2b4655150b931ee8d700dc202f763ca5f962c529eae55012b6
+- :algorithm: :sha3_224
+  :plaintext: abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu
+  :digest_hex: 344298994b1b06873eae2ce739c425c47291a2e24189e01b524f88dc
+- :algorithm: :sha3_224
+  :plaintext: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  :plaintext_repeat: 15625
+  :digest_hex: 19f9167be2a04c43abd0ed554788101b9c339031acc8e1468531303f
