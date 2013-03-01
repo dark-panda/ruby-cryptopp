@@ -154,12 +154,6 @@ enum HashEnum {
 // this is to figure out if we're dealing
 // with a HMAC or a regular hash...
 
-#define IS_HMAC(x) \
-  (((x > TIGER_HASH && x < RIPEMD128_HASH) || x >= RIPEMD128_HMAC))
-#define IS_NON_HMAC(x) \
-  ((x <= TIGER_HASH || (x >= RIPEMD128_HASH && x <= WHIRLPOOL_HASH)))
-
-
 // random number generators...
 
 enum RNGEnum {

@@ -29,6 +29,8 @@ extern void hash_free(JHash *c);
 // forward declarations
 
 static HashEnum digest_sym_to_const(VALUE hash);
+static bool digest_is_hmac(HashEnum hash);
+static bool digest_is_non_hmac(HashEnum hash);
 static bool digest_enabled(HashEnum hash);
 static void digest_options(VALUE self, VALUE options);
 static JHash* digest_factory(VALUE algorithm);
@@ -81,6 +83,33 @@ static HashEnum digest_sym_to_const(VALUE c)
     }
 #  include "defs/hmacs.def"
   return hash;
+}
+
+static bool digest_is_hmac(HashEnum hash)
+{
+  switch (hash) {
+    case MD2_HMAC:
+    case MD4_HMAC:
+    case MD5_HMAC:
+    case RIPEMD160_HMAC:
+    case SHA1_HMAC:
+    case SHA256_HMAC:
+    case SHA384_HMAC:
+    case SHA512_HMAC:
+    case TIGER_HMAC:
+    case RIPEMD128_HMAC:
+    case RIPEMD256_HMAC:
+    case RIPEMD320_HMAC:
+    case WHIRLPOOL_HMAC:
+      return true;
+    default:
+      return false;
+  }
+}
+
+static bool digest_is_non_hmac(HashEnum hash)
+{
+  return !digest_is_hmac(hash);
 }
 
 
@@ -218,7 +247,7 @@ VALUE rb_module_digest_factory(int argc, VALUE *argv, VALUE self)
   rb_scan_args(argc, argv, "11", &algorithm, &options);
   {
     HashEnum a = digest_sym_to_const(algorithm);
-    if (!IS_NON_HMAC(a)) {
+    if (!digest_is_non_hmac(a)) {
       rb_raise(rb_eCryptoPP_Error, "invalid digest algorithm");
     }
     else {
@@ -551,7 +580,7 @@ static string module_digest(int argc, VALUE *argv, VALUE self, bool hex)
     rb_raise(rb_eArgError, "wrong number of arguments (%d for 2)", argc);
   }
 
-  if (IS_HMAC(digest_sym_to_const(argv[0]))) {
+  if (digest_is_hmac(digest_sym_to_const(argv[0]))) {
     rb_scan_args(argc, argv, "21", &algorithm, &plaintext, &key);
     Check_Type(plaintext, T_STRING);
     Check_Type(key, T_STRING);
@@ -565,7 +594,7 @@ static string module_digest(int argc, VALUE *argv, VALUE self, bool hex)
     string retval;
     hash = digest_factory(algorithm);
     hash->setPlaintext(string(StringValuePtr(plaintext), RSTRING_LEN(plaintext)));
-    if (IS_HMAC(digest_sym_to_const(algorithm))) {
+    if (digest_is_hmac(digest_sym_to_const(algorithm))) {
       ((JHMAC*) hash)->setKey(string(StringValuePtr(key), RSTRING_LEN(key)));
     }
     hash->hash();
@@ -862,7 +891,7 @@ VALUE rb_module_hmac_factory(int argc, VALUE *argv, VALUE self)
     VALUE algorithm = argv[0];
     VALUE retval;
 
-    if (!IS_HMAC(digest_sym_to_const(algorithm))) {
+    if (!digest_is_hmac(digest_sym_to_const(algorithm))) {
       rb_raise(rb_eCryptoPP_Error, "invalid HMAC algorithm");
     }
     else {
