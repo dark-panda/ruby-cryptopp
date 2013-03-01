@@ -7,7 +7,6 @@
 
 #include "jshark.h"
 
-#ifdef WORD64_AVAILABLE
 #if ENABLED_SHARK_CIPHER
 
 BlockCipher* JSHARK::getEncryptionObject()
@@ -20,5 +19,4 @@ BlockCipher* JSHARK::getDecryptionObject()
   return new SHARKDecryption((byte*) itsKey.data(), itsKeylength, itsRounds);
 }
 
-#endif
 #endif

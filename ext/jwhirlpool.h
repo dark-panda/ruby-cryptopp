@@ -10,7 +10,6 @@
 
 #include "jconfig.h"
 
-#ifdef WORD64_AVAILABLE
 #if ENABLED_WHIRLPOOL_HASH || ENABLED_WHIRLPOOL_HMAC
 
 #if ENABLED_WHIRLPOOL_HASH
@@ -47,6 +46,5 @@ class JWhirlpool_HMAC : public JHMAC_Template<Whirlpool, WHIRLPOOL_HMAC>
 };
 #endif
 
-#endif
 #endif
 #endif

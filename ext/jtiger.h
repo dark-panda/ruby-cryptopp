@@ -10,7 +10,6 @@
 
 #include "jconfig.h"
 
-#ifdef WORD64_AVAILABLE
 #if ENABLED_TIGER_HASH || ENABLED_TIGER_HMAC
 
 #if ENABLED_TIGER_HASH
@@ -47,6 +46,5 @@ class JTiger_HMAC : public JHMAC_Template<Tiger, TIGER_HMAC>
 };
 #endif
 
-#endif
 #endif
 #endif

@@ -92,36 +92,3 @@
 #define ENABLED_CRC32_CHECKSUM                        1
 
 #endif
-
-// just to make sure SHARK and such are disabled if we don't
-// have WORD64 or some version thereof...
-
-// test if word64 is available for SHARK, SHA-384, SHA-512 and Tiger.
-
-#if defined(__GNUC__) || defined(__MWERKS__) || defined(_MSC_VER) || defined(__BCPLUSPLUS__)
-#define WORD64_AVAILABLE
-#else
-#undef ENABLED_CAMELLIA_CIPHER
-#undef ENABLED_SHARK_CIPHER
-#undef ENABLED_SHA384_HASH
-#undef ENABLED_SHA512_HASH
-#undef ENABLED_SHA384_HMAC
-#undef ENABLED_SHA512_HMAC
-#undef ENABLED_TIGER_HASH
-#undef ENABLED_TIGER_HMAC
-#undef ENABLED_WHIRLPOOL_HASH
-#undef ENABLED_WHIRLPOOL_HMAC
-
-#define ENABLED_CAMELLIA_CIPHER  0
-#define ENABLED_SHARK_CIPHER     0
-#define ENABLED_SHA384_HASH      0
-#define ENABLED_SHA512_HASH      0
-#define ENABLED_SHA384_HMAC      0
-#define ENABLED_SHA512_HMAC      0
-#define ENABLED_TIGER_HASH       0
-#define ENABLED_TIGER_HMAC       0
-#define ENABLED_WHIRLPOOL_HASH   0
-#define ENABLED_WHIRLPOOL_HMAC   0
-#endif
-
-#endif

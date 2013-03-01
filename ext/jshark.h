@@ -10,7 +10,6 @@
 
 #include "jconfig.h"
 
-#ifdef WORD64_AVAILABLE
 #if ENABLED_SHARK_CIPHER
 
 #include "jcipher_t.h"
@@ -28,6 +27,5 @@ class JSHARK : public JCipher_Template<SHARK_Info, SHARK_CIPHER, 6, 2, INT_MAX>
     BlockCipher* getDecryptionObject();
 };
 
-#endif
 #endif
 #endif

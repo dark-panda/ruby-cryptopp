@@ -10,7 +10,6 @@
 
 #include "jconfig.h"
 
-#ifdef WORD64_AVAILABLE
 #if ENABLED_CAMELLIA_CIPHER
 
 #include "jcipher_t.h"
@@ -28,6 +27,5 @@ class JCamellia : public JCipher_Template<Camellia_Info, CAMELLIA_CIPHER>
     BlockCipher* getDecryptionObject();
 };
 
-#endif
 #endif
 #endif

@@ -7,7 +7,6 @@
 
 #include "jcamellia.h"
 
-#ifdef WORD64_AVAILABLE
 #if ENABLED_CAMELLIA_CIPHER
 
 BlockCipher* JCamellia::getEncryptionObject()
@@ -20,5 +19,4 @@ BlockCipher* JCamellia::getDecryptionObject()
   return new CamelliaDecryption((byte*) itsKey.data(), itsKeylength);
 }
 
-#endif
 #endif

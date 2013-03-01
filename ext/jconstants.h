@@ -10,13 +10,6 @@
 
 using namespace CryptoPP;
 
-// test if word64 is available for SHARK, SHA-384, SHA-512 and Tiger.
-
-#if defined(__GNUC__) || defined(__MWERKS__) || defined(_MSC_VER) || defined(__BCPLUSPLUS__)
-#define WORD64_AVAILABLE
-#endif
-
-
 // Cipher types used in JCipher and JStream...
 
 enum CipherEnum {
