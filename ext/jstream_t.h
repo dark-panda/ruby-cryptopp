@@ -25,12 +25,6 @@ class JStream_Template : public JBasicCipherInfo<INFO, JStream>
     bool encryptRubyIO(VALUE* in, VALUE* out);
     bool decryptRubyIO(VALUE* in, VALUE* out);
 
-    /* These are deprecated. They were used before using php_streams. Use them
-       if you're using this code in something other than the cryptopp PHP
-       extension...*/
-    // bool encryptFile(const string in, const string out);
-    // bool decryptFile(const string in, const string out);
-
   protected:
     virtual SymmetricCipher* getEncryptionObject() = 0;
     virtual SymmetricCipher* getDecryptionObject() = 0;
@@ -125,51 +119,5 @@ bool JStream_Template<INFO, TYPE>::decryptRubyIO(VALUE* in, VALUE* out)
 
   return true;
 }
-
-/* These are deprecated. They were used before using php_streams. Use them
-   if you're using this code in something other than the cryptopp PHP
-   extension... */
-/*template <typename INFO, enum CipherEnum TYPE>
-bool JStream_Template<INFO, TYPE>::encryptFile(const string in, const string out)
-{
-  StreamTransformation* cipher = NULL;
-
-  cipher = getEncryptionObject();
-
-  if (cipher != NULL) {
-    try {
-      FileSource(in.c_str(), true, new StreamTransformationFilter(*cipher, new FileSink(out.c_str())));
-    }
-    catch (FileStore::OpenErr e) {
-      delete cipher;
-      throw e;
-    }
-    delete cipher;
-  }
-
-  return true;
-}
-
-template <typename INFO, enum CipherEnum TYPE>
-bool JStream_Template<INFO, TYPE>::decryptFile(const string in, const string out)
-{
-  StreamTransformation* cipher = NULL;
-
-  cipher = getDecryptionObject();
-
-  if (cipher != NULL) {
-    try {
-      FileSource(in.c_str(), true, new StreamTransformationFilter(*cipher, new FileSink(out.c_str())));
-    }
-    catch (FileStore::OpenErr e) {
-      delete cipher;
-      throw e;
-    }
-    delete cipher;
-  }
-
-  return true;
-}
-*/
 
 #endif

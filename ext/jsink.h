@@ -64,8 +64,7 @@ class RubyIOStore : public Store, private FilterPutSpaceHelper
     size_t Peek(byte &outByte) const;
     size_t TransferTo2(BufferedTransformation &target, CryptoPP::lword &transferBytes, const std::string &channel = NULL_CHANNEL, bool blocking = true);
 
-    // These methods aren't actually used in the PHP extension, but we need to implement them anyway
-    // because they're abstract...
+    // These abstract methods are purposely no-ops here...
     size_t CopyRangeTo2(BufferedTransformation& target, CryptoPP::lword& begin, CryptoPP::lword end = ULONG_MAX, const std::string& channel = NULL_CHANNEL, bool blocking = true) const { return 0; }
     CryptoPP::lword MaxRetrievable() const { return 0L; }
 

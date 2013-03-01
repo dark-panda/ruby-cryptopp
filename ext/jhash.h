@@ -39,11 +39,6 @@ class JHash
 
     virtual string hashRubyIO(VALUE* in, bool hex = true) = 0;
 
-    /* This is deprecated. It was used before using php_streams. Use it
-       if you're using this code in something other than the cryptopp PHP
-       extension... */
-    //virtual string hashFile(const string filename, bool hex = true) = 0;
-
   protected:
     HashTransformation* itsHashModule;
 

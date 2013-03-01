@@ -61,12 +61,6 @@ class JBase
     virtual bool encryptRubyIO(VALUE* in, VALUE* out) = 0;
     virtual bool decryptRubyIO(VALUE* in, VALUE* out) = 0;
 
-    /* These are deprecated. They were used before using php_streams. Use them
-       if you're using this code in something other than the cryptopp PHP
-       extension... */
-//     virtual bool encryptFile(const string in, const string out) = 0;
-//     virtual bool decryptFile(const string in, const string out) = 0;
-
   protected:
     string itsPlaintext;
     string itsCiphertext;

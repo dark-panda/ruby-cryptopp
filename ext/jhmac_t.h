@@ -26,11 +26,6 @@ class JHMAC_Template : public JHMAC
     bool validate();
     bool validate(string plaintext, string hashtext);
     string hashRubyIO(VALUE* in, bool hex = true);
-
-    /* This is deprecated. It was used before using php_streams. Use it
-       if you're using this code in something other than the cryptopp PHP
-       extension...*/
-    //string hashFile(const string filename, bool hex = true);
 };
 
 template <typename HASH, enum HashEnum TYPE>
@@ -94,32 +89,5 @@ string JHMAC_Template<HASH, TYPE>::hashRubyIO(VALUE* in, bool hex)
   }
   return retval;
 }
-
-
-/* This is deprecated. It was used before using php_streams. Use it
-   if you're using this code in something other than the cryptopp PHP
-   extension... */
-/*template <typename HASH, enum HashEnum TYPE>
-string JHMAC_Template<HASH, TYPE>::hashFile(const string filename, bool hex)
-{
-  if (itsHashModule == NULL) {
-    throw;
-  }
-
-  ((HMAC<HASH>*) itsHashModule)->SetKey((byte*) itsKey.data(), itsKeylength);
-  string retval;
-  try {
-    if (hex) {
-      FileSource f(filename.c_str(), true, new HashFilter(*itsHashModule, new HexEncoder(new StringSink(retval), false)));
-    }
-    else {
-      FileSource f(filename.c_str(), true, new HashFilter(*itsHashModule, new StringSink(retval)));
-    }
-  }
-  catch (FileStore::OpenErr e) {
-    throw e;
-  }
-  return retval;
-}*/
 
 #endif
