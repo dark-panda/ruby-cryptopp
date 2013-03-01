@@ -8,4 +8,5 @@ doc
 *tmp*
 pkg/
 Gemfile.lock
+Gemfile.local
 *.orig
