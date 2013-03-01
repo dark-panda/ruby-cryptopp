@@ -9,7 +9,12 @@ RbConfig::CONFIG['CPP'] = 'g++ -E'
 # object
 # $libs = append_library($libs, "supc++") # doesn't work
 if RbConfig::CONFIG["arch"] =~ /-darwin\d/
-  $warnflags << ' -Wno-shorten-64-to-32' if $warnflags
+  if $warnflags
+    $warnflags << ' -Wno-shorten-64-to-32'
+    $warnflags.gsub!('-Wdeclaration-after-statement', '')
+    $warnflags.gsub!('-Wimplicit-function-declaration', '')
+  end
+
   RbConfig::CONFIG['LDSHARED'] = "g++ -dynamic -bundle -undefined suppress -flat_namespace"
 else
   RbConfig::CONFIG['LDSHARED'] = "g++ -shared"
