@@ -1,0 +1,13 @@
+---
+- :algorithm: :cast128
+  :key_hex: 0123456712345678234567893456789a
+  :plaintext_hex: 0123456789abcdef
+  :ciphertext_hex: 238b4fe5847e44b2
+- :algorithm: :cast128
+  :key_hex: 01234567123456782345
+  :plaintext_hex: 0123456789abcdef
+  :ciphertext_hex: eb6a711a2c02271b
+- :algorithm: :cast128
+  :key_hex: '0123456712'
+  :plaintext_hex: 0123456789abcdef
+  :ciphertext_hex: 7ac816d16e9b302e

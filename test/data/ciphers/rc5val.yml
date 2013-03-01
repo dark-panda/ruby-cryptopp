@@ -1,0 +1,26 @@
+---
+- :algorithm: :rc5
+  :key_hex: '00000000000000000000000000000000'
+  :plaintext_hex: '0000000000000000'
+  :ciphertext_hex: 21a5dbee154b8f6d
+  :rounds: '12'
+- :algorithm: :rc5
+  :key_hex: 915f4619be41b2516355a50110a9ce91
+  :plaintext_hex: 21a5dbee154b8f6d
+  :ciphertext_hex: f7c013ac5b2b8952
+  :rounds: '12'
+- :algorithm: :rc5
+  :key_hex: 783348e75aeb0f2fd7b169bb8dc16787
+  :plaintext_hex: f7c013ac5b2b8952
+  :ciphertext_hex: 2f42b3b70369fc92
+  :rounds: '12'
+- :algorithm: :rc5
+  :key_hex: dc49db1375a5584f6485b413b5f12baf
+  :plaintext_hex: 2f42b3b70369fc92
+  :ciphertext_hex: 65c178b284d197cc
+  :rounds: '12'
+- :algorithm: :rc5
+  :key_hex: 5269f149d41ba0152497574d7f153125
+  :plaintext_hex: 65c178b284d197cc
+  :ciphertext_hex: eb44e415da319824
+  :rounds: '12'

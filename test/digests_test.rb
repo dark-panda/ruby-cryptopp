@@ -3,26 +3,20 @@ $: << File.dirname(__FILE__)
 require 'test_helper'
 
 class DigestsTest < MiniTest::Unit::TestCase
-  include TestHelper
+  extend TestHelper
 
-  Dir.glob('test/data/digests/*.dat').sort.each do |f|
-    test_name = File.basename(f).gsub(/.dat$/, '')
+  Dir.glob('test/data/digests/*.yml').sort.each do |f|
+    test_name = File.basename(f).gsub(/.yml$/, '')
 
-    class_eval(%{
-      def test_#{test_name}
-        run_digest_test("#{f}")
-      end
-    })
-  end
+    readfile(f) do |options, i|
+      define_method("test_#{test_name}_#{i}") do
+        if CryptoPP.digest_enabled? options[:algorithm]
+          d = CryptoPP.digest_factory(options[:algorithm], options[:plaintext])
+          t = CryptoPP.digest_factory(options[:algorithm], { :digest => d.digest, :plaintext => d.plaintext })
 
-  def run_digest_test(file)
-    readfile(file) do |options|
-      if CryptoPP.digest_enabled? options[:algorithm]
-        d = CryptoPP.digest_factory(options[:algorithm], options[:plaintext])
-        t = CryptoPP.digest_factory(options[:algorithm], { :digest => d.digest, :plaintext => d.plaintext })
-
-        assert(t.validate)
-        assert_equal(d.digest_hex, options[:digest_hex])
+          assert(t.validate)
+          assert_equal(d.digest_hex, options[:digest_hex])
+        end
       end
     end
   end

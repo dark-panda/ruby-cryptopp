@@ -1,0 +1,25 @@
+---
+- :algorithm: :crc32
+  :plaintext: ''
+  :digest_hex: '00000000'
+- :algorithm: :crc32
+  :plaintext: a
+  :digest_hex: 43beb7e8
+- :algorithm: :crc32
+  :plaintext: abc
+  :digest_hex: c2412435
+- :algorithm: :crc32
+  :plaintext: message digest
+  :digest_hex: 7f9d1520
+- :algorithm: :crc32
+  :plaintext: abcdefghijklmnopqrstuvwxyz
+  :digest_hex: bd50274c
+- :algorithm: :crc32
+  :plaintext: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+  :digest_hex: d2e6c21f
+- :algorithm: :crc32
+  :plaintext: '12345678901234567890123456789012345678901234567890123456789012345678901234567890'
+  :digest_hex: 724aa97c
+- :algorithm: :crc32
+  :plaintext: '123456789'
+  :digest_hex: 2639f4cb

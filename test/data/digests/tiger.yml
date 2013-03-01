@@ -1,0 +1,30 @@
+---
+- :algorithm: :tiger
+  :plaintext: ''
+  :digest_hex: 3293ac630c13f0245f92bbb1766e16167a4e58492dde73f3
+- :algorithm: :tiger
+  :plaintext: abc
+  :digest_hex: 2aab1484e8c158f2bfb8c5ff41b57a525129131c957b5f93
+- :algorithm: :tiger
+  :plaintext: Tiger
+  :digest_hex: dd00230799f5009fec6debc838bb6a27df2b9d6f110c7937
+- :algorithm: :tiger
+  :plaintext: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-
+  :digest_hex: f71c8583902afb879edfe610f82c0d4786a3a534504486b5
+- :algorithm: :tiger
+  :plaintext: ABCDEFGHIJKLMNOPQRSTUVWXYZ=abcdefghijklmnopqrstuvwxyz+0123456789
+  :digest_hex: 48ceeb6308b87d46e95d656112cdf18d97915f9765658957
+- :algorithm: :tiger
+  :plaintext: Tiger - A Fast New Hash Function, by Ross Anderson and Eli Biham
+  :digest_hex: 8a866829040a410c729ad23f5ada711603b3cdd357e4c15e
+- :algorithm: :tiger
+  :plaintext: Tiger - A Fast New Hash Function, by Ross Anderson and Eli Biham, proceedings
+    of Fast Software Encryption 3, Cambridge.
+  :digest_hex: ce55a6afd591f5ebac547ff84f89227f9331dab0b611c889
+- :algorithm: :tiger
+  :plaintext: Tiger - A Fast New Hash Function, by Ross Anderson and Eli Biham, proceedings
+    of Fast Software Encryption 3, Cambridge, 1996.
+  :digest_hex: 631abdd103eb9a3d245b6dfd4d77b257fc7439501d1568dd
+- :algorithm: :tiger
+  :plaintext: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-
+  :digest_hex: c54034e5b43eb8005848a7e0ae6aac76e4ff590ae715fd25

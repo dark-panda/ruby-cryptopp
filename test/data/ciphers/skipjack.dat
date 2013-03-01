@@ -1,3 +1,0 @@
-algorithm	cipher	skipjack
-fields	key_hex	plaintext_hex	ciphertext_hex
-test	11223344556677889900	aabbccdd00112233	00d3127ae2ca8725

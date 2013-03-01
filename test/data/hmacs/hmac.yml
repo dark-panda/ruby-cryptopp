@@ -1,0 +1,14 @@
+---
+- :algorithm: :md5_hmac
+  :plaintext: Hi There
+  :key_hex: 0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b
+  :digest_hex: 9294727a3638bb1c13f48ef8158bfc9d
+- :algorithm: :md5_hmac
+  :plaintext: what do ya want for nothing?
+  :key_hex: 4A656665
+  :digest_hex: 750c783e6ab0b503eaa86e310a5db738
+- :algorithm: :md5_hmac
+  :plaintext: Test Using Larger Than Block-Size Key - Hash Key First
+  :key_hex: A
+  :key_repeat: 160
+  :digest_hex: 6b1ab7fe4bd7bf8f0b62e6ce61b9d0cd

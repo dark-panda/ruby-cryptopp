@@ -1,0 +1,9 @@
+---
+- :algorithm: :blowfish
+  :key: abcdefghijklmnopqrstuvwxyz
+  :plaintext: BLOWFISH
+  :ciphertext_hex: 324ed0fef413a203
+- :algorithm: :blowfish
+  :key: Who is John Galt?
+  :plaintext_hex: fedcba9876543210
+  :ciphertext_hex: cc91732b8022f684

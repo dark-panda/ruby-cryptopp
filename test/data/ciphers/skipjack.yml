@@ -1,0 +1,5 @@
+---
+- :algorithm: :skipjack
+  :key_hex: '11223344556677889900'
+  :plaintext_hex: aabbccdd00112233
+  :ciphertext_hex: 00d3127ae2ca8725

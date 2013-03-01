@@ -1,0 +1,21 @@
+---
+- :algorithm: :camellia
+  :key_hex: '80000000000000000000000000000000'
+  :plaintext_hex: '00000000000000000000000000000000'
+  :ciphertext_hex: 6c227f749319a3aa7da235a9bba05a2c
+- :algorithm: :camellia
+  :key_hex: '00000000000000000000000000000000'
+  :plaintext_hex: '80000000000000000000000000000000'
+  :ciphertext_hex: 07923a39eb0a817d1c4d87bdb82d1f1c
+- :algorithm: :camellia
+  :key_hex: '00000000000000000000000000000000'
+  :plaintext_hex: '00000000000000000000000000000000'
+  :ciphertext_hex: 3d028025b156327c17f762c1f2cbca71
+- :algorithm: :camellia
+  :key_hex: a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5
+  :plaintext_hex: a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5
+  :ciphertext_hex: 1f55093c234648c5c9c781e8c9fd42c4
+- :algorithm: :camellia
+  :key_hex: fefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefe
+  :plaintext_hex: fefefefefefefefefefefefefefefefe
+  :ciphertext_hex: acdbb0f5a00e3cf63a89d9c09b44a058

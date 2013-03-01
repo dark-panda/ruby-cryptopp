@@ -1,0 +1,13 @@
+---
+- :algorithm: :des_ede2
+  :key_hex: 0123456789abcdeffedcba9876543210
+  :plaintext_hex: 0123456789abcde7
+  :ciphertext_hex: 7f1d0a77826b8aff
+- :algorithm: :des_ede3
+  :key_hex: 0123456789abcdeffedcba987654321089abcdef01234567
+  :plaintext_hex: 0123456789abcde7
+  :ciphertext_hex: de0b7c06ae5e0ed5
+- :algorithm: :des_xex3
+  :key_hex: 0123456789abcdef01010101010101011011121314151617
+  :plaintext_hex: 94dbe082549a14ef
+  :ciphertext_hex: '9011121314151617'

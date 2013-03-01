@@ -1,8 +1,0 @@
-algorithm	checksum	adler32
-fields	plaintext	digest_hex
-test		00000001
-test	a	00620062
-test	abc	024d0127
-test	message digest	29750586
-test	abcdefghijklmnopqrstuvwxyz	90860b20
-test	ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789	8adb150c

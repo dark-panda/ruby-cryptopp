@@ -1,0 +1,17 @@
+---
+- :algorithm: :threeway
+  :key_hex: '000000000000000000000000'
+  :plaintext_hex: '000000010000000100000001'
+  :ciphertext_hex: 4059c76e83ae9dc4ad21ecf7
+- :algorithm: :threeway
+  :key_hex: '000000060000000500000004'
+  :plaintext_hex: '000000030000000200000001'
+  :ciphertext_hex: d2f05b5ed6144138cab920cd
+- :algorithm: :threeway
+  :key_hex: def01234456789abbcdef012
+  :plaintext_hex: 234567899abcdef001234567
+  :ciphertext_hex: 0aa55dbb9cdddb6d7cdb76b2
+- :algorithm: :threeway
+  :key_hex: d2f05b5ed6144138cab920cd
+  :plaintext_hex: 4059c76e83ae9dc4ad21ecf7
+  :ciphertext_hex: 478ea8716b13f17c15b155ed

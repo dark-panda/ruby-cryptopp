@@ -1,0 +1,22 @@
+---
+- :algorithm: :md5
+  :plaintext: ''
+  :digest_hex: d41d8cd98f00b204e9800998ecf8427e
+- :algorithm: :md5
+  :plaintext: a
+  :digest_hex: 0cc175b9c0f1b6a831c399e269772661
+- :algorithm: :md5
+  :plaintext: abc
+  :digest_hex: 900150983cd24fb0d6963f7d28e17f72
+- :algorithm: :md5
+  :plaintext: message digest
+  :digest_hex: f96b697d7cb7938d525a2f31aaf161d0
+- :algorithm: :md5
+  :plaintext: abcdefghijklmnopqrstuvwxyz
+  :digest_hex: c3fcd3d76192e4007dfb496cca67e13b
+- :algorithm: :md5
+  :plaintext: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+  :digest_hex: d174ab98d277d9f5a5611c2c9f419d9f
+- :algorithm: :md5
+  :plaintext: '12345678901234567890123456789012345678901234567890123456789012345678901234567890'
+  :digest_hex: 57edf4a22be3c955ac49da2e2107b67a

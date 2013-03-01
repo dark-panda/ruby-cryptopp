@@ -1,0 +1,19 @@
+---
+- :algorithm: :adler32
+  :plaintext: ''
+  :digest_hex: '00000001'
+- :algorithm: :adler32
+  :plaintext: a
+  :digest_hex: '00620062'
+- :algorithm: :adler32
+  :plaintext: abc
+  :digest_hex: 024d0127
+- :algorithm: :adler32
+  :plaintext: message digest
+  :digest_hex: '29750586'
+- :algorithm: :adler32
+  :plaintext: abcdefghijklmnopqrstuvwxyz
+  :digest_hex: 90860b20
+- :algorithm: :adler32
+  :plaintext: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+  :digest_hex: 8adb150c
