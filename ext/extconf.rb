@@ -2,9 +2,6 @@
 require 'mkmf'
 require 'rbconfig'
 
-RbConfig::CONFIG['CC'] = 'g++'
-RbConfig::CONFIG['CPP'] = 'g++ -E'
-
 # hack to get C++ standard library properly linked into shared
 # object
 # $libs = append_library($libs, "supc++") # doesn't work
@@ -36,6 +33,10 @@ end
 unless have_library('cryptopp')
   error "Can't find cryptopp library"
 end
+
+# For the C++ headers, we need to compile using a C++ compiler since the header
+# files can't compile cleanly in C.
+CONFTEST_C = 'conftest.cc'
 
 unless find_header('cryptlib.h', *%w{
   /usr/local/include/cryptopp
