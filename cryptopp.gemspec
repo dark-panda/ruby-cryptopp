@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.description = %q{cryptopp is a cryptographic library for Ruby built on Wei Dai's Crypto++.}
   s.summary = s.description
   s.email = %q{dark.panda@gmail.com}
+  s.license = "MIT"
   s.extensions = ["ext/extconf.rb"]
   s.extra_rdoc_files = [
     "README"
