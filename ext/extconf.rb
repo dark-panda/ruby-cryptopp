@@ -12,14 +12,20 @@ if RbConfig::CONFIG["arch"] =~ /-darwin\d/
     $warnflags.gsub!('-Wimplicit-function-declaration', '')
   end
 
-  RbConfig::CONFIG['LDSHARED'] = "g++ -dynamic -bundle -undefined suppress -flat_namespace"
+  CONFIG["CXX"] = "clang++"
 else
-  RbConfig::CONFIG['LDSHARED'] = "g++ -shared"
+  $LDFLAGS << " -shared"
 end
 
 version = File.read(File.join(File.dirname(__FILE__), *%w{ .. VERSION })).strip
-$CFLAGS << " -DNDEBUG -DCRYPTOPP_DISABLE_ASM -DRUBY_VERSION_CODE=#{RbConfig::CONFIG.values_at('MAJOR', 'MINOR', 'TEENY').join}"
-$CFLAGS << " -DEXT_VERSION_CODE=#{version}"
+ruby_version = RbConfig::CONFIG.values_at('MAJOR', 'MINOR', 'TEENY').join
+
+$defs.concat([
+  "-DNDEBUG",
+  "-DCRYPTOPP_DISABLE_ASM",
+  "-DRUBY_VERSION_CODE=#{ruby_version}",
+  "-DEXT_VERSION_CODE=#{version}"
+])
 
 def error msg
   message msg + "\n"
@@ -36,7 +42,8 @@ end
 
 # For the C++ headers, we need to compile using a C++ compiler since the header
 # files can't compile cleanly in C.
-CONFTEST_C = 'conftest.cc'
+puts "NOTE: The following warning is NORMAL due to an mkmf hack."
+MakeMakefile::CONFTEST_C = 'conftest.cc'
 
 unless find_header('cryptlib.h', *%w{
   /usr/local/include/cryptopp
