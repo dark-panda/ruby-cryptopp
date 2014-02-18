@@ -33,7 +33,11 @@
 
 // Crypto++ headers...
 
+#ifdef HAVE_CRYPTOPP_SHA3_BLOCKSIZE
 #include "sha3.h"
+#else
+#include "jsha3_blocksizes.h"
+#endif
 
 using namespace CryptoPP;
 
