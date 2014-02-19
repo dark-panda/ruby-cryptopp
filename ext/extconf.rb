@@ -43,7 +43,12 @@ end
 # For the C++ headers, we need to compile using a C++ compiler since the header
 # files can't compile cleanly in C.
 puts "NOTE: The following warning is NORMAL due to an mkmf hack."
-MakeMakefile::CONFTEST_C = 'conftest.cc'
+
+if defined?(MakeMakefile)
+  MakeMakefile::CONFTEST_C = 'conftest.cc'
+else
+  CONFTEST_C = 'conftest.cc'
+end
 
 unless find_header('cryptlib.h', *%w{
   /usr/local/include/cryptopp
