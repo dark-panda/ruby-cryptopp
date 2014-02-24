@@ -31,10 +31,6 @@ def error msg
   abort
 end
 
-unless have_library('stdc++')
-  error "Can't find libstdc++"
-end
-
 unless have_library('cryptopp')
   error "Can't find cryptopp library"
 end
