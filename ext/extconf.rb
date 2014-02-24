@@ -2,9 +2,6 @@
 require 'mkmf'
 require 'rbconfig'
 
-# hack to get C++ standard library properly linked into shared
-# object
-# $libs = append_library($libs, "supc++") # doesn't work
 if RbConfig::CONFIG["arch"] =~ /-darwin\d/
   if $warnflags
     $warnflags << ' -Wno-shorten-64-to-32'
