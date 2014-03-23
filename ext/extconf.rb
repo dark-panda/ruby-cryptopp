@@ -31,7 +31,14 @@ def error msg
   abort
 end
 
-unless have_library('cryptopp')
+unless find_library('cryptopp', nil, *%w{
+  /usr/local/lib
+  /usr/local/lib/cryptopp
+  /opt/local/lib
+  /opt/local/lib/cryptopp
+  /usr/lib
+  /usr/lib/cryptopp
+})
   error "Can't find cryptopp library"
 end
 
