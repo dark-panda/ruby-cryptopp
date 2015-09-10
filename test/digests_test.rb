@@ -2,7 +2,7 @@
 $: << File.dirname(__FILE__)
 require 'test_helper'
 
-class DigestsTest < MiniTest::Unit::TestCase
+class DigestsTest < Minitest::Test
   extend TestHelper
 
   Dir.glob('test/data/digests/*.yml').sort.each do |f|

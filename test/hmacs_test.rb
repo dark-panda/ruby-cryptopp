@@ -2,7 +2,7 @@
 $: << File.dirname(__FILE__)
 require 'test_helper'
 
-class HMACsTest < MiniTest::Unit::TestCase
+class HMACsTest < Minitest::Test
   extend TestHelper
 
   Dir.glob('test/data/hmacs/*.yml').sort.each do |f|
