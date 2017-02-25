@@ -8,6 +8,7 @@
 #ifndef __JCONFIG_H__
 #define __JCONFIG_H__
 
+#include "dll.h"
 #include "cryptlib.h"
 
 #define ENABLED_THREEWAY_CIPHER                       1

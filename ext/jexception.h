@@ -9,6 +9,7 @@
 #define __JEXCEPTION_H__
 
 #include <string>
+#include "dll.h"
 #include "cryptlib.h"
 
 class JException : public CryptoPP::Exception

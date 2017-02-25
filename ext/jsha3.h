@@ -30,13 +30,9 @@
 #include "jhmac_t.h"
 #endif
 
-
 // Crypto++ headers...
-
-#ifdef HAVE_CRYPTOPP_SHA3_BLOCKSIZE
+#if ANY_SHA3_HASH_ENABLED || ANY_SHA3_HMAC_ENABLED
 #include "sha3.h"
-#else
-#include "jsha3_blocksizes.h"
 #endif
 
 using namespace CryptoPP;

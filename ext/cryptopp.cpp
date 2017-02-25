@@ -11,9 +11,9 @@
 #include "config.h"
 #endif
 
+#include "jconfig.h"
 #include "jbase.h"
 #include "jhash.h"
-#include "jconfig.h"
 
 #include "cryptopp_ruby_api.h"
 
