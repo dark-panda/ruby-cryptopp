@@ -63,19 +63,5 @@ unless find_header('cryptlib.h', *%w{
   error "Can't find cryptlib.h"
 end
 
-have_blocksize = try_link(<<SRC)
-#include "cryptlib.h"
-#include "sha3.h"
-
-int main() {
-  CryptoPP::SHA3_224::BLOCKSIZE;
-  return 0;
-}
-SRC
-
-if have_blocksize
-  $defs << "-DHAVE_CRYPTOPP_SHA3_BLOCKSIZE"
-end
-
 create_makefile('cryptopp')
 
