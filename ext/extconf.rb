@@ -31,6 +31,8 @@ def error msg
   abort
 end
 
+dir_config('cryptopp')
+
 unless find_library('cryptopp', nil, *%w{
   /usr/local/lib
   /usr/local/lib/cryptopp
