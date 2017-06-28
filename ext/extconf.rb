@@ -10,7 +10,7 @@ if RbConfig::CONFIG["arch"] =~ /-darwin\d/
   end
 
   CONFIG["CXX"] = "clang++"
-elsif RbConfig::CONFIG["arch"] =~ /x86_64-freebsd/
+elsif RbConfig::CONFIG["arch"] =~ /x86_64-(freebsd|linux)/
   $LDFLAGS << " -fPIC -shared"
 else
   $LDFLAGS << " -shared"
