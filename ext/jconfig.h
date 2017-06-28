@@ -96,7 +96,6 @@
 #define ENABLED_SHA3_384_HMAC                         1
 #define ENABLED_SHA3_512_HMAC                         1
 #else
-#warning CRYPTOPP_VERSION
 #define ENABLED_SHA3_224_HMAC                         0
 #define ENABLED_SHA3_256_HMAC                         0
 #define ENABLED_SHA3_384_HMAC                         0
