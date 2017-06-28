@@ -6,6 +6,7 @@ gem 'rdoc'
 gem 'rake'
 gem 'minitest'
 gem 'minitest-reporters'
+gem 'rake-compiler'
 
 platforms :rbx do
   gem 'rubysl', '~> 2.0'

@@ -3,7 +3,7 @@ require 'rubygems'
 require 'minitest/autorun'
 require 'minitest/reporters' if RUBY_VERSION >= '1.9'
 require 'yaml'
-require File.join(File.dirname(__FILE__), %w{ .. ext cryptopp })
+require 'cryptopp'
 
 puts "Version #{CryptoPP::VERSION}"
 puts "Crypto++ version #{CryptoPP::CRYPTOPP_VERSION}"

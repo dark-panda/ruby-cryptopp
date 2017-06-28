@@ -1,6 +1,8 @@
 ext/*.bundle
 ext/*.o
 ext/extconf.h
+mkmf.log
+lib/
 doc
 *.kpf
 *~

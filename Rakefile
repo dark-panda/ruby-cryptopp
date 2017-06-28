@@ -4,6 +4,7 @@
 
 require 'rubygems'
 require 'rubygems/package_task'
+require 'rake/extensiontask'
 require 'rake/testtask'
 require 'rdoc/task'
 require 'bundler/gem_tasks'
@@ -33,5 +34,10 @@ Rake::RDocTask.new do |t|
     'ext/ciphers.cpp',
     'ext/digests.cpp'
   )
+end
+
+desc 'Compile the extension'
+Rake::ExtensionTask.new 'cryptopp' do |ext|
+  ext.ext_dir = 'ext/'
 end
 
