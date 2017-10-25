@@ -2,9 +2,9 @@ cache: bundler
 sudo: false
 language: ruby
 rvm:
-  - 2.4.1
-  - 2.3.4
-  - 2.2.7
+  - 2.4.2
+  - 2.3.5
+  - 2.2.8
 before_script:
   - bundle exec rake compile
 addons:
